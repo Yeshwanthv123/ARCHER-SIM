@@ -1,6 +1,6 @@
 export default function Topbar() {
   return (
-    <div className="fixed top-0 left-64 right-0 h-16 bg-[#022c33] text-white flex items-center justify-between px-6 shadow z-10">
+    <div className="fixed top-0 left-72 right-0 h-16 bg-[#022c33] text-white flex items-center justify-between px-6 shadow z-10">
 
       {/* LEFT TITLE */}
       <div className="text-lg font-semibold text-cyan-300">

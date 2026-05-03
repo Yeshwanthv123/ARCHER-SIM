@@ -1,0 +1,466 @@
+  return () => clearTimeout(timer);
+  }, [currentStep, isPlaying, steps.length, action]);
+
+  /* ================= CANVAS RENDERING ================= */
+  useEffect(() => {
+    const canvas = canvasRef.current;
+    if (!canvas) return;
+
+    const ctx = canvas.getContext("2d");
+    if (!ctx) return;
+
+    // Clear canvas with light background
+    ctx.fillStyle = "#f5f5f5";
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+    // Save context for transforms
+    ctx.save();
+    ctx.translate(pan.x, pan.y);
+    ctx.scale(zoom, zoom);
+
+    // Draw grid
+    ctx.strokeStyle = "#ddd";
+    ctx.lineWidth = 0.8;
+    for (let x = 0; x < canvas.width / zoom; x += 50) {
+      ctx.beginPath();
+      ctx.moveTo(x, 0);
+      ctx.lineTo(x, canvas.height / zoom);
+      ctx.stroke();
+    }
+    for (let y = 0; y < canvas.height / zoom; y += 50) {
+      ctx.beginPath();
+      ctx.moveTo(0, y);
+      ctx.lineTo(canvas.width / zoom, y);
+      ctx.stroke();
+    }
+
+    // Draw transition nodes
+    drawTransitionNodes(ctx, arrowPaths, nodePositions);
+
+    // Draw nodes (only icons, no background or labels)
+    for (let i = 0; i < nodePositions.length; i++) {
+      const pos = nodePositions[i];
+      const nodeStep = steps[pos.stepIndex];
+      const nodeAction = (nodeStep.action || "").toLowerCase();
+
+      // Icon
+      const icon = new Image();
+      icon.src = iconMap[nodeAction] || startIcon;
+      if (icon.complete) {
+        ctx.drawImage(
+          icon,
+          pos.x + 10,
+          pos.y + 10,
+          pos.width - 20,
+          pos.height - 20
+        );
+      } else {
+        icon.onload = () => {
+          ctx.save();
+          ctx.translate(pan.x, pan.y);
+          ctx.scale(zoom, zoom);
+          ctx.drawImage(
+            icon,
+            pos.x + 10,
+            pos.y + 10,
+            pos.width - 20,
+            pos.height - 20
+          );
+          ctx.restore();
+        };
+      }
+    }
+
+    ctx.restore();
+
+  }, [nodePositions, arrowPaths, steps, currentStep, selectedNode, zoom, pan]);
+
+  /* ================= ZOOM HANDLERS ================= */
+  const handleWheel = (e: React.WheelEvent) => {
+    e.preventDefault();
+    const delta = e.deltaY > 0 ? 0.9 : 1.1;
+    setZoom(prev => Math.max(0.5, Math.min(3, prev * delta)));
+  };
+
+  const handleMouseDown = (e: React.MouseEvent) => {
+    if (e.button === 2) { // Right click for pan
+      setIsDragging(true);
+      setDragStart({ x: e.clientX - pan.x, y: e.clientY - pan.y });
+    } else {
+      // Check if clicked on a node
+      const rect = canvasRef.current?.getBoundingClientRect();
+      if (rect) {
+        const x = (e.clientX - rect.left - pan.x) / zoom;
+        const y = (e.clientY - rect.top - pan.y) / zoom;
+
+        let clickedNode: number | null = null;
+        for (const pos of nodePositions) {
+          if (
+            x >= pos.x &&
+            x <= pos.x + pos.width &&
+            y >= pos.y &&
+            y <= pos.y + pos.height
+          ) {
+            clickedNode = pos.stepIndex;
+            break;
+          }
+        }
+        setSelectedNode(clickedNode);
+      }
+    }
+  };
+
+  const handleMouseMove = (e: React.MouseEvent) => {
+    if (isDragging) {
+      setPan({
+        x: e.clientX - dragStart.x,
+        y: e.clientY - dragStart.y
+      });
+    }
+  };
+
+  const handleMouseUp = () => {
+    setIsDragging(false);
+  };
+
+  const handleContextMenu = (e: React.MouseEvent) => {
+    e.preventDefault();
+  };
+
+  /* ================= GET DISPLAY TEXT ================= */
+  const getNodeDetails = () => {
+    if (selectedNode === null) return null;
+    const nodeStep = steps[selectedNode];
+    if (!nodeStep) return null;
+
+    return {
+      action: nodeStep.action,
+      fields: nodeStep.fields,
+      rules: nodeStep.rules,
+      trueStep: nodeStep.trueStep,
+      defaultStep: nodeStep.defaultStep
+    };
+  };
+
+  const details = getNodeDetails();
+
+  return (
+    <div className="flex h-screen bg-gray-100 font-sans overflow-hidden">
+      {/* ================= LEFT PANEL ================= */}
+      <div className="w-64 bg-[#333333] text-gray-300 flex flex-col border-r border-black shadow-xl z-10 overflow-y-auto shrink-0 select-none">
+        <div className="py-2">
+          {leftMenuItems.map((item, idx) => (
+            <div key={idx} className={`flex items-center gap-3 px-4 py-2 cursor-pointer transition-colors ${item.active ? 'bg-[#d35400] text-white' : 'hover:bg-[#444]'}`}>
+              <img src={item.icon} alt={item.label} className="w-5 h-5 object-contain brightness-0 invert" />
+              <span className="text-sm font-medium">{item.label}</span>
+            </div>
+          ))}
+        </div>
+        
+        <div className="bg-[#222222] px-4 py-2 mt-2 flex justify-between items-center text-xs font-bold tracking-wider text-gray-400 cursor-pointer">
+          GENERAL
+          <span className="text-[10px]">▲</span>
+        </div>
+        
+        <div className="py-2">
+          {generalItems.map((item, idx) => (
+            <div key={idx} className={`flex items-center gap-3 px-4 py-2 cursor-pointer transition-colors ${item.active ? 'bg-[#d35400] text-white' : 'hover:bg-[#444]'}`}>
+              <img src={item.icon} alt={item.label} className="w-5 h-5 object-contain brightness-0 invert" />
+              <span className="text-sm font-medium">{item.label}</span>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      {/* ================= CANVAS AREA ================= */}
+      <div className="flex-1 flex flex-col relative bg-white">
+        <div className="absolute bottom-12 left-4 z-10 bg-white p-3 rounded-lg shadow flex gap-2 items-center">
+          <button
+            onClick={() => setZoom(prev => Math.max(0.5, prev - 0.1))}
+            className="bg-blue-600 text-white px-3 py-1 rounded text-sm hover:bg-blue-700"
+          >
+            − Zoom Out
+          </button>
+          <span className="px-3 py-1 text-sm font-semibold">{(zoom * 100).toFixed(0)}%</span>
+          <button
+            onClick={() => setZoom(prev => Math.min(3, prev + 0.1))}
+            className="bg-blue-600 text-white px-3 py-1 rounded text-sm hover:bg-blue-700"
+          >
+            + Zoom In
+          </button>
+          <button
+            onClick={() => {
+              setZoom(1);
+              setPan({ x: 0, y: 0 });
+            }}
+            className="bg-gray-600 text-white px-3 py-1 rounded text-sm hover:bg-gray-700"
+          >
+            Reset
+          </button>
+        </div>
+
+        <canvas
+          ref={canvasRef}
+          width={1200}
+          height={750}
+          className="flex-1 bg-gray-50 cursor-grab active:cursor-grabbing"
+          onWheel={handleWheel}
+          onMouseDown={handleMouseDown}
+          onMouseMove={handleMouseMove}
+          onMouseUp={handleMouseUp}
+          onContextMenu={handleContextMenu}
+        />
+        
+        <div className="text-xs text-gray-500 p-2 text-center absolute bottom-0 w-full bg-white/80">
+          Left Click: Select Node | Right Click + Drag: Pan | Scroll: Zoom
+        </div>
+      </div>
+
+      {/* ================= RIGHT PANEL ================= */}
+      <div className="w-80 bg-[#333333] text-gray-300 flex flex-col border-l border-black shadow-xl z-10 overflow-y-auto shrink-0">
+        {!details ? (
+          <div className="p-4 space-y-6 text-sm">
+            <p className="text-gray-300 leading-relaxed text-sm">
+              The advanced workflow process is the blueprint where you define logic nodes and transitions how a record should move through the steps of your business process. Use the Process Properties section to define how content gets enrolled and whether your advanced workflow is active.
+            </p>
+            
+            <div className="grid grid-cols-2 gap-y-2 text-gray-400 text-xs uppercase font-semibold">
+              <div>ID</div>
+              <div className="text-white normal-case text-sm font-normal">5237CUST</div>
+              <div>Process Version</div>
+              <div className="text-white normal-case text-sm font-normal">1</div>
+            </div>
+
+            {/* SETTINGS */}
+            <div>
+              <div className="bg-[#222] px-4 py-2 flex justify-between items-center text-xs font-bold tracking-wider text-gray-400 -mx-4 mb-3 cursor-pointer">
+                SETTINGS
+                <span className="text-[10px]">▲</span>
+              </div>
+              <label className="flex items-center gap-2 cursor-pointer text-gray-300 hover:text-white">
+                <input type="checkbox" className="w-4 h-4 accent-[#d35400] bg-[#222] border-[#555] rounded" />
+                <span>Allow Re-Enrollment</span>
+              </label>
+            </div>
+
+            {/* CONTENT ENROLLMENT */}
+            <div>
+              <div className="bg-[#222] px-4 py-2 flex justify-between items-center text-xs font-bold tracking-wider text-gray-400 -mx-4 mb-3 cursor-pointer">
+                CONTENT ENROLLMENT
+                <span className="text-[10px]">▲</span>
+              </div>
+              <div className="space-y-3">
+                <label className="flex items-center gap-2 cursor-pointer text-gray-300 hover:text-white">
+                  <input type="checkbox" className="w-4 h-4 accent-[#d35400]" />
+                  <span>New Records</span>
+                </label>
+                <label className="flex items-center gap-2 cursor-pointer text-gray-300 hover:text-white">
+                  <input type="checkbox" className="w-4 h-4 accent-[#d35400]" />
+                  <span>Updated Records</span>
+                </label>
+                <label className="flex items-center gap-2 cursor-pointer text-white">
+                  <input type="checkbox" defaultChecked className="w-4 h-4 accent-[#d35400]" />
+                  <span>User Initiated</span>
+                </label>
+                
+                <div className="pl-6 space-y-4 mt-2 text-gray-400">
+                  <div className="flex items-center justify-between">
+                    <span className="text-xs">Button Text</span>
+                    <input type="text" value="Submit" className="bg-[#222] border border-[#555] px-2 py-1.5 w-32 text-white text-sm focus:outline-none focus:border-[#d35400] rounded" readOnly />
+                  </div>
+                  <div>
+                    <div className="mb-1 uppercase text-[10px] font-bold tracking-wider">Rule</div>
+                    <input type="text" className="bg-[#222] border border-[#555] w-full px-2 py-1.5 text-white text-sm focus:outline-none focus:border-[#d35400] rounded" readOnly />
+                  </div>
+                  <div>
+                    <div className="mb-1 uppercase text-[10px] font-bold tracking-wider">Submit Button Permission</div>
+                    <select className="bg-[#222] border border-[#555] w-full px-2 py-1.5 text-white text-sm focus:outline-none focus:border-[#d35400] rounded">
+                      <option>None</option>
+                    </select>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* AUDIT SETTINGS */}
+            <div>
+              <div className="bg-[#222] px-4 py-2 flex justify-between items-center text-xs font-bold tracking-wider text-gray-400 -mx-4 mb-3 cursor-pointer">
+                AUDIT SETTINGS
+                <span className="text-[10px]">▲</span>
+              </div>
+            </div>
+          </div>
+        ) : (
+          <div className="p-4 space-y-4">
+            <div className="bg-[#222] px-4 py-2 flex justify-between items-center text-xs font-bold tracking-wider text-gray-400 -mx-4 mb-3">
+              NODE DETAILS
+              <span className="text-[10px]">▲</span>
+            </div>
+            
+            {/* ACTION TYPE */}
+            <div className="bg-[#444] p-3 rounded-lg border border-[#555]">
+              <label className="block text-xs font-semibold text-gray-400 mb-2 uppercase tracking-wide">
+                Action Type
+              </label>
+              <div className="flex items-center gap-3">
+                <img
+                  src={iconMap[action] || startIcon}
+                  alt={action}
+                  className="w-10 h-10 bg-[#222] p-2 rounded border border-[#555] brightness-0 invert"
+                />
+                <span className="text-base font-bold text-white uppercase tracking-wide">
+                  {details.action}
+                </span>
+              </div>
+            </div>
+
+            {/* UPDATE FIELDS */}
+            {action === "update" && details.fields && details.fields.length > 0 && (
+              <div className="bg-[#444] p-3 rounded-lg border border-[#555]">
+                <label className="block text-xs font-semibold text-gray-400 mb-2 uppercase tracking-wide">
+                  Update Fields ({details.fields.length})
+                </label>
+                <div className="space-y-2">
+                  {details.fields.map((field, idx) => (
+                    <div key={idx} className="bg-[#333] p-2 rounded border-l-4 border-blue-500 shadow-sm">
+                      <div className="text-[10px] uppercase font-bold tracking-wider text-blue-400 mb-1">Type: {field.type}</div>
+                      <div className="text-sm text-gray-200">Field: {field.fieldName}</div>
+                      <div className="text-sm text-gray-400">
+                        Value: {
+                          field.type === "date"
+                            ? field.dateOption === "current"
+                              ? "Current Date"
+                              : field.dateOption === "days"
+                              ? `+${field.value} Days`
+                              : field.dateOption === "specific"
+                              ? field.value
+                              : "—"
+                            : field.value || "—"
+                        }
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
+
+            {/* CONDITIONS */}
+            {action === "condition" && details.rules && details.rules.length > 0 && (
+              <div className="bg-[#444] p-3 rounded-lg border border-[#555]">
+                <label className="block text-xs font-semibold text-gray-400 mb-2 uppercase tracking-wide">
+                  Conditions ({details.rules.length})
+                </label>
+                <div className="space-y-2">
+                  {details.rules.map((rule, idx) => (
+                    <div key={idx} className="bg-[#333] p-2 rounded border-l-4 border-yellow-500 shadow-sm">
+                      {idx > 0 && (
+                        <div className="text-[10px] font-bold text-yellow-500 mb-1">
+                          {rule.logic || "AND"}
+                        </div>
+                      )}
+                      <div className="text-[10px] font-bold uppercase tracking-wider text-yellow-400 mb-1">Type: {rule.fieldType}</div>
+                      <div className="text-sm text-gray-200">Field: {rule.fieldName}</div>
+                      <div className="text-sm text-gray-200">Operator: {rule.operator}</div>
+                      <div className="text-sm text-gray-400">
+                        Value: {
+                          rule.fieldType === "date"
+                            ? rule.dateOption === "current"
+                              ? "Current"
+                              : rule.dateOption === "days"
+                              ? `${rule.value} Days`
+                              : rule.dateOption === "specific"
+                              ? rule.value
+                              : "—"
+                            : rule.value || "—"
+                        }
+                      </div>
+                    </div>
+                  ))}
+                </div>
+
+                {/* DECISION PATHS */}
+                <div className="mt-4 space-y-2">
+                  <div className="bg-[#333] p-2 rounded border border-green-500 shadow-sm">
+                    <div className="text-xs font-bold text-green-400">
+                      IF TRUE → Step {details.trueStep || "—"}
+                    </div>
+                  </div>
+                  <div className="bg-[#333] p-2 rounded border border-red-500 shadow-sm">
+                    <div className="text-xs font-bold text-red-400">
+                      DEFAULT → Step {details.defaultStep || "—"}
+                    </div>
+                  </div>
+                </div>
+              </div>
+            )}
+
+            {/* NOTIFICATION/LAUNCH */}
+            {(action === "notification" || action === "launch" || action === "useraction") &&
+              details.fields &&
+              details.fields.length > 0 && (
+                <div className="bg-[#444] p-3 rounded-lg border border-[#555]">
+                  <label className="block text-xs font-semibold text-gray-400 mb-2 uppercase tracking-wide">
+                    {action === "notification"
+                      ? "Notification"
+                      : action === "launch"
+                      ? "Launch Event"
+                      : "User Action"}
+                  </label>
+                  <div className="bg-[#333] p-2 rounded border-l-4 border-purple-500 shadow-sm">
+                    <div className="text-sm text-gray-200">
+                      {details.fields[0].value || "—"}
+                    </div>
+                  </div>
+                </div>
+              )}
+
+            {/* TEXT NODE */}
+            {action === "text" && (
+              <div className="bg-[#444] p-3 rounded-lg border border-[#555]">
+                <label className="block text-xs font-semibold text-gray-400 mb-2 uppercase tracking-wide">
+                  Text Content
+                </label>
+                <div className="bg-[#333] p-2 rounded text-sm text-gray-200 shadow-sm">
+                  {details.fields?.[0]?.value || "—"}
+                </div>
+              </div>
+            )}
+
+            {/* LAYOUT NODE */}
+            {action === "layout" && (
+              <div className="bg-[#444] p-3 rounded-lg border border-[#555]">
+                <label className="block text-xs font-semibold text-gray-400 mb-2 uppercase tracking-wide">
+                  Layout Name
+                </label>
+                <div className="bg-[#333] p-2 rounded text-sm text-gray-200 shadow-sm">
+                  {details.fields?.[0]?.value || "—"}
+                </div>
+              </div>
+            )}
+          </div>
+        )}
+
+        {/* ================= CONTROLS ================= */}
+        <div className="border-t border-[#222] p-4 bg-[#2b2b2b] mt-auto space-y-2 shrink-0">
+          <button
+            onClick={() => setIsPlaying(!isPlaying)}
+            className={`w-full px-4 py-2 rounded text-white font-semibold transition shadow-sm ${
+              isPlaying
+                ? "bg-yellow-600 hover:bg-yellow-700"
+                : "bg-[#d35400] hover:bg-[#e67e22]"
+            }`}
+          >
+            {isPlaying ? "⏸ Pause" : "▶ Play"}
+          </button>
+
+          <button
+            onClick={onExit}
+            className="w-full bg-red-600 text-white px-4 py-2 rounded font-semibold hover:bg-red-700 transition shadow-sm"
+          >
+            ✕ Exit Workflow
+          </button>
+        </div>
+      </div>
+    </div>
+  );
+}
