@@ -1,12 +1,16 @@
-import { Upload, Workflow } from "lucide-react";
+import { Upload, Workflow, Download } from "lucide-react";
+import readXlsxFile from "read-excel-file/browser";
+import ExcelJS from "exceljs";
+import type { Step } from "./WorkflowBuilder";
 
 type Props = {
   setActivePage: (page: string) => void;
+  setWorkflowSteps: (steps: Step[]) => void;
 };
 
-export default function AdvancedWorkflow({ setActivePage }: Props) {
+export default function AdvancedWorkflow({ setActivePage, setWorkflowSteps }: Props) {
 
-  const handleFileUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleFileUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
 
     if (!file) return;
@@ -16,7 +20,135 @@ export default function AdvancedWorkflow({ setActivePage }: Props) {
       return;
     }
 
-    console.log("Uploaded file:", file);
+    try {
+      const parsed = await readXlsxFile(file);
+      
+      // read-excel-file v9 returns an array of sheets: [{ sheet: string, data: any[][] }]
+      // or a direct 2D array in some cases. We normalize it here.
+      const rows = (parsed[0] && Array.isArray(parsed[0].data)) ? parsed[0].data : parsed;
+
+      console.log("Parsed Excel rows:", rows);
+
+      if (!rows || rows.length <= 1) {
+        alert("The Excel file seems to be empty or only contains a header.");
+        return;
+      }
+
+      // Expected Schema (Header in row 0):
+      // Col 0: Step Number
+      // Col 1: Action (Start, update, condition, text, layout, notification, launch, useraction, stop)
+      // Col 2: Field Type (text, numeric, valueList, user, date)
+      // Col 3: Field Name / Condition Field
+      // Col 4: Field Value / Condition Value
+      // Col 5: Condition Operator (Equals, Contains, etc.)
+      // Col 6: True Step (for condition)
+      // Col 7: Default Step (for condition)
+
+      const stepsData: Step[] = [];
+
+      for (let i = 1; i < rows.length; i++) {
+        const row = rows[i];
+        if (!row || row.length === 0) continue;
+
+        const actionRaw = row[1]?.toString() || "";
+        const action = actionRaw.trim().toLowerCase();
+
+        if (action === "start") {
+          stepsData.push({ action: "Start", fields: [] });
+          continue;
+        }
+
+        const fieldType = row[2]?.toString().trim() || "";
+        const fieldName = row[3]?.toString().trim() || "";
+        const fieldValue = row[4]?.toString().trim() || "";
+        const ruleOp = row[5]?.toString().trim() || "";
+
+        const trueStepRaw = row[6];
+        const defaultStepRaw = row[7];
+        const trueStep = trueStepRaw ? Number(trueStepRaw) : "";
+        const defaultStep = defaultStepRaw ? Number(defaultStepRaw) : "";
+
+        const step: Step = {
+          action: action,
+          fields: [],
+          rules: [],
+        };
+
+        if (action === "update") {
+          step.fields.push({
+            type: fieldType || "text",
+            fieldName: fieldName,
+            value: fieldValue
+          });
+        } else if (["text", "layout", "notification", "launch", "useraction"].includes(action)) {
+          step.fields.push({
+            type: action,
+            fieldName: fieldName || action,
+            value: fieldValue || ""
+          });
+        } else if (action === "condition") {
+          step.rules?.push({
+            fieldType: fieldType || "text",
+            fieldName: fieldName,
+            operator: ruleOp || "Equals",
+            value: fieldValue,
+            logic: "AND"
+          });
+          step.trueStep = trueStep;
+          step.defaultStep = defaultStep;
+        }
+
+        stepsData.push(step);
+      }
+
+      if (stepsData.length === 0) {
+        stepsData.push({ action: "Start", fields: [] });
+      } else if (stepsData[0].action !== "Start") {
+        stepsData.unshift({ action: "Start", fields: [] });
+      }
+
+      setWorkflowSteps(stepsData);
+      setActivePage("workflow-builder");
+
+    } catch (error) {
+      console.error("Error parsing excel", error);
+      alert("Failed to parse the Excel file. Ensure it matches the schema.");
+    }
+  };
+
+  const downloadTemplate = async () => {
+    const workbook = new ExcelJS.Workbook();
+    const sheet = workbook.addWorksheet('Workflow');
+
+    // Add Headers
+    sheet.addRow([
+      'Step Number', 
+      'Action', 
+      'Field Type', 
+      'Field Name', 
+      'Value', 
+      'Operator', 
+      'True Step', 
+      'Default Step'
+    ]);
+
+    // Add Step 1
+    sheet.addRow([1, 'Start', '', '', '', '', '', '']);
+
+    // Style the header row to be bold
+    sheet.getRow(1).font = { bold: true };
+
+    const buffer = await workbook.xlsx.writeBuffer();
+    const blob = new Blob([buffer], { type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" });
+    const url = URL.createObjectURL(blob);
+    
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = "Workflow_Template.xlsx";
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
   };
 
   return (
@@ -47,20 +179,33 @@ export default function AdvancedWorkflow({ setActivePage }: Props) {
 
           <p className="text-sm text-gray-600 mb-4">
             Upload your workflow Excel file to simulate automatically.
+            <br /><br />
+            <strong>Expected Columns:</strong><br />
+            A: Step Number | B: Action | C: Field Type | D: Field Name | E: Value | F: Operator | G: True Step | H: Default Step
           </p>
 
-          <label className="cursor-pointer">
-            <input
-              type="file"
-              accept=".xlsx"
-              onChange={handleFileUpload}
-              className="hidden"
-            />
+          <div className="flex gap-4">
+            <label className="cursor-pointer flex-1">
+              <input
+                type="file"
+                accept=".xlsx"
+                onChange={handleFileUpload}
+                className="hidden"
+              />
 
-            <div className="bg-[#1e8ea3] text-white text-center py-2 rounded-lg hover:bg-[#166c7a] transition">
-              Upload Excel
-            </div>
-          </label>
+              <div className="bg-[#1e8ea3] text-white text-center py-2 rounded-lg hover:bg-[#166c7a] transition">
+                Upload Excel
+              </div>
+            </label>
+
+            <button 
+              onClick={downloadTemplate}
+              className="flex-1 flex items-center justify-center gap-2 border-2 border-[#1e8ea3] text-[#1e8ea3] py-2 rounded-lg hover:bg-gray-50 transition"
+            >
+              <Download size={18} />
+              Template
+            </button>
+          </div>
         </div>
 
         {/* 🔥 BUILD WORKFLOW */}
@@ -78,7 +223,7 @@ export default function AdvancedWorkflow({ setActivePage }: Props) {
           </p>
 
           <button
-            onClick={() => setActivePage("workflow-builder")}   // 🔥 THIS IS THE FIX
+            onClick={() => setActivePage("workflow-builder")}
             className="w-full bg-[#0b5f63] text-white py-2 rounded-lg hover:bg-[#094c4f] transition"
           >
             Open Builder

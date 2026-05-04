@@ -1,8 +1,8 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import PlaybackEngine from "./PlaybackEngine";
 
 
-type Field = {
+export type Field = {
   type: string;
   fieldName: string;
   value: string;
@@ -10,7 +10,7 @@ type Field = {
   userType?: string;
 };
 
-type Rule = {
+export type Rule = {
   fieldType: string;
   fieldName: string;
   operator: string;
@@ -19,7 +19,7 @@ type Rule = {
   logic?: "AND" | "OR";
 };
 
-type Step = {
+export type Step = {
   action: string;
   fields: Field[];
   rules?: Rule[];
@@ -27,11 +27,21 @@ type Step = {
   defaultStep?: number | "";
 };
 
-export default function WorkflowBuilder() {
+type Props = {
+  initialSteps?: Step[] | null;
+};
+
+export default function WorkflowBuilder({ initialSteps }: Props) {
   const [isPlaying, setIsPlaying] = useState(false);
-  const [steps, setSteps] = useState<Step[]>([
+  const [steps, setSteps] = useState<Step[]>(initialSteps || [
     { action: "Start", fields: [] }
   ]);
+
+  useEffect(() => {
+    if (initialSteps && initialSteps.length > 0) {
+      setSteps(initialSteps);
+    }
+  }, [initialSteps]);
 
   // ✅ VERY IMPORTANT: UI SWITCH TO PLAYBACK
   if (isPlaying) {
