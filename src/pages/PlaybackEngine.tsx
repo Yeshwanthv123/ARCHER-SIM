@@ -549,7 +549,7 @@ export default function PlaybackEngine({ steps, onExit }: Props) {
       setIsDragging(true);
       setDragStart({ x: e.clientX - pan.x, y: e.clientY - pan.y });
     } else if (e.button === 0) {
-      // Left click to select nodes
+      // Left click to select nodes or pan if empty space
       const rect = canvasRef.current?.getBoundingClientRect();
       if (rect) {
         const x = (e.clientX - rect.left - pan.x) / zoom;
@@ -567,7 +567,14 @@ export default function PlaybackEngine({ steps, onExit }: Props) {
             break;
           }
         }
+        
         setSelectedNode(clickedNode);
+
+        // If no node was clicked, initiate panning
+        if (clickedNode === null) {
+          setIsDragging(true);
+          setDragStart({ x: e.clientX - pan.x, y: e.clientY - pan.y });
+        }
       }
     }
   };
