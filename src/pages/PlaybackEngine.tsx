@@ -89,13 +89,13 @@ const calculateLayout = (steps: Step[]) => {
     const g = new dagreInstance.graphlib.Graph({ multigraph: true });
     g.setGraph({
       rankdir: "LR", // Left-to-Right layout
-      marginx: 100,
-      marginy: 100,
-      nodesep: 80, // Reduced slightly to accommodate very complex structures
-      ranksep: 200, // Reduced to pack nodes better horizontally
-      edgesep: 60,
+      marginx: 150,
+      marginy: 150,
+      nodesep: 120, // Increased for better horizontal spacing
+      ranksep: 280, // Increased for better vertical spacing
+      edgesep: 80,
       ranker: "network-simplex",
-      acyclicer: "greedy" // Helps ensure start nodes stay on the left by resolving cycles
+      acyclicer: "greedy"
     });
     g.setDefaultEdgeLabel(() => ({}));
 
@@ -110,18 +110,18 @@ const calculateLayout = (steps: Step[]) => {
         if (step.trueStep !== undefined && step.trueStep !== "") {
           const to = Number(step.trueStep) - 1;
           if (to >= 0 && to < steps.length) {
-            arrows.push({ from: i, to, label: "IF TRUE", isTrue: true, weight: 1 });
+            arrows.push({ from: i, to, label: "IF TRUE", isTrue: true, weight: 2 });
           }
         }
         if (step.defaultStep !== undefined && step.defaultStep !== "") {
           const to = Number(step.defaultStep) - 1;
           if (to >= 0 && to < steps.length) {
-            arrows.push({ from: i, to, label: "DEFAULT", isTrue: false, weight: 1 });
+            arrows.push({ from: i, to, label: "DEFAULT", isTrue: false, weight: 2 });
           }
         }
       } else if (action !== "stop" && i + 1 < steps.length) {
         // Higher weight for the main sequence ensures it stays straight
-        arrows.push({ from: i, to: i + 1, label: "", weight: 2 });
+        arrows.push({ from: i, to: i + 1, label: "", weight: 3 });
       }
     });
 
@@ -129,7 +129,7 @@ const calculateLayout = (steps: Step[]) => {
       g.setEdge(String(arrow.from), String(arrow.to), { 
         label: arrow.label, 
         weight: arrow.weight || 1,
-        minlen: 1
+        minlen: 2
       }, String(idx));
     });
 
@@ -143,7 +143,7 @@ const calculateLayout = (steps: Step[]) => {
     for (let i = 1; i < steps.length; i++) {
       if (!hasIncoming[i]) {
         // Add a layout-only edge from Start to this disconnected node
-        g.setEdge("0", String(i), { weight: 0, minlen: 1 }, `hidden_${i}`);
+        g.setEdge("0", String(i), { weight: 0, minlen: 2 }, `hidden_${i}`);
       }
     }
 
@@ -257,9 +257,9 @@ const drawTransitionNodes = (
   }
 };
 
-const leftMenuItems = [
-  { label: "Start", icon: iconMap.start },
-  { label: "Stop", icon: iconMap.stop },
+const getLeftMenuItems = (selectedNode: number | null, isPlaying: boolean, onStartClick: () => void, onStopClick: () => void) => [
+  { label: "Start", icon: iconMap.start, onClick: onStartClick, disabled: selectedNode === null },
+  { label: "Stop", icon: iconMap.stop, onClick: onStopClick, disabled: !isPlaying },
   { label: "Text Node", icon: iconMap.text },
   { label: "Transition", icon: iconMap.transition, active: true },
 ];
@@ -280,10 +280,18 @@ export default function PlaybackEngine({ steps, onExit }: Props) {
   const [currentStep, setCurrentStep] = useState(0);
   const [selectedNode, setSelectedNode] = useState<number | null>(0);
   const [isPlaying, setIsPlaying] = useState(true);
+  const [visibleStepIndex, setVisibleStepIndex] = useState(0);
   const [isDragging, setIsDragging] = useState(false);
   const [dragStart, setDragStart] = useState({ x: 0, y: 0 });
+  const [isSpacePressed, setIsSpacePressed] = useState(false);
   const [initialFitDone, setInitialFitDone] = useState(false);
   const [renderTrigger, setRenderTrigger] = useState(0);
+  
+  // Edit modal state
+  const [showEditModal, setShowEditModal] = useState(false);
+  const [editingField, setEditingField] = useState<Field | null>(null);
+  const [editingRule, setEditingRule] = useState<Rule | null>(null);
+  const [editModalType, setEditModalType] = useState<"field" | "rule" | "text" | "layout" | null>(null);
 
   const { nodePositions, arrowPaths } = calculateLayout(steps);
   const step = selectedNode !== null ? steps[selectedNode] : null;
@@ -295,7 +303,14 @@ export default function PlaybackEngine({ steps, onExit }: Props) {
     if (!currentStepObj) return;
     
     const currentAction = (currentStepObj.action || "").toLowerCase();
-    if (!isPlaying || currentAction === "stop") return;
+    
+    // Stop playback when reaching a Stop action
+    if (currentAction === "stop") {
+      setIsPlaying(false);
+      return;
+    }
+    
+    if (!isPlaying) return;
 
     const timer = setTimeout(() => {
       let nextIdx = -1;
@@ -315,18 +330,48 @@ export default function PlaybackEngine({ steps, onExit }: Props) {
       if (nextIdx !== -1 && nextIdx < steps.length && nextIdx !== currentStep) {
         setCurrentStep(nextIdx);
         setSelectedNode(nextIdx);
+        setVisibleStepIndex(nextIdx);
       } else {
         setIsPlaying(false);
       }
-    }, 2500);
+    }, 1500);
 
     return () => clearTimeout(timer);
   }, [currentStep, isPlaying, steps]);
 
+  /* ================= SYNC VISIBLE STEP WITH CURRENT STEP ================= */
+  useEffect(() => {
+    if (isPlaying) {
+      setVisibleStepIndex(currentStep);
+    }
+  }, [currentStep, isPlaying]);
+
   useEffect(() => {
     const handleResize = () => setZoom(z => z); // force re-render on resize
     window.addEventListener('resize', handleResize);
-    return () => window.removeEventListener('resize', handleResize);
+    
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.code === 'Space') {
+        e.preventDefault();
+        setIsSpacePressed(true);
+      }
+    };
+    
+    const handleKeyUp = (e: KeyboardEvent) => {
+      if (e.code === 'Space') {
+        e.preventDefault();
+        setIsSpacePressed(false);
+      }
+    };
+    
+    window.addEventListener('keydown', handleKeyDown);
+    window.addEventListener('keyup', handleKeyUp);
+    
+    return () => {
+      window.removeEventListener('resize', handleResize);
+      window.removeEventListener('keydown', handleKeyDown);
+      window.removeEventListener('keyup', handleKeyUp);
+    };
   }, []);
 
   /* ================= FIT TO SCREEN ================= */
@@ -411,12 +456,21 @@ export default function PlaybackEngine({ steps, onExit }: Props) {
       ctx.stroke();
     }
 
+    // Filter visible arrows (only show arrows where both nodes are visible)
+    const visibleArrows = isPlaying 
+      ? arrowPaths.filter(arrow => arrow.from <= visibleStepIndex && arrow.to <= visibleStepIndex)
+      : arrowPaths;
+    
     // Draw transition nodes
-    drawTransitionNodes(ctx, arrowPaths);
+    drawTransitionNodes(ctx, visibleArrows);
 
-    // Draw nodes (only icons, no background or labels)
+    // Draw nodes (only icons, no background or labels) - only up to visibleStepIndex when playing
     for (let i = 0; i < nodePositions.length; i++) {
       const pos = nodePositions[i];
+      
+      // Only render nodes that are visible (during playback, only show up to visibleStepIndex)
+      if (isPlaying && pos.stepIndex > visibleStepIndex) continue;
+      
       const nodeStep = steps[pos.stepIndex];
       const nodeAction = (nodeStep.action || "").toLowerCase();
 
@@ -468,14 +522,18 @@ export default function PlaybackEngine({ steps, onExit }: Props) {
         });
       } else {
         // Display generic action name, preventing "Start" from duplicating
-        const displayLabel = nodeAction === "" ? (pos.stepIndex === 0 ? "Start" : "New Step") : (nodeStep.action || "Start");
+        // Layout nodes display as Evaluate Content
+        let displayLabel = nodeAction === "" ? (pos.stepIndex === 0 ? "Start" : "New Step") : (nodeStep.action || "Start");
+        if (nodeAction === "layout") {
+          displayLabel = "Evaluate Content";
+        }
         ctx.fillText(displayLabel, pos.x + pos.width / 2, textY);
       }
     }
 
     ctx.restore();
 
-  }, [nodePositions, arrowPaths, steps, currentStep, selectedNode, zoom, pan, renderTrigger]);
+  }, [nodePositions, arrowPaths, steps, currentStep, selectedNode, zoom, pan, renderTrigger, visibleStepIndex]);
 
   /* ================= ZOOM HANDLERS ================= */
   const handleWheel = (e: React.WheelEvent) => {
@@ -485,11 +543,13 @@ export default function PlaybackEngine({ steps, onExit }: Props) {
   };
 
   const handleMouseDown = (e: React.MouseEvent) => {
-    if (e.button === 2) { // Right click for pan
+    // Pan with spacebar + left click or middle click
+    if (isSpacePressed || e.button === 1) {
+      e.preventDefault();
       setIsDragging(true);
       setDragStart({ x: e.clientX - pan.x, y: e.clientY - pan.y });
-    } else {
-      // Check if clicked on a node
+    } else if (e.button === 0) {
+      // Left click to select nodes
       const rect = canvasRef.current?.getBoundingClientRect();
       if (rect) {
         const x = (e.clientX - rect.left - pan.x) / zoom;
@@ -546,13 +606,64 @@ export default function PlaybackEngine({ steps, onExit }: Props) {
 
   const details = getNodeDetails();
 
+  /* ================= EDIT HANDLERS ================= */
+  const openEditFieldModal = (field: Field) => {
+    setEditingField({ ...field });
+    setEditModalType("field");
+    setShowEditModal(true);
+  };
+
+  const openEditRuleModal = (rule: Rule) => {
+    setEditingRule({ ...rule });
+    setEditModalType("rule");
+    setShowEditModal(true);
+  };
+
+  const openEditTextModal = (field: Field) => {
+    setEditingField({ ...field });
+    setEditModalType("text");
+    setShowEditModal(true);
+  };
+
+  const openEditLayoutModal = (field: Field) => {
+    setEditingField({ ...field });
+    setEditModalType("layout");
+    setShowEditModal(true);
+  };
+
+  const closeEditModal = () => {
+    setShowEditModal(false);
+    setEditingField(null);
+    setEditingRule(null);
+    setEditModalType(null);
+  };
+
+  /* ================= PLAYBACK CONTROLS ================= */
+  const handleStartFromNode = () => {
+    if (selectedNode !== null) {
+      setCurrentStep(selectedNode);
+      setVisibleStepIndex(selectedNode);
+      setIsPlaying(true);
+    }
+  };
+
+  const handleStop = () => {
+    setIsPlaying(false);
+  };
+
+  const leftMenuItems = getLeftMenuItems(selectedNode, isPlaying, handleStartFromNode, handleStop);
+
   return (
     <div className="fixed top-16 left-72 right-0 bottom-0 flex items-stretch bg-gray-100 font-sans overflow-hidden z-40">
       {/* ================= LEFT PANEL ================= */}
       <div className="w-64 h-full bg-[#333333] text-gray-300 flex flex-col border-r border-black shadow-xl z-10 overflow-y-auto shrink-0 select-none">
         <div className="py-2">
           {leftMenuItems.map((item, idx) => (
-            <div key={idx} className={`flex items-center gap-3 px-4 py-2 cursor-pointer transition-colors ${item.active ? 'bg-[#d35400] text-white' : 'hover:bg-[#444]'}`}>
+            <div key={idx} onClick={item.onClick} className={`flex items-center gap-3 px-4 py-2 transition-colors ${
+              item.disabled 
+                ? 'opacity-50 cursor-not-allowed' 
+                : 'cursor-pointer ' + (item.active ? 'bg-[#d35400] text-white hover:bg-[#e67e22]' : 'hover:bg-[#444]')
+            }`}>
               <img src={item.icon} alt={item.label} className="w-5 h-5 object-contain brightness-0 invert" />
               <span className="text-sm font-medium">{item.label}</span>
             </div>
@@ -708,7 +819,7 @@ export default function PlaybackEngine({ steps, onExit }: Props) {
                   className="w-10 h-10 bg-[#222] p-2 rounded border border-[#555] brightness-0 invert"
                 />
                 <span className="text-base font-bold text-white uppercase tracking-wide">
-                  {details.action}
+                  {action === "layout" ? "EVALUATE CONTENT" : details.action}
                 </span>
               </div>
             </div>
@@ -721,22 +832,31 @@ export default function PlaybackEngine({ steps, onExit }: Props) {
                 </label>
                 <div className="space-y-2">
                   {details.fields.map((field, idx) => (
-                    <div key={idx} className="bg-[#333] p-2 rounded border-l-4 border-blue-500 shadow-sm">
-                      <div className="text-[10px] uppercase font-bold tracking-wider text-blue-400 mb-1">Type: {field.type}</div>
-                      <div className="text-sm text-gray-200">Field: {field.fieldName}</div>
-                      <div className="text-sm text-gray-400">
-                        Value: {
-                          field.type === "date"
-                            ? field.dateOption === "current"
-                              ? "Current Date"
-                              : field.dateOption === "days"
-                              ? `+${field.value} Days`
-                              : field.dateOption === "specific"
-                              ? field.value
-                              : "—"
-                            : field.value || "—"
-                        }
+                    <div key={idx} className="bg-[#333] p-2 rounded border-l-4 border-blue-500 shadow-sm flex items-start justify-between group">
+                      <div className="flex-1">
+                        <div className="text-[10px] uppercase font-bold tracking-wider text-blue-400 mb-1">Type: {field.type}</div>
+                        <div className="text-sm text-gray-200">Field: {field.fieldName}</div>
+                        <div className="text-sm text-gray-400">
+                          Value: {
+                            field.type === "date"
+                              ? field.dateOption === "current"
+                                ? "Current Date"
+                                : field.dateOption === "days"
+                                ? `+${field.value} Days`
+                                : field.dateOption === "specific"
+                                ? field.value
+                                : "—"
+                              : field.value || "—"
+                          }
+                        </div>
                       </div>
+                      <button
+                        onClick={() => openEditFieldModal(field)}
+                        className="ml-2 p-1 text-black hover:text-[#d35400] transition-colors opacity-0 group-hover:opacity-100"
+                        title="Edit field"
+                      >
+                        ✏️
+                      </button>
                     </div>
                   ))}
                 </div>
@@ -749,29 +869,45 @@ export default function PlaybackEngine({ steps, onExit }: Props) {
                 <label className="block text-xs font-semibold text-gray-400 mb-2 uppercase tracking-wide">
                   Conditions ({details.rules.length})
                 </label>
-                <div className="space-y-2">
+                <div className="space-y-3">
                   {details.rules.map((rule, idx) => (
-                    <div key={idx} className="bg-[#333] p-2 rounded border-l-4 border-yellow-500 shadow-sm">
+                    <div key={idx}>
+                      {/* Logic Connector */}
                       {idx > 0 && (
-                        <div className="text-[10px] font-bold text-yellow-500 mb-1">
-                          {rule.logic || "AND"}
+                        <div className="flex items-center justify-center mb-2">
+                          <div className="px-3 py-1 bg-[#555] rounded text-xs font-bold text-yellow-400">
+                            {rule.logic?.toUpperCase() || "AND"}
+                          </div>
                         </div>
                       )}
-                      <div className="text-[10px] font-bold uppercase tracking-wider text-yellow-400 mb-1">Type: {rule.fieldType}</div>
-                      <div className="text-sm text-gray-200">Field: {rule.fieldName}</div>
-                      <div className="text-sm text-gray-200">Operator: {rule.operator}</div>
-                      <div className="text-sm text-gray-400">
-                        Value: {
-                          rule.fieldType === "date"
-                            ? rule.dateOption === "current"
-                              ? "Current"
-                              : rule.dateOption === "days"
-                              ? `${rule.value} Days`
-                              : rule.dateOption === "specific"
-                              ? rule.value
-                              : "—"
-                            : rule.value || "—"
-                        }
+                      
+                      {/* Condition Rule */}
+                      <div className="bg-[#333] p-3 rounded border-l-4 border-yellow-500 shadow-sm flex items-start justify-between group">
+                        <div className="flex-1">
+                          <div className="text-[10px] font-bold uppercase tracking-wider text-yellow-400 mb-2">Type: {rule.fieldType}</div>
+                          <div className="text-sm text-gray-200 mb-1">Field: {rule.fieldName}</div>
+                          <div className="text-sm text-gray-200 mb-1">Operator: {rule.operator}</div>
+                          <div className="text-sm text-gray-400">
+                            Value: {
+                              rule.fieldType === "date"
+                                ? rule.dateOption === "current"
+                                  ? "Current"
+                                  : rule.dateOption === "days"
+                                  ? `${rule.value} Days`
+                                  : rule.dateOption === "specific"
+                                  ? rule.value
+                                  : "—"
+                                : rule.value || "—"
+                            }
+                          </div>
+                        </div>
+                        <button
+                          onClick={() => openEditRuleModal(rule)}
+                          className="ml-2 p-1 text-black hover:text-[#d35400] transition-colors"
+                          title="Edit condition"
+                        >
+                          ✏️
+                        </button>
                       </div>
                     </div>
                   ))}
@@ -805,10 +941,17 @@ export default function PlaybackEngine({ steps, onExit }: Props) {
                       ? "Launch Event"
                       : "User Action"}
                   </label>
-                  <div className="bg-[#333] p-2 rounded border-l-4 border-purple-500 shadow-sm">
-                    <div className="text-sm text-gray-200">
+                  <div className="bg-[#333] p-2 rounded border-l-4 border-purple-500 shadow-sm flex items-center justify-between group">
+                    <div className="text-sm text-gray-200 flex-1">
                       {details.fields[0].value || "—"}
                     </div>
+                    <button
+                      onClick={() => openEditTextModal(details.fields[0])}
+                      className="ml-2 p-1 text-black hover:text-[#d35400] transition-colors opacity-0 group-hover:opacity-100"
+                      title="Edit"
+                    >
+                      ✏️
+                    </button>
                   </div>
                 </div>
               )}
@@ -819,8 +962,15 @@ export default function PlaybackEngine({ steps, onExit }: Props) {
                 <label className="block text-xs font-semibold text-gray-400 mb-2 uppercase tracking-wide">
                   Text Content
                 </label>
-                <div className="bg-[#333] p-2 rounded text-sm text-gray-200 shadow-sm">
-                  {details.fields?.[0]?.value || "—"}
+                <div className="bg-[#333] p-2 rounded text-sm text-gray-200 shadow-sm flex items-center justify-between group">
+                  <span className="flex-1">{details.fields?.[0]?.value || "—"}</span>
+                  <button
+                    onClick={() => openEditTextModal(details.fields?.[0] || { type: "text", fieldName: "", value: "" })}
+                    className="ml-2 p-1 text-black hover:text-[#d35400] transition-colors opacity-0 group-hover:opacity-100"
+                    title="Edit"
+                  >
+                    ✏️
+                  </button>
                 </div>
               </div>
             )}
@@ -829,10 +979,17 @@ export default function PlaybackEngine({ steps, onExit }: Props) {
             {action === "layout" && (
               <div className="bg-[#444] p-3 rounded-lg border border-[#555]">
                 <label className="block text-xs font-semibold text-gray-400 mb-2 uppercase tracking-wide">
-                  Layout Name
+                  Evaluate Content
                 </label>
-                <div className="bg-[#333] p-2 rounded text-sm text-gray-200 shadow-sm">
-                  {details.fields?.[0]?.value || "—"}
+                <div className="bg-[#333] p-2 rounded text-sm text-gray-200 shadow-sm flex items-center justify-between group">
+                  <span className="flex-1">{details.fields?.[0]?.value || "—"}</span>
+                  <button
+                    onClick={() => openEditLayoutModal(details.fields?.[0] || { type: "layout", fieldName: "", value: "" })}
+                    className="ml-2 p-1 text-black hover:text-[#d35400] transition-colors opacity-0 group-hover:opacity-100"
+                    title="Edit"
+                  >
+                    ✏️
+                  </button>
                 </div>
               </div>
             )}
@@ -860,6 +1017,217 @@ export default function PlaybackEngine({ steps, onExit }: Props) {
           </button>
         </div>
       </div>
+
+      {/* ================= EDIT MODAL ================= */}
+      {showEditModal && (
+        <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
+          <div className="bg-white rounded-lg shadow-2xl max-w-md w-96">
+            {editModalType === "field" && editingField && (
+              <>
+                <div className="bg-[#d35400] text-white px-6 py-4 rounded-t-lg">
+                  <h2 className="text-lg font-bold">Edit Field Value</h2>
+                </div>
+                <div className="p-6 space-y-4">
+                  <p className="text-gray-600 text-sm">
+                    Select the Text Field and then enter the value for that field
+                  </p>
+                  
+                  <div>
+                    <label className="block text-sm font-semibold text-gray-700 mb-2">
+                      Field
+                    </label>
+                    <div className="px-3 py-2 border border-gray-300 rounded-md bg-gray-100 text-gray-600">
+                      {editingField.fieldName}
+                    </div>
+                  </div>
+
+                  {editingField.type === "date" ? (
+                    <>
+                      <div>
+                        <label className="block text-sm font-semibold text-gray-700 mb-2">
+                          Date Option
+                        </label>
+                        <div className="px-3 py-2 border border-gray-300 rounded-md bg-gray-100 text-gray-600">
+                          {editingField.dateOption === "current"
+                            ? "Current Date"
+                            : editingField.dateOption === "days"
+                            ? "Days Offset"
+                            : editingField.dateOption === "specific"
+                            ? "Specific Date"
+                            : "—"}
+                        </div>
+                      </div>
+
+                      {(editingField.dateOption === "days" || editingField.dateOption === "specific") && (
+                        <div>
+                          <label className="block text-sm font-semibold text-gray-700 mb-2">
+                            Value
+                          </label>
+                          <div className="px-3 py-2 border border-gray-300 rounded-md bg-gray-100 text-gray-600">
+                            {editingField.value || "—"}
+                          </div>
+                        </div>
+                      )}
+                    </>
+                  ) : (
+                    <div>
+                      <label className="block text-sm font-semibold text-gray-700 mb-2">
+                        Value
+                      </label>
+                      <div className="px-3 py-2 border border-gray-300 rounded-md bg-gray-100 text-gray-600">
+                        {editingField.value || "—"}
+                      </div>
+                    </div>
+                  )}
+
+                  <div className="flex justify-end gap-3 pt-4">
+                    <button
+                      onClick={closeEditModal}
+                      className="px-4 py-2 bg-[#d35400] text-white rounded-md hover:bg-[#e67e22] font-semibold"
+                    >
+                      Close
+                    </button>
+                  </div>
+                </div>
+              </>
+            )}
+
+            {editModalType === "rule" && editingRule && (
+              <>
+                <div className="bg-[#d35400] text-white px-6 py-4 rounded-t-lg">
+                  <h2 className="text-lg font-bold">Edit Condition</h2>
+                </div>
+                <div className="p-6 space-y-4 max-h-96 overflow-y-auto">
+                  <p className="text-gray-600 text-sm">
+                    Edit the condition values
+                  </p>
+                  
+                  <div>
+                    <label className="block text-sm font-semibold text-gray-700 mb-2">
+                      Field Type
+                    </label>
+                    <div className="px-3 py-2 border border-gray-300 rounded-md bg-gray-100 text-gray-600">
+                      {editingRule.fieldType}
+                    </div>
+                  </div>
+
+                  <div>
+                    <label className="block text-sm font-semibold text-gray-700 mb-2">
+                      Field Name
+                    </label>
+                    <div className="px-3 py-2 border border-gray-300 rounded-md bg-gray-100 text-gray-600">
+                      {editingRule.fieldName}
+                    </div>
+                  </div>
+
+                  <div>
+                    <label className="block text-sm font-semibold text-gray-700 mb-2">
+                      Operator
+                    </label>
+                    <div className="px-3 py-2 border border-gray-300 rounded-md bg-gray-100 text-gray-600">
+                      {editingRule.operator}
+                    </div>
+                  </div>
+
+                  {editingRule.fieldType === "date" ? (
+                    <>
+                      <div>
+                        <label className="block text-sm font-semibold text-gray-700 mb-2">
+                          Date Option
+                        </label>
+                        <div className="px-3 py-2 border border-gray-300 rounded-md bg-gray-100 text-gray-600">
+                          {editingRule.dateOption === "current"
+                            ? "Current"
+                            : editingRule.dateOption === "days"
+                            ? "Days Offset"
+                            : editingRule.dateOption === "specific"
+                            ? "Specific Date"
+                            : "—"}
+                        </div>
+                      </div>
+
+                      {(editingRule.dateOption === "days" || editingRule.dateOption === "specific") && (
+                        <div>
+                          <label className="block text-sm font-semibold text-gray-700 mb-2">
+                            Value
+                          </label>
+                          <div className="px-3 py-2 border border-gray-300 rounded-md bg-gray-100 text-gray-600">
+                            {editingRule.value || "—"}
+                          </div>
+                        </div>
+                      )}
+                    </>
+                  ) : (
+                    <div>
+                      <label className="block text-sm font-semibold text-gray-700 mb-2">
+                        Value
+                      </label>
+                      <div className="px-3 py-2 border border-gray-300 rounded-md bg-gray-100 text-gray-600">
+                        {editingRule.value || "—"}
+                      </div>
+                    </div>
+                  )}
+
+                  <div className="flex justify-end gap-3 pt-4">
+                    <button
+                      onClick={closeEditModal}
+                      className="px-4 py-2 bg-[#d35400] text-white rounded-md hover:bg-[#e67e22] font-semibold"
+                    >
+                      Close
+                    </button>
+                  </div>
+                </div>
+              </>
+            )}
+
+            {(editModalType === "text" || editModalType === "layout") && editingField && (
+              <>
+                <div className="bg-[#d35400] text-white px-6 py-4 rounded-t-lg">
+                  <h2 className="text-lg font-bold">
+                    {editModalType === "text" ? "Add Text Value" : "Evaluate Content"}
+                  </h2>
+                </div>
+                <div className="p-6 space-y-4">
+                  <p className="text-gray-600 text-sm">
+                    {editModalType === "text"
+                      ? "Select the Text Field and then enter the value for that field"
+                      : "Content to evaluate"}
+                  </p>
+                  
+                  {editModalType === "text" && (
+                    <div>
+                      <label className="block text-sm font-semibold text-gray-700 mb-2">
+                        Field
+                      </label>
+                      <div className="px-3 py-2 border border-gray-300 rounded-md bg-gray-100 text-gray-600">
+                        Note
+                      </div>
+                    </div>
+                  )}
+
+                  <div>
+                    <label className="block text-sm font-semibold text-gray-700 mb-2">
+                      {editModalType === "text" ? "Value" : "Name"}
+                    </label>
+                    <div className="px-3 py-2 border border-gray-300 rounded-md bg-gray-100 text-gray-600">
+                      {editingField.value || "—"}
+                    </div>
+                  </div>
+
+                  <div className="flex justify-end gap-3 pt-4">
+                    <button
+                      onClick={closeEditModal}
+                      className="px-4 py-2 bg-[#d35400] text-white rounded-md hover:bg-[#e67e22] font-semibold"
+                    >
+                      Close
+                    </button>
+                  </div>
+                </div>
+              </>
+            )}
+          </div>
+        </div>
+      )}
     </div>
   );
 }

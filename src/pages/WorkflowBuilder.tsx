@@ -412,40 +412,6 @@ export default function WorkflowBuilder({ initialSteps }: Props) {
     <option value="blank">Blank</option>
   </select>
 )}
-
-                        <select
-                          onChange={(e) =>
-                            updateRule(stepIndex, rIndex, "operator", e.target.value)
-                          }
-                        >
-                          <option value="">Operator</option>
-                          {getOperators(rule.fieldType).map(op => (
-                            <option key={op}>{op}</option>
-                          ))}
-                        </select>
-
-                        {rule.fieldType !== "date" && (
-                          <input
-                            placeholder="Value"
-                            onChange={(e) =>
-                              updateRule(stepIndex, rIndex, "value", e.target.value)
-                            }
-                          />
-                        )}
-
-                        {rule.fieldType === "date" && (
-                          <select
-                            onChange={(e) =>
-                              updateRule(stepIndex, rIndex, "dateOption", e.target.value)
-                            }
-                          >
-                            <option value="">Select</option>
-                            <option value="current">Current</option>
-                            <option value="days">Days</option>
-                            <option value="specific">Specific</option>
-                            <option value="blank">Blank</option>
-                          </select>
-                        )}
                       </div>
                     </div>
                   ))}
