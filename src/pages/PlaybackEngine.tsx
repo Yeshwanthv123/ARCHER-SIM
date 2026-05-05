@@ -457,19 +457,17 @@ export default function PlaybackEngine({ steps, onExit }: Props) {
     }
 
     // Filter visible arrows (only show arrows where both nodes are visible)
-    const visibleArrows = isPlaying 
-      ? arrowPaths.filter(arrow => arrow.from <= visibleStepIndex && arrow.to <= visibleStepIndex)
-      : arrowPaths;
+    const visibleArrows = arrowPaths.filter(arrow => arrow.from <= visibleStepIndex && arrow.to <= visibleStepIndex);
     
     // Draw transition nodes
     drawTransitionNodes(ctx, visibleArrows);
 
-    // Draw nodes (only icons, no background or labels) - only up to visibleStepIndex when playing
+    // Draw nodes (only icons, no background or labels) - only up to visibleStepIndex
     for (let i = 0; i < nodePositions.length; i++) {
       const pos = nodePositions[i];
       
-      // Only render nodes that are visible (during playback, only show up to visibleStepIndex)
-      if (isPlaying && pos.stepIndex > visibleStepIndex) continue;
+      // Only render nodes that are visible
+      if (pos.stepIndex > visibleStepIndex) continue;
       
       const nodeStep = steps[pos.stepIndex];
       const nodeAction = (nodeStep.action || "").toLowerCase();
