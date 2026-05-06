@@ -40,9 +40,11 @@ export default function AdvancedWorkflow({ setActivePage, setWorkflowSteps }: Pr
       // Col 2: Field Type (text, numeric, valueList, user, date)
       // Col 3: Field Name / Condition Field
       // Col 4: Field Value / Condition Value
-      // Col 5: Condition Operator (Equals, Contains, etc.)
-      // Col 6: True Step (for condition)
-      // Col 7: Default Step (for condition)
+      // Col 5: Date Option (current, days, specific, blank)
+      // Col 6: User Type (user, group)
+      // Col 7: Condition Operator (Equals, Contains, etc.)
+      // Col 8: True Step (for condition)
+      // Col 9: Default Step (for condition)
 
       const stepsData: Step[] = [];
 
@@ -61,10 +63,12 @@ export default function AdvancedWorkflow({ setActivePage, setWorkflowSteps }: Pr
         const fieldType = row[2]?.toString().trim() || "";
         const fieldName = row[3]?.toString().trim() || "";
         const fieldValue = row[4]?.toString().trim() || "";
-        const ruleOp = row[5]?.toString().trim() || "";
+        const dateOption = row[5]?.toString().trim() || "";
+        const userType = row[6]?.toString().trim() || "";
+        const ruleOp = row[7]?.toString().trim() || "";
 
-        const trueStepRaw = row[6];
-        const defaultStepRaw = row[7];
+        const trueStepRaw = row[8];
+        const defaultStepRaw = row[9];
         const trueStep = trueStepRaw ? Number(trueStepRaw) : "";
         const defaultStep = defaultStepRaw ? Number(defaultStepRaw) : "";
 
@@ -78,7 +82,9 @@ export default function AdvancedWorkflow({ setActivePage, setWorkflowSteps }: Pr
           step.fields.push({
             type: fieldType || "text",
             fieldName: fieldName,
-            value: fieldValue
+            value: fieldValue,
+            dateOption: dateOption,
+            userType: userType
           });
         } else if (["text", "layout", "notification", "launch", "useraction"].includes(action)) {
           step.fields.push({
@@ -92,6 +98,7 @@ export default function AdvancedWorkflow({ setActivePage, setWorkflowSteps }: Pr
             fieldName: fieldName,
             operator: ruleOp || "Equals",
             value: fieldValue,
+            dateOption: dateOption,
             logic: "AND"
           });
           step.trueStep = trueStep;
@@ -127,16 +134,23 @@ export default function AdvancedWorkflow({ setActivePage, setWorkflowSteps }: Pr
       'Field Type', 
       'Field Name', 
       'Value', 
+      'Date Option',
+      'User Type',
       'Operator', 
       'True Step', 
       'Default Step'
     ]);
 
     // Add Step 1
-    sheet.addRow([1, 'Start', '', '', '', '', '', '']);
+    sheet.addRow([1, 'Start', '', '', '', '', '', '', '', '']);
 
     // Style the header row to be bold
     sheet.getRow(1).font = { bold: true };
+
+    // Auto-adjust column widths
+    sheet.columns.forEach(column => {
+      column.width = 15;
+    });
 
     const buffer = await workbook.xlsx.writeBuffer();
     const blob = new Blob([buffer], { type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" });
@@ -181,7 +195,7 @@ export default function AdvancedWorkflow({ setActivePage, setWorkflowSteps }: Pr
             Upload your workflow Excel file to simulate automatically.
             <br /><br />
             <strong>Expected Columns:</strong><br />
-            A: Step Number | B: Action | C: Field Type | D: Field Name | E: Value | F: Operator | G: True Step | H: Default Step
+            A: Step Number | B: Action | C: Field Type | D: Field Name | E: Value | F: Date Option | G: User Type | H: Operator | I: True Step | J: Default Step
           </p>
 
           <div className="flex gap-4">
