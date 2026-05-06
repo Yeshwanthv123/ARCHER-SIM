@@ -893,15 +893,6 @@ export default function PlaybackEngine({ steps, onExit }: Props) {
                 <div className="space-y-3">
                   {details.rules.map((rule, idx) => (
                     <div key={idx}>
-                      {/* Logic Connector */}
-                      {idx > 0 && (
-                        <div className="flex items-center justify-center mb-2">
-                          <div className="px-3 py-1 bg-[#555] rounded text-xs font-bold text-yellow-400">
-                            {rule.logic?.toUpperCase() || "AND"}
-                          </div>
-                        </div>
-                      )}
-                      
                       {/* Condition Rule */}
                       <div className="bg-[#333] p-3 rounded border-l-4 border-yellow-500 shadow-sm flex items-start justify-between group relative">
                         <div className="flex-1">
@@ -922,11 +913,17 @@ export default function PlaybackEngine({ steps, onExit }: Props) {
                             }
                           </div>
                           
-                          <div className="bg-[#222] p-2 rounded border border-green-500/50 shadow-sm mt-2 inline-block w-full">
-                            <div className="text-xs font-bold text-green-400">
-                              → IF TRUE: Step {rule.trueStep || "—"}
+                          {(!rule.logic || rule.logic === "") ? (
+                            <div className="bg-[#222] p-2 rounded border border-green-500/50 shadow-sm mt-2 inline-block w-full">
+                              <div className="text-xs font-bold text-green-400">
+                                → IF TRUE: Step {rule.trueStep || "—"}
+                              </div>
                             </div>
-                          </div>
+                          ) : (
+                            <div className="flex items-center justify-center font-black text-blue-400 text-xl border-2 border-dashed border-blue-500/50 bg-blue-900/20 rounded mt-2 p-2">
+                              {rule.logic}
+                            </div>
+                          )}
                         </div>
                       </div>
                     </div>

@@ -76,15 +76,18 @@ export default function AdvancedWorkflow({ setActivePage, setWorkflowSteps }: Pr
         // If the row action differs from the step action, skip or override? We assume action matches.
         if (action === "start") continue;
 
-        const fieldType = row[2]?.toString().trim() || "";
-        const fieldName = row[3]?.toString().trim() || "";
-        const fieldValue = row[4]?.toString().trim() || "";
-        const dateOption = row[5]?.toString().trim() || "";
-        const userType = row[6]?.toString().trim() || "";
-        const ruleOp = row[7]?.toString().trim() || "";
+        const logicRaw = row[2]?.toString().trim() || "";
+        const logic = ["AND", "OR"].includes(logicRaw.toUpperCase()) ? logicRaw.toUpperCase() as "AND" | "OR" : "";
+        
+        const fieldType = row[3]?.toString().trim() || "";
+        const fieldName = row[4]?.toString().trim() || "";
+        const fieldValue = row[5]?.toString().trim() || "";
+        const dateOption = row[6]?.toString().trim() || "";
+        const userType = row[7]?.toString().trim() || "";
+        const ruleOp = row[8]?.toString().trim() || "";
 
-        const trueStepRaw = row[8];
-        const defaultStepRaw = row[9];
+        const trueStepRaw = row[9];
+        const defaultStepRaw = row[10];
         const trueStep = trueStepRaw ? Number(trueStepRaw) : "";
         const defaultStep = defaultStepRaw ? Number(defaultStepRaw) : "";
 
@@ -104,12 +107,13 @@ export default function AdvancedWorkflow({ setActivePage, setWorkflowSteps }: Pr
           });
         } else if (action === "condition") {
           step.rules?.push({
+            logic: logic,
             fieldType: fieldType || "text",
             fieldName: fieldName,
             operator: ruleOp || "Equals",
             value: fieldValue,
             dateOption: dateOption,
-            trueStep: trueStep
+            trueStep: logic === "" ? trueStep : "" // Only apply trueStep if it's the end of a chain
           });
           if (defaultStep) {
             step.defaultStep = defaultStep;
@@ -144,6 +148,7 @@ export default function AdvancedWorkflow({ setActivePage, setWorkflowSteps }: Pr
     sheet.addRow([
       'Step Number', 
       'Action', 
+      'Logic (AND/OR)',
       'Field Type', 
       'Field Name', 
       'Value', 
@@ -155,7 +160,7 @@ export default function AdvancedWorkflow({ setActivePage, setWorkflowSteps }: Pr
     ]);
 
     // Add Step 1
-    sheet.addRow([1, 'Start', '', '', '', '', '', '', '', '']);
+    sheet.addRow([1, 'Start', '', '', '', '', '', '', '', '', '']);
 
     // Style the header row to be bold
     sheet.getRow(1).font = { bold: true };
@@ -208,7 +213,7 @@ export default function AdvancedWorkflow({ setActivePage, setWorkflowSteps }: Pr
             Upload your workflow Excel file to simulate automatically.
             <br /><br />
             <strong>Expected Columns:</strong><br />
-            A: Step Number | B: Action | C: Field Type | D: Field Name | E: Value | F: Date Option | G: User Type | H: Operator | I: True Step | J: Default Step
+            A: Step Number | B: Action | C: Logic | D: Field Type | E: Field Name | F: Value | G: Date Option | H: User Type | I: Operator | J: True Step | K: Default Step
           </p>
 
           <div className="flex gap-4">

@@ -11,6 +11,7 @@ export type Field = {
 };
 
 export type Rule = {
+  logic?: "AND" | "OR" | "";
   fieldType: string;
   fieldName: string;
   operator: string;
@@ -89,43 +90,55 @@ export default function WorkflowBuilder({ initialSteps }: Props) {
     (updated[stepIndex].fields[fieldIndex] as any)[key] = value;
     setSteps(updated);
   };
-
   const addRule = (stepIndex: number) => {
-  const updated = [...steps];
-
-  if (!updated[stepIndex].rules) {
-    updated[stepIndex].rules = [];   // ✅ ensure exists
-  }
-
-  updated[stepIndex].rules.push({
-    fieldType: "",
-    fieldName: "",
-    operator: "",
-    value: "",
-    dateOption: "",
-    trueStep: ""
-  });
-
-  setSteps(updated);
-};
-
-  const updateRule = (
-  stepIndex: number,
-  ruleIndex: number,
-  key: string,
-  value: any
-) => {
-  const updated = [...steps];
-
-  if (!updated[stepIndex].rules) return;
-
-  updated[stepIndex].rules[ruleIndex] = {
-    ...updated[stepIndex].rules[ruleIndex],
-    [key]: value
+    const updated = [...steps];
+    if (!updated[stepIndex].rules) {
+      updated[stepIndex].rules = [];
+    }
+    updated[stepIndex].rules.push({
+      logic: "",
+      fieldType: "",
+      fieldName: "",
+      operator: "",
+      value: "",
+      dateOption: "",
+      trueStep: ""
+    });
+    setSteps(updated);
   };
 
-  setSteps(updated);
-};
+  const addOperator = (stepIndex: number, ruleIndex: number, operator: "AND" | "OR") => {
+    const updated = [...steps];
+    updated[stepIndex].rules![ruleIndex].logic = operator;
+    updated[stepIndex].rules!.splice(ruleIndex + 1, 0, {
+      logic: "",
+      fieldType: "",
+      fieldName: "",
+      operator: "",
+      value: "",
+      dateOption: "",
+      trueStep: updated[stepIndex].rules![ruleIndex].trueStep || "" // Inherit trueStep to the new end of chain
+    });
+    // Clear true step from the current rule since it's no longer the end of the chain
+    updated[stepIndex].rules![ruleIndex].trueStep = "";
+    setSteps(updated);
+  };
+
+  const updateRule = (
+    stepIndex: number,
+    ruleIndex: number,
+    key: string,
+    value: any
+  ) => {
+    const updated = [...steps];
+    if (!updated[stepIndex].rules) return;
+    updated[stepIndex].rules![ruleIndex] = {
+      ...updated[stepIndex].rules![ruleIndex],
+      [key]: value
+    };
+    setSteps(updated);
+  };
+
   // ✅ FIXED: Archer-style operators ONLY CHANGE HERE
   const getOperators = (type: string) => {
     switch (type) {
@@ -205,10 +218,11 @@ export default function WorkflowBuilder({ initialSteps }: Props) {
                 <option value="layout">Layout</option>
                 <option value="notification">Notification</option>
                 <option value="launch">Launch Event</option>
+                <option value="useraction">User Action</option>
                 <option value="stop">Stop</option>
               </select>
 
-              {/* ================= UPDATE (UNCHANGED) ================= */}
+              {/* ================= UPDATE ================= */}
               {step.action === "update" && (
                 <>
                   {step.fields.map((field, i) => (
@@ -296,7 +310,7 @@ export default function WorkflowBuilder({ initialSteps }: Props) {
                         }
                         className="border px-2 py-2"
                       >
-                        <option value="">Select</option>
+                        <option value="">Select Option</option>
                         <option value="current">Current Date</option>
                         <option value="days">Number of Days from Current Date</option>
                         <option value="specific">Specific Date</option>
@@ -339,13 +353,23 @@ export default function WorkflowBuilder({ initialSteps }: Props) {
               {/* CONDITION BLOCK */}
               {step.action === "condition" && (
                 <>
-                  {step.rules?.map((rule, rIndex) => (
-                    <div key={rIndex} className="space-y-2 p-3 bg-gray-50 rounded border">
+                  {step.rules?.map((rule, rIndex) => {
+                    const isEndOfChain = !rule.logic || rule.logic === "";
+                    
+                    return (
+                    <div key={rIndex} className="space-y-2 p-3 bg-gray-50 rounded border relative">
 
                       <div className="flex justify-between items-center mb-2">
                         <span className="text-xs font-bold text-gray-500 uppercase tracking-wide">
-                          Condition {rIndex + 1}
+                          {rIndex === 0 || step.rules![rIndex - 1].logic === "" ? `Branch ${rIndex + 1}` : `AND/OR Condition`}
                         </span>
+                        
+                        {isEndOfChain && (
+                          <div className="flex gap-2">
+                            <button onClick={() => addOperator(stepIndex, rIndex, "AND")} className="text-xs bg-gray-200 hover:bg-gray-300 px-2 py-1 rounded font-semibold text-gray-700">+ Add Operator (AND)</button>
+                            <button onClick={() => addOperator(stepIndex, rIndex, "OR")} className="text-xs bg-gray-200 hover:bg-gray-300 px-2 py-1 rounded font-semibold text-gray-700">+ Add Operator (OR)</button>
+                          </div>
+                        )}
                       </div>
 
                       <div className="grid grid-cols-5 gap-3">
@@ -413,29 +437,35 @@ export default function WorkflowBuilder({ initialSteps }: Props) {
                           </select>
                         )}
 
-                        <div className="flex gap-2 items-center">
-                          <label className="text-sm font-semibold whitespace-nowrap text-green-600">
-                            → IF TRUE:
-                          </label>
-                          <select
-                            value={rule.trueStep}
-                            onChange={(e) =>
-                              updateRule(stepIndex, rIndex, "trueStep", Number(e.target.value) || "")
-                            }
-                            className="border px-2 py-2 w-full"
-                          >
-                            <option value="">Step</option>
-                            {steps.map((_, i) => (
-                              <option key={i} value={i + 1}>{i + 1}</option>
-                            ))}
-                          </select>
-                        </div>
+                        {isEndOfChain ? (
+                          <div className="flex gap-2 items-center">
+                            <label className="text-sm font-semibold whitespace-nowrap text-green-600">
+                              → IF TRUE:
+                            </label>
+                            <select
+                              value={rule.trueStep}
+                              onChange={(e) =>
+                                updateRule(stepIndex, rIndex, "trueStep", Number(e.target.value) || "")
+                              }
+                              className="border px-2 py-2 w-full border-green-300"
+                            >
+                              <option value="">Step</option>
+                              {steps.map((_, i) => (
+                                <option key={i} value={i + 1}>{i + 1}</option>
+                              ))}
+                            </select>
+                          </div>
+                        ) : (
+                          <div className="flex items-center justify-center font-black text-blue-800 text-xl border-2 border-dashed border-blue-300 bg-blue-50 rounded">
+                            {rule.logic}
+                          </div>
+                        )}
                       </div>
                     </div>
-                  ))}
+                  )})}
 
-                  <button onClick={() => addRule(stepIndex)} className="text-blue-600 text-sm font-bold">
-                    + Add Condition
+                  <button onClick={() => addRule(stepIndex)} className="text-blue-600 text-sm font-bold mt-2 inline-block">
+                    + Add New Branch
                   </button>
                   
                   <div className="mt-4 pt-4 border-t">
