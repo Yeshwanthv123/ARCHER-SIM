@@ -46,7 +46,8 @@ export default function AdvancedWorkflow({ setActivePage, setWorkflowSteps }: Pr
       // Col 8: True Step (for condition)
       // Col 9: Default Step (for condition)
 
-      const stepsData: Step[] = [];
+      const stepMap = new Map<number, Step>();
+      let maxStepNum = 0;
 
       for (let i = 1; i < rows.length; i++) {
         const row = rows[i];
@@ -54,11 +55,26 @@ export default function AdvancedWorkflow({ setActivePage, setWorkflowSteps }: Pr
 
         const actionRaw = row[1]?.toString() || "";
         const action = actionRaw.trim().toLowerCase();
+        
+        if (!action) continue;
 
-        if (action === "start") {
-          stepsData.push({ action: "Start", fields: [] });
-          continue;
+        const stepNumRaw = row[0];
+        // If step number isn't provided, auto-increment from the max step number seen
+        const stepNum = stepNumRaw ? Number(stepNumRaw) : maxStepNum + 1;
+        maxStepNum = Math.max(maxStepNum, stepNum);
+
+        if (!stepMap.has(stepNum)) {
+          stepMap.set(stepNum, {
+            action: action === "start" ? "Start" : action,
+            fields: [],
+            rules: [],
+          });
         }
+        
+        const step = stepMap.get(stepNum)!;
+        
+        // If the row action differs from the step action, skip or override? We assume action matches.
+        if (action === "start") continue;
 
         const fieldType = row[2]?.toString().trim() || "";
         const fieldName = row[3]?.toString().trim() || "";
@@ -71,12 +87,6 @@ export default function AdvancedWorkflow({ setActivePage, setWorkflowSteps }: Pr
         const defaultStepRaw = row[9];
         const trueStep = trueStepRaw ? Number(trueStepRaw) : "";
         const defaultStep = defaultStepRaw ? Number(defaultStepRaw) : "";
-
-        const step: Step = {
-          action: action,
-          fields: [],
-          rules: [],
-        };
 
         if (action === "update") {
           step.fields.push({
@@ -99,14 +109,17 @@ export default function AdvancedWorkflow({ setActivePage, setWorkflowSteps }: Pr
             operator: ruleOp || "Equals",
             value: fieldValue,
             dateOption: dateOption,
-            logic: "AND"
+            trueStep: trueStep
           });
-          step.trueStep = trueStep;
-          step.defaultStep = defaultStep;
+          if (defaultStep) {
+            step.defaultStep = defaultStep;
+          }
         }
-
-        stepsData.push(step);
       }
+
+      // Convert Map to array, ordered by Step Number
+      const sortedKeys = Array.from(stepMap.keys()).sort((a, b) => a - b);
+      const stepsData: Step[] = sortedKeys.map(k => stepMap.get(k)!);
 
       if (stepsData.length === 0) {
         stepsData.push({ action: "Start", fields: [] });

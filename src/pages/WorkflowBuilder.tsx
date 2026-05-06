@@ -16,7 +16,7 @@ export type Rule = {
   operator: string;
   value: string;
   dateOption?: string;
-  logic?: "AND" | "OR";
+  trueStep?: number | "";
 };
 
 export type Step = {
@@ -103,7 +103,7 @@ export default function WorkflowBuilder({ initialSteps }: Props) {
     operator: "",
     value: "",
     dateOption: "",
-    logic: "AND"
+    trueStep: ""
   });
 
   setSteps(updated);
@@ -336,31 +336,26 @@ export default function WorkflowBuilder({ initialSteps }: Props) {
                 </>
               )}
 
-              {/* CONDITION BLOCK (UNCHANGED STRUCTURE) */}
+              {/* CONDITION BLOCK */}
               {step.action === "condition" && (
                 <>
                   {step.rules?.map((rule, rIndex) => (
-                    <div key={rIndex} className="space-y-2">
+                    <div key={rIndex} className="space-y-2 p-3 bg-gray-50 rounded border">
 
-                      {rIndex > 0 && (
-                        <select
-                          value={rule.logic}
-                          onChange={(e) =>
-                            updateRule(stepIndex, rIndex, "logic", e.target.value)
-                          }
-                        >
-                          <option value="AND">AND</option>
-                          <option value="OR">OR</option>
-                        </select>
-                      )}
+                      <div className="flex justify-between items-center mb-2">
+                        <span className="text-xs font-bold text-gray-500 uppercase tracking-wide">
+                          Condition {rIndex + 1}
+                        </span>
+                      </div>
 
-                      <div className="grid grid-cols-4 gap-3">
+                      <div className="grid grid-cols-5 gap-3">
 
                         <select
                           value={rule.fieldType}
                           onChange={(e) =>
                             updateRule(stepIndex, rIndex, "fieldType", e.target.value)
                           }
+                          className="border px-2 py-2"
                         >
                           <option value="">Type</option>
                           <option value="text">Text</option>
@@ -370,77 +365,84 @@ export default function WorkflowBuilder({ initialSteps }: Props) {
                         </select>
 
                         <input
-  placeholder="Field"
-  value={rule.fieldName}
-  onChange={(e) =>
-    updateRule(stepIndex, rIndex, "fieldName", e.target.value)
-  }
-/>
-<select
-  value={rule.operator}
-  onChange={(e) =>
-    updateRule(stepIndex, rIndex, "operator", e.target.value)
-  }
->
-  <option value="">Operator</option>
-  {getOperators(rule.fieldType).map(op => (
-    <option key={op}>{op}</option>
-  ))}
-</select>
+                          placeholder="Field"
+                          value={rule.fieldName}
+                          onChange={(e) =>
+                            updateRule(stepIndex, rIndex, "fieldName", e.target.value)
+                          }
+                          className="border px-2 py-2"
+                        />
 
-{rule.fieldType !== "date" && (
-  <input
-    value={rule.value}
-    placeholder="Value"
-    onChange={(e) =>
-      updateRule(stepIndex, rIndex, "value", e.target.value)
-    }
-  />
-)}
+                        <select
+                          value={rule.operator}
+                          onChange={(e) =>
+                            updateRule(stepIndex, rIndex, "operator", e.target.value)
+                          }
+                          className="border px-2 py-2"
+                        >
+                          <option value="">Operator</option>
+                          {getOperators(rule.fieldType).map(op => (
+                            <option key={op}>{op}</option>
+                          ))}
+                        </select>
 
-{rule.fieldType === "date" && (
-  <select
-    value={rule.dateOption}
-    onChange={(e) =>
-      updateRule(stepIndex, rIndex, "dateOption", e.target.value)
-    }
-  >
-    <option value="">Select</option>
-    <option value="current">Current</option>
-    <option value="days">Days</option>
-    <option value="specific">Specific</option>
-    <option value="blank">Blank</option>
-  </select>
-)}
+                        {rule.fieldType !== "date" && (
+                          <input
+                            value={rule.value}
+                            placeholder="Value"
+                            onChange={(e) =>
+                              updateRule(stepIndex, rIndex, "value", e.target.value)
+                            }
+                            className="border px-2 py-2"
+                          />
+                        )}
+
+                        {rule.fieldType === "date" && (
+                          <select
+                            value={rule.dateOption}
+                            onChange={(e) =>
+                              updateRule(stepIndex, rIndex, "dateOption", e.target.value)
+                            }
+                            className="border px-2 py-2"
+                          >
+                            <option value="">Select Option</option>
+                            <option value="current">Current</option>
+                            <option value="days">Days</option>
+                            <option value="specific">Specific</option>
+                            <option value="blank">Blank</option>
+                          </select>
+                        )}
+
+                        <div className="flex gap-2 items-center">
+                          <label className="text-sm font-semibold whitespace-nowrap text-green-600">
+                            → IF TRUE:
+                          </label>
+                          <select
+                            value={rule.trueStep}
+                            onChange={(e) =>
+                              updateRule(stepIndex, rIndex, "trueStep", Number(e.target.value) || "")
+                            }
+                            className="border px-2 py-2 w-full"
+                          >
+                            <option value="">Step</option>
+                            {steps.map((_, i) => (
+                              <option key={i} value={i + 1}>{i + 1}</option>
+                            ))}
+                          </select>
+                        </div>
                       </div>
                     </div>
                   ))}
 
-                  <button onClick={() => addRule(stepIndex)}>
-                    + Add Rule
+                  <button onClick={() => addRule(stepIndex)} className="text-blue-600 text-sm font-bold">
+                    + Add Condition
                   </button>
-
-                  <div>
-                    <label>IF TRUE → Step</label>
+                  
+                  <div className="mt-4 pt-4 border-t">
+                    <label className="block text-sm font-medium mb-1">DEFAULT → Step (If all conditions fail)</label>
                     <select
-                      onChange={(e) =>
-                        setSteps(prev => {
-                          const updated = [...prev];
-                          updated[stepIndex].trueStep = Number(e.target.value);
-                          return updated;
-                        })
-                      }
-                    >
-                      <option value="">Select</option>
-                      {steps.map((_, i) => (
-                        <option key={i}>{i + 1}</option>
-                      ))}
-                    </select>
-                  </div>
-
-                  <div>
-                    <label>DEFAULT → Step</label>
-                    <select
+                      className="border px-2 py-2 w-full"
+                      value={step.defaultStep || ""}
                       onChange={(e) =>
                         setSteps(prev => {
                           const updated = [...prev];

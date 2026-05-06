@@ -107,11 +107,18 @@ const calculateLayout = (steps: Step[]) => {
     steps.forEach((step, i) => {
       const action = (step.action || "").toLowerCase();
       if (action === "condition") {
-        if (step.trueStep !== undefined && step.trueStep !== "") {
-          const to = Number(step.trueStep) - 1;
-          if (to >= 0 && to < steps.length) {
-            arrows.push({ from: i, to, label: "IF TRUE", isTrue: true, weight: 2 });
-          }
+        if (step.rules && step.rules.length > 0) {
+          step.rules.forEach((rule, ruleIdx) => {
+            if (rule.trueStep !== undefined && rule.trueStep !== "") {
+              const to = Number(rule.trueStep) - 1;
+              if (to >= 0 && to < steps.length) {
+                // Ensure we don't push duplicates if multiple rules point to same step
+                if (!arrows.find(a => a.from === i && a.to === to)) {
+                  arrows.push({ from: i, to, label: `IF C${ruleIdx+1} TRUE`, isTrue: true, weight: 2 });
+                }
+              }
+            }
+          });
         }
         if (step.defaultStep !== undefined && step.defaultStep !== "") {
           const to = Number(step.defaultStep) - 1;
@@ -316,9 +323,18 @@ export default function PlaybackEngine({ steps, onExit }: Props) {
       let nextIdx = -1;
       
       if (currentAction === "condition") {
-        if (currentStepObj.trueStep !== undefined && currentStepObj.trueStep !== "") {
-          nextIdx = Number(currentStepObj.trueStep) - 1;
-        } else if (currentStepObj.defaultStep !== undefined && currentStepObj.defaultStep !== "") {
+        let foundTrueStep = false;
+        if (currentStepObj.rules && currentStepObj.rules.length > 0) {
+          for (const rule of currentStepObj.rules) {
+            if (rule.trueStep !== undefined && rule.trueStep !== "") {
+              nextIdx = Number(rule.trueStep) - 1;
+              foundTrueStep = true;
+              break;
+            }
+          }
+        }
+        
+        if (!foundTrueStep && currentStepObj.defaultStep !== undefined && currentStepObj.defaultStep !== "") {
           nextIdx = Number(currentStepObj.defaultStep) - 1;
         }
       } else {
@@ -887,12 +903,12 @@ export default function PlaybackEngine({ steps, onExit }: Props) {
                       )}
                       
                       {/* Condition Rule */}
-                      <div className="bg-[#333] p-3 rounded border-l-4 border-yellow-500 shadow-sm flex items-start justify-between group">
+                      <div className="bg-[#333] p-3 rounded border-l-4 border-yellow-500 shadow-sm flex items-start justify-between group relative">
                         <div className="flex-1">
                           <div className="text-[10px] font-bold uppercase tracking-wider text-yellow-400 mb-2">Type: {rule.fieldType}</div>
                           <div className="text-sm text-gray-200 mb-1">Field: {rule.fieldName}</div>
                           <div className="text-sm text-gray-200 mb-1">Operator: {rule.operator}</div>
-                          <div className="text-sm text-gray-400">
+                          <div className="text-sm text-gray-400 mb-3">
                             Value: {
                               rule.fieldType === "date"
                                 ? rule.dateOption === "current"
@@ -905,14 +921,13 @@ export default function PlaybackEngine({ steps, onExit }: Props) {
                                 : rule.value || "—"
                             }
                           </div>
+                          
+                          <div className="bg-[#222] p-2 rounded border border-green-500/50 shadow-sm mt-2 inline-block w-full">
+                            <div className="text-xs font-bold text-green-400">
+                              → IF TRUE: Step {rule.trueStep || "—"}
+                            </div>
+                          </div>
                         </div>
-                        <button
-                          onClick={() => openEditRuleModal(rule)}
-                          className="ml-2 p-1 text-black hover:text-[#d35400] transition-colors"
-                          title="Edit condition"
-                        >
-                          ✏️
-                        </button>
                       </div>
                     </div>
                   ))}
@@ -920,11 +935,6 @@ export default function PlaybackEngine({ steps, onExit }: Props) {
 
                 {/* DECISION PATHS */}
                 <div className="mt-4 space-y-2">
-                  <div className="bg-[#333] p-2 rounded border border-green-500 shadow-sm">
-                    <div className="text-xs font-bold text-green-400">
-                      IF TRUE → Step {details.trueStep || "—"}
-                    </div>
-                  </div>
                   <div className="bg-[#333] p-2 rounded border border-red-500 shadow-sm">
                     <div className="text-xs font-bold text-red-400">
                       DEFAULT → Step {details.defaultStep || "—"}
