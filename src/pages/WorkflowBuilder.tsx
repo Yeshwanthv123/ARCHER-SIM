@@ -219,6 +219,7 @@ export default function WorkflowBuilder({ initialSteps }: Props) {
                 <option value="notification">Notification</option>
                 <option value="launch">Launch Event</option>
                 <option value="useraction">User Action</option>
+                <option value="wait">Wait for Content Update</option>
                 <option value="stop">Stop</option>
               </select>
 
@@ -301,46 +302,46 @@ export default function WorkflowBuilder({ initialSteps }: Props) {
                       )}
 
 
-                  {field.type === "date" && (
-                    <div className="flex gap-2 col-span-2">
-                      <select
-                        value={field.dateOption}
-                        onChange={(e) =>
-                          updateField(stepIndex, i, "dateOption", e.target.value)
-                        }
-                        className="border px-2 py-2"
-                      >
-                        <option value="">Select Option</option>
-                        <option value="current">Current Date</option>
-                        <option value="days">Number of Days from Current Date</option>
-                        <option value="specific">Specific Date</option>
-                        <option value="blank">Blank</option>
-                      </select>
+                      {field.type === "date" && (
+                        <div className="flex gap-2 col-span-2">
+                          <select
+                            value={field.dateOption}
+                            onChange={(e) =>
+                              updateField(stepIndex, i, "dateOption", e.target.value)
+                            }
+                            className="border px-2 py-2"
+                          >
+                            <option value="">Select Option</option>
+                            <option value="current">Current Date</option>
+                            <option value="days">Number of Days from Current Date</option>
+                            <option value="specific">Specific Date</option>
+                            <option value="blank">Blank</option>
+                          </select>
 
-                      {field.dateOption === "days" && (
-                        <input
-                          type="number"
-                          placeholder="Enter Days"
-                          value={field.value}
-                          onChange={(e) =>
-                            updateField(stepIndex, i, "value", e.target.value)
-                          }
-                          className="border px-2 py-2"
-                        />
-                      )}
+                          {field.dateOption === "days" && (
+                            <input
+                              type="number"
+                              placeholder="Enter Days"
+                              value={field.value}
+                              onChange={(e) =>
+                                updateField(stepIndex, i, "value", e.target.value)
+                              }
+                              className="border px-2 py-2"
+                            />
+                          )}
 
-                      {field.dateOption === "specific" && (
-                        <input
-                          type="date"
-                          value={field.value}
-                          onChange={(e) =>
-                            updateField(stepIndex, i, "value", e.target.value)
-                          }
-                          className="border px-2 py-2"
-                        />
+                          {field.dateOption === "specific" && (
+                            <input
+                              type="date"
+                              value={field.value}
+                              onChange={(e) =>
+                                updateField(stepIndex, i, "value", e.target.value)
+                              }
+                              className="border px-2 py-2"
+                            />
+                          )}
+                        </div>
                       )}
-                    </div>
-                  )}
                     </div>
                   ))}
 
@@ -355,119 +356,120 @@ export default function WorkflowBuilder({ initialSteps }: Props) {
                 <>
                   {step.rules?.map((rule, rIndex) => {
                     const isEndOfChain = !rule.logic || rule.logic === "";
-                    
+
                     return (
-                    <div key={rIndex} className="space-y-2 p-3 bg-gray-50 rounded border relative">
+                      <div key={rIndex} className="space-y-2 p-3 bg-gray-50 rounded border relative">
 
-                      <div className="flex justify-between items-center mb-2">
-                        <span className="text-xs font-bold text-gray-500 uppercase tracking-wide">
-                          {rIndex === 0 || step.rules![rIndex - 1].logic === "" ? `Branch ${rIndex + 1}` : `AND/OR Condition`}
-                        </span>
-                        
-                        {isEndOfChain && (
-                          <div className="flex gap-2">
-                            <button onClick={() => addOperator(stepIndex, rIndex, "AND")} className="text-xs bg-gray-200 hover:bg-gray-300 px-2 py-1 rounded font-semibold text-gray-700">+ Add Operator (AND)</button>
-                            <button onClick={() => addOperator(stepIndex, rIndex, "OR")} className="text-xs bg-gray-200 hover:bg-gray-300 px-2 py-1 rounded font-semibold text-gray-700">+ Add Operator (OR)</button>
-                          </div>
-                        )}
-                      </div>
+                        <div className="flex justify-between items-center mb-2">
+                          <span className="text-xs font-bold text-gray-500 uppercase tracking-wide">
+                            {rIndex === 0 || step.rules![rIndex - 1].logic === "" ? `Branch ${rIndex + 1}` : `AND/OR Condition`}
+                          </span>
 
-                      <div className="grid grid-cols-5 gap-3">
+                          {isEndOfChain && (
+                            <div className="flex gap-2">
+                              <button onClick={() => addOperator(stepIndex, rIndex, "AND")} className="text-xs bg-gray-200 hover:bg-gray-300 px-2 py-1 rounded font-semibold text-gray-700">+ Add Operator (AND)</button>
+                              <button onClick={() => addOperator(stepIndex, rIndex, "OR")} className="text-xs bg-gray-200 hover:bg-gray-300 px-2 py-1 rounded font-semibold text-gray-700">+ Add Operator (OR)</button>
+                            </div>
+                          )}
+                        </div>
 
-                        <select
-                          value={rule.fieldType}
-                          onChange={(e) =>
-                            updateRule(stepIndex, rIndex, "fieldType", e.target.value)
-                          }
-                          className="border px-2 py-2"
-                        >
-                          <option value="">Type</option>
-                          <option value="text">Text</option>
-                          <option value="numeric">Numeric</option>
-                          <option value="valueList">Value List</option>
-                          <option value="date">Date</option>
-                        </select>
+                        <div className="grid grid-cols-5 gap-3">
 
-                        <input
-                          placeholder="Field"
-                          value={rule.fieldName}
-                          onChange={(e) =>
-                            updateRule(stepIndex, rIndex, "fieldName", e.target.value)
-                          }
-                          className="border px-2 py-2"
-                        />
-
-                        <select
-                          value={rule.operator}
-                          onChange={(e) =>
-                            updateRule(stepIndex, rIndex, "operator", e.target.value)
-                          }
-                          className="border px-2 py-2"
-                        >
-                          <option value="">Operator</option>
-                          {getOperators(rule.fieldType).map(op => (
-                            <option key={op}>{op}</option>
-                          ))}
-                        </select>
-
-                        {rule.fieldType !== "date" && (
-                          <input
-                            value={rule.value}
-                            placeholder="Value"
-                            onChange={(e) =>
-                              updateRule(stepIndex, rIndex, "value", e.target.value)
-                            }
-                            className="border px-2 py-2"
-                          />
-                        )}
-
-                        {rule.fieldType === "date" && (
                           <select
-                            value={rule.dateOption}
+                            value={rule.fieldType}
                             onChange={(e) =>
-                              updateRule(stepIndex, rIndex, "dateOption", e.target.value)
+                              updateRule(stepIndex, rIndex, "fieldType", e.target.value)
                             }
                             className="border px-2 py-2"
                           >
-                            <option value="">Select Option</option>
-                            <option value="current">Current</option>
-                            <option value="days">Days</option>
-                            <option value="specific">Specific</option>
-                            <option value="blank">Blank</option>
+                            <option value="">Type</option>
+                            <option value="text">Text</option>
+                            <option value="numeric">Numeric</option>
+                            <option value="valueList">Value List</option>
+                            <option value="date">Date</option>
                           </select>
-                        )}
 
-                        {isEndOfChain ? (
-                          <div className="flex gap-2 items-center">
-                            <label className="text-sm font-semibold whitespace-nowrap text-green-600">
-                              → IF TRUE:
-                            </label>
-                            <select
-                              value={rule.trueStep}
+                          <input
+                            placeholder="Field"
+                            value={rule.fieldName}
+                            onChange={(e) =>
+                              updateRule(stepIndex, rIndex, "fieldName", e.target.value)
+                            }
+                            className="border px-2 py-2"
+                          />
+
+                          <select
+                            value={rule.operator}
+                            onChange={(e) =>
+                              updateRule(stepIndex, rIndex, "operator", e.target.value)
+                            }
+                            className="border px-2 py-2"
+                          >
+                            <option value="">Operator</option>
+                            {getOperators(rule.fieldType).map(op => (
+                              <option key={op}>{op}</option>
+                            ))}
+                          </select>
+
+                          {rule.fieldType !== "date" && (
+                            <input
+                              value={rule.value}
+                              placeholder="Value"
                               onChange={(e) =>
-                                updateRule(stepIndex, rIndex, "trueStep", Number(e.target.value) || "")
+                                updateRule(stepIndex, rIndex, "value", e.target.value)
                               }
-                              className="border px-2 py-2 w-full border-green-300"
+                              className="border px-2 py-2"
+                            />
+                          )}
+
+                          {rule.fieldType === "date" && (
+                            <select
+                              value={rule.dateOption}
+                              onChange={(e) =>
+                                updateRule(stepIndex, rIndex, "dateOption", e.target.value)
+                              }
+                              className="border px-2 py-2"
                             >
-                              <option value="">Step</option>
-                              {steps.map((_, i) => (
-                                <option key={i} value={i + 1}>{i + 1}</option>
-                              ))}
+                              <option value="">Select Option</option>
+                              <option value="current">Current</option>
+                              <option value="days">Days</option>
+                              <option value="specific">Specific</option>
+                              <option value="blank">Blank</option>
                             </select>
-                          </div>
-                        ) : (
-                          <div className="flex items-center justify-center font-black text-blue-800 text-xl border-2 border-dashed border-blue-300 bg-blue-50 rounded">
-                            {rule.logic}
-                          </div>
-                        )}
+                          )}
+
+                          {isEndOfChain ? (
+                            <div className="flex gap-2 items-center">
+                              <label className="text-sm font-semibold whitespace-nowrap text-green-600">
+                                → IF TRUE:
+                              </label>
+                              <select
+                                value={rule.trueStep}
+                                onChange={(e) =>
+                                  updateRule(stepIndex, rIndex, "trueStep", Number(e.target.value) || "")
+                                }
+                                className="border px-2 py-2 w-full border-green-300"
+                              >
+                                <option value="">Step</option>
+                                {steps.map((_, i) => (
+                                  <option key={i} value={i + 1}>{i + 1}</option>
+                                ))}
+                              </select>
+                            </div>
+                          ) : (
+                            <div className="flex items-center justify-center font-black text-blue-800 text-xl border-2 border-dashed border-blue-300 bg-blue-50 rounded">
+                              {rule.logic}
+                            </div>
+                          )}
+                        </div>
                       </div>
-                    </div>
-                  )})}
+                    )
+                  })}
 
                   <button onClick={() => addRule(stepIndex)} className="text-blue-600 text-sm font-bold mt-2 inline-block">
                     + Add New Branch
                   </button>
-                  
+
                   <div className="mt-4 pt-4 border-t">
                     <label className="block text-sm font-medium mb-1">DEFAULT → Step (If all conditions fail)</label>
                     <select
@@ -499,87 +501,114 @@ export default function WorkflowBuilder({ initialSteps }: Props) {
               )}
 
               {step.action === "notification" && (
-  <input
-    placeholder="Notification Name"
-    value={step.fields?.[0]?.value || ""}
-    onChange={(e) => {
-      const updated = [...steps];
+                <input
+                  placeholder="Notification Name"
+                  value={step.fields?.[0]?.value || ""}
+                  onChange={(e) => {
+                    const updated = [...steps];
 
-      // ✅ ensure field exists
-      if (!updated[stepIndex].fields) {
-        updated[stepIndex].fields = [];
-      }
+                    // ✅ ensure field exists
+                    if (!updated[stepIndex].fields) {
+                      updated[stepIndex].fields = [];
+                    }
 
-      if (!updated[stepIndex].fields[0]) {
-        updated[stepIndex].fields[0] = {
-          type: "notification",
-          fieldName: "Notification Name",
-          value: ""
-        };
-      }
+                    if (!updated[stepIndex].fields[0]) {
+                      updated[stepIndex].fields[0] = {
+                        type: "notification",
+                        fieldName: "Notification Name",
+                        value: ""
+                      };
+                    }
 
-      // ✅ update value
-      updated[stepIndex].fields[0].value = e.target.value;
+                    // ✅ update value
+                    updated[stepIndex].fields[0].value = e.target.value;
 
-      setSteps(updated);
-    }}
-    className="border px-2 py-2 w-full"
-  />
-)}
+                    setSteps(updated);
+                  }}
+                  className="border px-2 py-2 w-full"
+                />
+              )}
 
               {step.action === "launch" && (
-  <input
-    placeholder="Launch Event Name"
-    value={step.fields?.[0]?.value || ""}
-    onChange={(e) => {
-      const updated = [...steps];
+                <input
+                  placeholder="Launch Event Name"
+                  value={step.fields?.[0]?.value || ""}
+                  onChange={(e) => {
+                    const updated = [...steps];
 
-      if (!updated[stepIndex].fields) {
-        updated[stepIndex].fields = [];
-      }
+                    if (!updated[stepIndex].fields) {
+                      updated[stepIndex].fields = [];
+                    }
 
-      if (!updated[stepIndex].fields[0]) {
-        updated[stepIndex].fields[0] = {
-          type: "launch",
-          fieldName: "Launch Event",
-          value: ""
-        };
-      }
+                    if (!updated[stepIndex].fields[0]) {
+                      updated[stepIndex].fields[0] = {
+                        type: "launch",
+                        fieldName: "Launch Event",
+                        value: ""
+                      };
+                    }
 
-      updated[stepIndex].fields[0].value = e.target.value;
+                    updated[stepIndex].fields[0].value = e.target.value;
 
-      setSteps(updated);
-    }}
-    className="border px-2 py-2 w-full"
-  />
-)}
+                    setSteps(updated);
+                  }}
+                  className="border px-2 py-2 w-full"
+                />
+              )}
 
-{step.action === "useraction" && (
-  <input
-    placeholder="User Action Name"
-    value={step.fields?.[0]?.value || ""}
-    onChange={(e) => {
-      const updated = [...steps];
+              {step.action === "useraction" && (
+                <input
+                  placeholder="User Action Name"
+                  value={step.fields?.[0]?.value || ""}
+                  onChange={(e) => {
+                    const updated = [...steps];
 
-      if (!updated[stepIndex].fields) {
-        updated[stepIndex].fields = [];
-      }
+                    if (!updated[stepIndex].fields) {
+                      updated[stepIndex].fields = [];
+                    }
 
-      if (!updated[stepIndex].fields[0]) {
-        updated[stepIndex].fields[0] = {
-          type: "useraction",
-          fieldName: "User Action",
-          value: ""
-        };
-      }
+                    if (!updated[stepIndex].fields[0]) {
+                      updated[stepIndex].fields[0] = {
+                        type: "useraction",
+                        fieldName: "User Action",
+                        value: ""
+                      };
+                    }
 
-      updated[stepIndex].fields[0].value = e.target.value;
+                    updated[stepIndex].fields[0].value = e.target.value;
 
-      setSteps(updated);
-    }}
-    className="border px-2 py-2 w-full"
-  />
-)}
+                    setSteps(updated);
+                  }}
+                  className="border px-2 py-2 w-full"
+                />
+              )}
+
+              {step.action === "wait" && (
+                <input
+                  placeholder="Name"
+                  value={step.fields?.[0]?.value || ""}
+                  onChange={(e) => {
+                    const updated = [...steps];
+
+                    if (!updated[stepIndex].fields) {
+                      updated[stepIndex].fields = [];
+                    }
+
+                    if (!updated[stepIndex].fields[0]) {
+                      updated[stepIndex].fields[0] = {
+                        type: "wait",
+                        fieldName: "Name",
+                        value: ""
+                      };
+                    }
+
+                    updated[stepIndex].fields[0].value = e.target.value;
+
+                    setSteps(updated);
+                  }}
+                  className="border px-2 py-2 w-full"
+                />
+              )}
             </>
           )}
         </div>
@@ -590,7 +619,7 @@ export default function WorkflowBuilder({ initialSteps }: Props) {
       </button>
 
       {/* ✅ ONLY ADDITION */}
-     <button
+      <button
         onClick={() => setIsPlaying(true)}
         className="w-full bg-blue-600 text-white py-3 rounded-lg"
       >

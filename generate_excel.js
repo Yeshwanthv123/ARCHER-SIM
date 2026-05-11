@@ -1,10 +1,10 @@
 import ExcelJS from 'exceljs';
 
-async function createComplexExcel() {
+async function createExcel() {
   const workbook = new ExcelJS.Workbook();
   const sheet = workbook.addWorksheet('Workflow');
 
-  // Add Headers (11 columns)
+  // Add Headers
   sheet.addRow([
     'Step Number', 
     'Action', 
@@ -19,51 +19,36 @@ async function createComplexExcel() {
     'Default Step'
   ]);
 
+  const rows = [
+    [1, 'Start', '', '', '', '', '', '', '', '', ''],
+    [2, 'condition', '', 'text', 'cond1', 'comment', '', '', 'Contains', 3, ''],
+    [2, 'condition', '', 'text', 'cond2', 'comment2', '', '', 'Contains', 13, ''],
+    [2, 'condition', '', 'text', 'con3', 'comment3', '', '', 'Contains', 18, ''],
+    [3, 'update', '', 'text', 'test', 'sendnoti', '', '', '', '', ''],
+    [4, 'notification', '', '', 'notifi', '', '', '', '', '', ''],
+    [5, 'unknown', '', '', '', '', '', '', '', '', ''],
+    [6, 'launch', '', '', 'launch', '', '', '', '', '', ''],
+    [7, 'condition', '', 'text', 'one', 'dsdsds', '', '', 'Contains', 8, ''],
+    [7, 'condition', '', 'Type', 'Field', 'Value', '', '', 'Operator', 9, ''],
+    [8, 'update', '', 'text', 'ds', 'ds', '', '', '', '', ''],
+    [9, 'wait', '', '', 'waiting', '', '', '', '', '', ''],
+    [10, 'unknown', '', '', '', '', '', '', '', '', ''],
+    [11, 'notification', '', '', 'send', '', '', '', '', '', ''],
+    [12, 'stop', '', '', '', '', '', '', '', '', ''],
+    [13, 'update', '', 'text', 'text1', 'test', '', '', '', '', ''],
+    [14, 'layout', '', '', 'layout', '', '', '', '', '', ''],
+    [15, 'update', '', 'text', 'res', 'comment', '', '', '', '', '']
+  ];
+
+  rows.forEach(r => sheet.addRow(r));
+
   sheet.getRow(1).font = { bold: true };
-
-  // Col: [Step, Action, Logic, FieldType, FieldName, Value, DateOpt, UserOpt, Operator, TrueStep, DefaultStep]
-  sheet.addRow([1, 'Start', '', '', '', '', '', '', '', '', '']);
-  
-  // Step 2: Update Text
-  sheet.addRow([2, 'update', '', 'text', 'Incident Status', 'Under Review', '', '', '', '', '']);
-  
-  // Step 3: Notification
-  sheet.addRow([3, 'notification', '', 'notification', 'Alert SOC Team', '', '', '', '', '', '']);
-  
-  // Step 4: Condition Node with MULTIPLE branches AND Logic Chains
-  
-  // Branch 1: Priority = Critical AND Type = Security
-  sheet.addRow([4, 'condition', 'AND', 'text', 'Priority', 'Critical', '', '', 'Equals', '', '']);
-  sheet.addRow([4, 'condition', '', 'text', 'Type', 'Security', '', '', 'Equals', 5, '']);
-  
-  // Branch 2: Priority = High OR Priority = Medium
-  sheet.addRow([4, 'condition', 'OR', 'text', 'Priority', 'High', '', '', 'Equals', '', '']);
-  sheet.addRow([4, 'condition', '', 'text', 'Priority', 'Medium', '', '', 'Equals', 6, '']);
-  
-  // Branch 3: Priority = Low -> DEFAULT goes to 8
-  sheet.addRow([4, 'condition', '', 'text', 'Priority', 'Low', '', '', 'Equals', 7, 8]);
-  
-  // Step 5: Critical/Security Path
-  sheet.addRow([5, 'launch', '', 'launch', 'Trigger P1 Escalation Playbook', '', '', '', '', '', '']);
-  
-  // Step 6: High/Medium Path
-  sheet.addRow([6, 'update', '', 'user', 'Assignee', 'Senior Analyst', '', 'group', '', '', '']);
-  
-  // Step 7: Low Path
-  sheet.addRow([7, 'layout', '', 'layout', 'Standard Triage Layout', '', '', '', '', '', '']);
-  
-  // Step 8: Default Path
-  sheet.addRow([8, 'useraction', '', 'useraction', 'Automated Triage Wait', '', '', '', '', '', '']);
-  
-  // Step 9: Stop
-  sheet.addRow([9, 'stop', '', '', '', '', '', '', '', '', '']);
-
   sheet.columns.forEach(column => {
-    column.width = 18;
+    column.width = 15;
   });
 
-  await workbook.xlsx.writeFile('logic_chain_workflow.xlsx');
-  console.log('Successfully created logic_chain_workflow.xlsx!');
+  await workbook.xlsx.writeFile('d:/archer simulator engine/ARCHER-SIM/workflow.xlsx');
+  console.log('Done!');
 }
 
-createComplexExcel().catch(console.error);
+createExcel();

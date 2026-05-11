@@ -60,6 +60,7 @@ type ArrowPath = {
   isTrue?: boolean;
   weight?: number;
   points?: { x: number; y: number }[];
+  isDotted?: boolean;
 };
 
 /* ================= ICON MAP ================= */
@@ -91,9 +92,9 @@ const calculateLayout = (steps: Step[]) => {
       rankdir: "LR", // Left-to-Right layout
       marginx: 150,
       marginy: 150,
-      nodesep: 120, // Increased for better horizontal spacing
-      ranksep: 280, // Increased for better vertical spacing
-      edgesep: 80,
+      nodesep: 180, // Increased for better horizontal spacing
+      ranksep: 350, // Increased for better vertical spacing
+      edgesep: 100,
       ranker: "network-simplex",
       acyclicer: "greedy"
     });
@@ -125,6 +126,40 @@ const calculateLayout = (steps: Step[]) => {
           if (to >= 0 && to < steps.length) {
             arrows.push({ from: i, to, label: "DEFAULT", isTrue: false, weight: 2 });
           }
+        }
+      } else if (action === "wait") {
+        // Find the correct condition node that leads to this wait node by tracing back the graph
+        let conditionNodeIndex = -1;
+        let curr = i;
+        const visited = new Set<number>();
+        
+        while (curr !== -1) {
+          if (visited.has(curr)) break;
+          visited.add(curr);
+          
+          const incomingArrows = arrows.filter(a => a.to === curr);
+          if (incomingArrows.length > 0) {
+            // Check if any incoming arrow is from a condition node
+            const conditionParent = incomingArrows.find(a => (steps[a.from]?.action || "").toLowerCase() === "condition");
+            if (conditionParent) {
+              conditionNodeIndex = conditionParent.from;
+              break;
+            }
+            // Otherwise follow the path backwards
+            curr = incomingArrows[0].from;
+          } else {
+            break;
+          }
+        }
+        
+        // Draw dotted line back to the condition
+        if (conditionNodeIndex !== -1) {
+          arrows.push({ from: i, to: conditionNodeIndex, label: "", isDotted: true, weight: 1 });
+        }
+        
+        // Continue to next step
+        if (i + 1 < steps.length) {
+          arrows.push({ from: i, to: i + 1, label: "", weight: 3 });
         }
       } else if (action !== "stop" && i + 1 < steps.length) {
         // Higher weight for the main sequence ensures it stays straight
@@ -196,6 +231,13 @@ const drawTransitionNodes = (
     ctx.strokeStyle = "black";
     ctx.lineWidth = 2.5;
     
+    // Set dotted line style if needed
+    if (arrow.isDotted) {
+      ctx.setLineDash([5, 5]);
+    } else {
+      ctx.setLineDash([]);
+    }
+    
     ctx.beginPath();
     ctx.moveTo(pts[0].x, pts[0].y);
 
@@ -214,6 +256,9 @@ const drawTransitionNodes = (
     }
     ctx.lineTo(pts[pts.length - 1].x, pts[pts.length - 1].y);
     ctx.stroke();
+    
+    // Reset line dash for arrow head
+    ctx.setLineDash([]);
 
     // Draw arrow head at the end
     // Calculate angle from the last segment
@@ -472,8 +517,8 @@ export default function PlaybackEngine({ steps, onExit }: Props) {
       ctx.stroke();
     }
 
-    // Filter visible arrows (only show arrows where both nodes are visible)
-    const visibleArrows = arrowPaths.filter(arrow => arrow.from <= visibleStepIndex && arrow.to <= visibleStepIndex);
+    // Filter visible arrows (show all arrows to fix incomplete branching display)
+    const visibleArrows = arrowPaths;
     
     // Draw transition nodes
     drawTransitionNodes(ctx, visibleArrows);
@@ -482,9 +527,7 @@ export default function PlaybackEngine({ steps, onExit }: Props) {
     for (let i = 0; i < nodePositions.length; i++) {
       const pos = nodePositions[i];
       
-      // Only render nodes that are visible
-      if (pos.stepIndex > visibleStepIndex) continue;
-      
+      // Removed visibility filter so branching tree is fully visible
       const nodeStep = steps[pos.stepIndex];
       const nodeAction = (nodeStep.action || "").toLowerCase();
 
@@ -941,8 +984,8 @@ export default function PlaybackEngine({ steps, onExit }: Props) {
               </div>
             )}
 
-            {/* NOTIFICATION/LAUNCH */}
-            {(action === "notification" || action === "launch" || action === "useraction") &&
+            {/* NOTIFICATION/LAUNCH/WAIT */}
+            {(action === "notification" || action === "launch" || action === "useraction" || action === "wait") &&
               details.fields &&
               details.fields.length > 0 && (
                 <div className="bg-[#444] p-3 rounded-lg border border-[#555]">
@@ -951,7 +994,9 @@ export default function PlaybackEngine({ steps, onExit }: Props) {
                       ? "Notification"
                       : action === "launch"
                       ? "Launch Event"
-                      : "User Action"}
+                      : action === "useraction"
+                      ? "User Action"
+                      : "Wait for Content Update"}
                   </label>
                   <div className="bg-[#333] p-2 rounded border-l-4 border-purple-500 shadow-sm flex items-center justify-between group">
                     <div className="text-sm text-gray-200 flex-1">
