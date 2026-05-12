@@ -63,7 +63,7 @@ export default function WorkflowBuilder({ initialSteps }: Props) {
     updated[index] = {
       action: value,
       fields: [],
-      rules: value === "condition" ? [] : undefined,
+      rules: (value === "condition" || value === "useraction") ? [] : undefined,
       trueStep: "",
       defaultStep: ""
     };
@@ -557,30 +557,91 @@ export default function WorkflowBuilder({ initialSteps }: Props) {
               )}
 
               {step.action === "useraction" && (
-                <input
-                  placeholder="User Action Name"
-                  value={step.fields?.[0]?.value || ""}
-                  onChange={(e) => {
-                    const updated = [...steps];
+                <>
+                  <input
+                    placeholder="User Action Name"
+                    value={step.fields?.[0]?.value || ""}
+                    onChange={(e) => {
+                      const updated = [...steps];
 
-                    if (!updated[stepIndex].fields) {
-                      updated[stepIndex].fields = [];
-                    }
+                      if (!updated[stepIndex].fields) {
+                        updated[stepIndex].fields = [];
+                      }
 
-                    if (!updated[stepIndex].fields[0]) {
-                      updated[stepIndex].fields[0] = {
-                        type: "useraction",
-                        fieldName: "User Action",
-                        value: ""
-                      };
-                    }
+                      if (!updated[stepIndex].fields[0]) {
+                        updated[stepIndex].fields[0] = {
+                          type: "useraction",
+                          fieldName: "User Action",
+                          value: ""
+                        };
+                      }
 
-                    updated[stepIndex].fields[0].value = e.target.value;
+                      updated[stepIndex].fields[0].value = e.target.value;
 
-                    setSteps(updated);
-                  }}
-                  className="border px-2 py-2 w-full"
-                />
+                      setSteps(updated);
+                    }}
+                    className="border px-2 py-2 w-full mb-4"
+                  />
+
+                  {step.rules?.map((rule, rIndex) => (
+                    <div key={rIndex} className="space-y-2 p-3 bg-gray-50 rounded border relative mb-2">
+                      <div className="flex justify-between items-center mb-2">
+                        <span className="text-xs font-bold text-gray-500 uppercase tracking-wide">
+                          Action Option {rIndex + 1}
+                        </span>
+                      </div>
+                      <div className="grid grid-cols-2 gap-3">
+                        <input
+                          placeholder="Option Name (e.g. Approved)"
+                          value={rule.value || ""}
+                          onChange={(e) => updateRule(stepIndex, rIndex, "value", e.target.value)}
+                          className="border px-2 py-2"
+                        />
+                        <div className="flex gap-2 items-center">
+                          <label className="text-sm font-semibold whitespace-nowrap text-green-600">
+                            → GO TO STEP:
+                          </label>
+                          <select
+                            value={rule.trueStep || ""}
+                            onChange={(e) =>
+                              updateRule(stepIndex, rIndex, "trueStep", Number(e.target.value) || "")
+                            }
+                            className="border px-2 py-2 w-full border-green-300"
+                          >
+                            <option value="">Step</option>
+                            {steps.map((_, i) => (
+                              <option key={i} value={i + 1}>{i + 1}</option>
+                            ))}
+                          </select>
+                        </div>
+                      </div>
+                    </div>
+                  ))}
+
+                  <button onClick={() => addRule(stepIndex)} className="text-blue-600 text-sm font-bold mt-2 inline-block">
+                    + Add Action Option
+                  </button>
+
+                  <div className="mt-4 pt-4 border-t">
+                    <label className="block text-sm font-medium mb-1">DEFAULT → Step (If no option taken)</label>
+                    <select
+                      className="border px-2 py-2 w-full"
+                      value={step.defaultStep || ""}
+                      onChange={(e) =>
+                        setSteps(prev => {
+                          const updated = [...prev];
+                          updated[stepIndex].defaultStep = Number(e.target.value);
+                          return updated;
+                        })
+                      }
+                    >
+                      <option value="">Select</option>
+                      {steps.map((_, i) => (
+                        <option key={i}>{i + 1}</option>
+                      ))}
+                    </select>
+                  </div>
+                </>
               )}
 
               {step.action === "wait" && (

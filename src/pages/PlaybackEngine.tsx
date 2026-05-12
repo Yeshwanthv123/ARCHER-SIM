@@ -90,11 +90,11 @@ const calculateLayout = (steps: Step[]) => {
     const g = new dagreInstance.graphlib.Graph({ multigraph: true });
     g.setGraph({
       rankdir: "LR", // Left-to-Right layout
-      marginx: 150,
-      marginy: 150,
-      nodesep: 180, // Increased for better horizontal spacing
-      ranksep: 350, // Increased for better vertical spacing
-      edgesep: 100,
+      marginx: 80,
+      marginy: 80,
+      nodesep: 120, // Tight vertical spacing
+      ranksep: 180, // Tight horizontal spacing
+      edgesep: 40,
       ranker: "network-simplex",
       acyclicer: "greedy"
     });
@@ -107,7 +107,8 @@ const calculateLayout = (steps: Step[]) => {
     const arrows: ArrowPath[] = [];
     steps.forEach((step, i) => {
       const action = (step.action || "").toLowerCase();
-      if (action === "condition") {
+      if (action === "condition" || action === "useraction") {
+        let hasBranch = false;
         if (step.rules && step.rules.length > 0) {
           step.rules.forEach((rule, ruleIdx) => {
             if (rule.trueStep !== undefined && rule.trueStep !== "") {
@@ -115,7 +116,11 @@ const calculateLayout = (steps: Step[]) => {
               if (to >= 0 && to < steps.length) {
                 // Ensure we don't push duplicates if multiple rules point to same step
                 if (!arrows.find(a => a.from === i && a.to === to)) {
-                  arrows.push({ from: i, to, label: `IF C${ruleIdx+1} TRUE`, isTrue: true, weight: 2 });
+                  const label = action === "useraction" 
+                    ? (rule.value || `Option ${ruleIdx + 1}`) 
+                    : `IF C${ruleIdx+1} TRUE`;
+                  arrows.push({ from: i, to, label, isTrue: true, weight: 2 });
+                  hasBranch = true;
                 }
               }
             }
@@ -125,7 +130,13 @@ const calculateLayout = (steps: Step[]) => {
           const to = Number(step.defaultStep) - 1;
           if (to >= 0 && to < steps.length) {
             arrows.push({ from: i, to, label: "DEFAULT", isTrue: false, weight: 2 });
+            hasBranch = true;
           }
+        }
+        
+        // Fallback for useraction if it has no branches or default step configured
+        if (!hasBranch && action === "useraction" && i + 1 < steps.length) {
+          arrows.push({ from: i, to: i + 1, label: "", weight: 3 });
         }
       } else if (action === "wait") {
         // Find the correct condition node that leads to this wait node by tracing back the graph
@@ -238,23 +249,36 @@ const drawTransitionNodes = (
       ctx.setLineDash([]);
     }
     
-    ctx.beginPath();
-    ctx.moveTo(pts[0].x, pts[0].y);
-
-    // Draw smooth rounded polylines
-    for (let i = 1; i < pts.length - 1; i++) {
-      const p0 = pts[i - 1];
-      const p1 = pts[i];
-      const p2 = pts[i + 1];
+    // Generate strict orthogonal points from Dagre points
+    const orthoPts = [pts[0]];
+    for (let i = 1; i < pts.length; i++) {
+      const prev = orthoPts[orthoPts.length - 1];
+      const curr = pts[i];
       
-      // Dynamically calculate radius so we don't overshoot short line segments in complex diagrams
+      // If the segment is diagonal, add an intermediate corner to make it orthogonal.
+      // Usually in LR rankdir, moving horizontally first is standard.
+      if (Math.abs(curr.x - prev.x) > 1 && Math.abs(curr.y - prev.y) > 1) {
+        orthoPts.push({ x: curr.x, y: prev.y });
+      }
+      orthoPts.push(curr);
+    }
+
+    ctx.beginPath();
+    ctx.moveTo(orthoPts[0].x, orthoPts[0].y);
+
+    // Draw with small 5px rounded corners at the 90-degree turns
+    for (let i = 1; i < orthoPts.length - 1; i++) {
+      const p0 = orthoPts[i - 1];
+      const p1 = orthoPts[i];
+      const p2 = orthoPts[i + 1];
+      
       const dist1 = Math.hypot(p1.x - p0.x, p1.y - p0.y);
       const dist2 = Math.hypot(p2.x - p1.x, p2.y - p1.y);
-      const radius = Math.min(20, dist1 / 2, dist2 / 2);
+      const radius = Math.min(5, dist1 / 2, dist2 / 2); // 5px radius for sharp orthogonal look
       
       ctx.arcTo(p1.x, p1.y, p2.x, p2.y, radius);
     }
-    ctx.lineTo(pts[pts.length - 1].x, pts[pts.length - 1].y);
+    ctx.lineTo(orthoPts[orthoPts.length - 1].x, orthoPts[orthoPts.length - 1].y);
     ctx.stroke();
     
     // Reset line dash for arrow head
@@ -262,18 +286,12 @@ const drawTransitionNodes = (
 
     // Draw arrow head at the end
     // Calculate angle from the last segment
-    const pPrev = pts.length > 1 ? pts[pts.length - 2] : pts[0];
-    const pEnd = pts[pts.length - 1];
+    const pPrev = orthoPts.length > 1 ? orthoPts[orthoPts.length - 2] : orthoPts[0];
+    const pEnd = orthoPts[orthoPts.length - 1];
     
-    // For smooth curves, it's better to use a small offset back from the end point 
-    // to determine the exact angle if points are very close.
     let dx = pEnd.x - pPrev.x;
     let dy = pEnd.y - pPrev.y;
     
-    // If the last segment is purely horizontal/vertical, use it.
-    // If there's an arc, the angle at the tip is still basically the vector from pPrev to pEnd 
-    // because the last segment after the arc is a straight line.
-
     const angle = Math.atan2(dy, dx);
     
     const headlen = 15;
@@ -293,7 +311,7 @@ const drawTransitionNodes = (
 
     // Draw label
     if (arrow.label) {
-      const midPoint = pts[Math.floor(pts.length / 2)];
+      const midPoint = orthoPts[Math.floor(orthoPts.length / 2)];
       ctx.fillStyle = arrow.isTrue ? "#15803d" : "#991b1b";
       ctx.font = "bold 12px Arial";
       ctx.textAlign = "center";
@@ -367,7 +385,7 @@ export default function PlaybackEngine({ steps, onExit }: Props) {
     const timer = setTimeout(() => {
       let nextIdx = -1;
       
-      if (currentAction === "condition") {
+      if (currentAction === "condition" || currentAction === "useraction") {
         let foundTrueStep = false;
         if (currentStepObj.rules && currentStepObj.rules.length > 0) {
           for (const rule of currentStepObj.rules) {
@@ -984,7 +1002,7 @@ export default function PlaybackEngine({ steps, onExit }: Props) {
               </div>
             )}
 
-            {/* NOTIFICATION/LAUNCH/WAIT */}
+            {/* NOTIFICATION/LAUNCH/USERACTION/WAIT */}
             {(action === "notification" || action === "launch" || action === "useraction" || action === "wait") &&
               details.fields &&
               details.fields.length > 0 && (
@@ -995,7 +1013,7 @@ export default function PlaybackEngine({ steps, onExit }: Props) {
                       : action === "launch"
                       ? "Launch Event"
                       : action === "useraction"
-                      ? "User Action"
+                      ? "User Action Name"
                       : "Wait for Content Update"}
                   </label>
                   <div className="bg-[#333] p-2 rounded border-l-4 border-purple-500 shadow-sm flex items-center justify-between group">
@@ -1010,6 +1028,35 @@ export default function PlaybackEngine({ steps, onExit }: Props) {
                       ✏️
                     </button>
                   </div>
+
+                  {/* USER ACTION BRANCHES */}
+                  {action === "useraction" && details.rules && details.rules.length > 0 && (
+                    <div className="mt-4">
+                      <label className="block text-xs font-semibold text-gray-400 mb-2 uppercase tracking-wide">
+                        Action Options
+                      </label>
+                      <div className="space-y-2">
+                        {details.rules.map((rule, idx) => (
+                          <div key={idx} className="bg-[#333] p-2 rounded border-l-4 border-green-500 shadow-sm flex flex-col gap-1">
+                            <div className="text-sm text-gray-200">
+                              Option: <span className="font-semibold">{rule.value || `Option ${idx + 1}`}</span>
+                            </div>
+                            <div className="text-xs text-green-400 font-bold">
+                              → GO TO STEP {rule.trueStep || "—"}
+                            </div>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  )}
+
+                  {action === "useraction" && details.defaultStep && (
+                     <div className="mt-2 bg-[#333] p-2 rounded border border-red-500 shadow-sm">
+                       <div className="text-xs font-bold text-red-400">
+                         DEFAULT → Step {details.defaultStep}
+                       </div>
+                     </div>
+                  )}
                 </div>
               )}
 
