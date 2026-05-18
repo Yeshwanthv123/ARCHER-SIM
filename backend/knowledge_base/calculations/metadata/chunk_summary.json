@@ -1,0 +1,42 @@
+{
+  "created_at": "2026-05-02T11:38:23",
+  "total_chunks": 240,
+  "chunk_file": "D:\\ArcherSim-Engine\\ArcherSim-Engine\\backend\\knowledge_base\\calculations\\chunks\\calculation_chunks.json",
+  "categories": {
+    "Calculated Fields Setup": 5,
+    "Operators": 12,
+    "Calculation Process": 5,
+    "Date Functions": 16,
+    "Financial Functions": 16,
+    "Logical Functions": 4,
+    "Math Functions": 46,
+    "Recalculation": 11,
+    "Formula References": 6,
+    "General Calculation Knowledge": 3,
+    "Statistics Functions": 72,
+    "System Functions": 23,
+    "Text Functions": 13,
+    "Troubleshooting": 8
+  },
+  "source_files": {
+    "Adding Calculated Fields.txt": 5,
+    "Arithmetic Operators.txt": 3,
+    "Calculation Process.txt": 5,
+    "Comparison Operators.txt": 3,
+    "Concatenate Operator.txt": 3,
+    "Date Functions.txt": 16,
+    "Financial Functions.txt": 16,
+    "Functions and Operators for Calculated Field Formulas.txt": 3,
+    "Logical Functions.txt": 4,
+    "Math Functions.txt": 46,
+    "Recalculating Calculated Fields.txt": 3,
+    "Recalculation Conditions.txt": 5,
+    "References in Formulas.txt": 6,
+    "Scheduling Calculations and Recalculations.txt": 3,
+    "Setting the Run Order for Multiple Calculated Fields.txt": 3,
+    "Statistics Functions.txt": 72,
+    "System Functions.txt": 23,
+    "Text Functions.txt": 13,
+    "Troubleshooting Tips for Calculations.txt": 8
+  }
+}

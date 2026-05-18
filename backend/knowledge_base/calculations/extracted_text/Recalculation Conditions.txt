@@ -1,0 +1,180 @@
+
+
+===== PAGE 1 | METHOD: OCR =====
+
+
+3/2/26, 1:37 PM Recalculation Conditions
+You are here: Set Up & Maintenance > Building Applications, Questionnaires, and Solutions > Fields > Recalculation
+Conditions
+https://help.archerirm.cloud/platform_2024_11/en-us/content/platform/fields/fld_calc_recalculation_conditions.htm 1/5
+
+
+===== PAGE 2 | METHOD: OCR =====
+
+
+3/2/26, 1:37 PM Recalculation Conditions
+Recalculation Conditions
+Calculated fields can be recalculated when a user is viewing or editing a record. To initiate an immediate recalculation, a
+user must have update permissions to the record. When initiated from either mode, only marked content is recalculated.
+Content changes may result in outstanding calculations in a related level or application.
+The recalculation can be initiated when content is changed, or for content that has a status of marked for recalculation.
+All calculated fields are recalculated immediately within the current content. All related content affected by the change
+is marked and queued for recalculations in an asynchronous job. When save or apply updates calculated fields, and there
+are no other user changes, notifications are not sent. The recalculate action recalculates all active calculated fields for the
+current record regardless of any other conditions or configurations.
+When marked content is calculated asynchronously, only the fields associated with the executed job are calculated.
+Notifications are never sent. Notifications are only sent when a user saves a record.
+Calculated fields are only recalculated based on changes made directly in a data feed, data import, web API, or
+scheduled recalculation jobs.
+On this page
+More information about recalculations in calculated fields
+e In addition to scheduled recalculations, field recalculations are performed for a record each time a user clicks
+Save or Apply for the record.
+e Search does not trigger a recalculation of field values.
+e Scheduled recalculations are written directly to the database and are not interpreted by the application as true
+“record save” events and are not captured in the History Log field.
+¢ Scheduled recalculations do not trigger notifications.
+e Field-value changes stemming from a scheduled recalculation are not reflected in the audit information
+displayed alongside a field.
+e Each time that you create or edit a calculated field, the system searches for NOW and TODAY in all of the
+application or formulas of the sub-form. If the system can no longer locate either of these functions, any
+previously configured recalculation schedule are automatically disabled for the application or sub-form.
+e Fields with the As Needed option selected for recalculations are only recalculated if the value will be changed.
+¢ In multi-level applications, recalculation schedules are level-specific.
+The following table describes other conditions that may also trigger a recalculation condition.
+Trigger Description
+Full All fields for all content are queued for recalculation but are not marked.
+Module Calculation
+Scheduled Administrator creates a Schedule to run an asynchronous job for
+Recalculations recalculation at a specific time. Only the fields that contain NOW() or
+TODAY () functions in their formulas are recalculated. If the record
+contains such fields, and any of them recalculate to a different value, then
+any fields set to Always Recalculate in the record will also be
+recalculated.
+https://help.archerirm.cloud/platform_2024_11/en-us/content/platform/fields/fld_calc_recalculation_conditions.htm
+
+
+===== PAGE 3 | METHOD: OCR =====
+
+
+3/2/26, 1:37 PM Recalculation Conditions
+Trigger Description
+Related Content When a user, job engine, data feed, or Web API makes a change to a field
+that affects changes in a related module, the following occurs:
+e An asynchronous job is scheduled to recalculate all affected
+content | level away of the related module, for example related
+record in current application or cross-referenced application in
+related record.
+e All affected content in the related module (1 level away) is
+marked for recalculation.
+Recalculation and error handling rules
+The following table describes recalculation and error handling rules.
+Rule Description
+Recalculation | Determines when a field is recalculated As Needed or Always.
+As Needed: Formulas are recalculated when a dependent field in the formula
+changes.
+Always: Formulas are recalculated every time content is saved even though a
+field is not referenced in the formula. Formulas that contain NOW() and
+TODAY () functions, or user first name, last name, and middle name (Editor)
+parameters are recalculated regardless of content change.
+Error Determines what happens when a calculation error occurs. This rule has the
+Handling following options:
+Display Error: The word Error is displayed as a link when a calculation error
+occurs. Users with the appropriate access privileges can click the link to open
+the Calculation Error page where the error is explained.
+Use No Value: An empty value is saved in the field when a calculation error
+occurs.
+Use Specific: A specific value is saved in the field when a calculation error
+occurs.
+Recalculations in edit mode
+When in edit mode, the Recalculate button is not available. The recalculation is initiated from the Save button.
+Example: Cross-referenced field updated
+The following table describes the example.
+Calculated field is [Total Risk] in Application A. [Risk] is a cross-referenced field.
+[Controls] is a level in the cross-reference multi-level application and [Severity
+Rating] is a field in the Controls data level.
+SUM(REF([Risk], [Severity Rating], [Controls]))
+Scenario
+https://help.archerirm.cloud/platform_2024_11/en-us/content/platform/fields/fld_calc_recalculation_conditions.htm
+3/5
+
+
+===== PAGE 4 | METHOD: OCR =====
+
+
+3/2/26, 1:37 PM Recalculation Conditions
+User drills into [Severity Rating] in Application B.
+[Severity] = 12.
+Action 1 . .
+User changes value of [Risk] to 11 and clicks Save.
+Content of [Total Risk] is ‘marked’ for recalculation.
+Action 2 User with Read and Update permissions returns to Application A in Edit mode and
+clicks Save.
+Action 3 | User saves record in Application B.
+[Total Risk] is recalculated immediately, and the updated value is displayed.
+[Total Risk]=23
+Results
+Example: Calculated field updated by data feed
+The following table describes the example.
+Application A has 3 fields Risk, Criticality, and Severity. Rating is a related record in
+Application B.
+[Total Risk] is dependent on the value of [Criticality].tota
+SUM(REF([Risk], [Criticality]))
+[Severity] is dependent on [Rating].
+IF([Rating]=10, VALUEOF ([Severity],"High"), VALUEOF ([Severity], "Low")
+Scenario
+Action 1 User changes the value of Critically in Application B and clicks Save.
+Results Related content in Application A is 'marked'.
+Data feed updates [Rating] in Application A to a value of 10. Severity is calculated
+Action 2 nee
+upon content save initiated by the data feed.
+[Total Risk] is not recalculated.
+Results [Rating] is updated during the data feed.
+[Severity] is changed to High.
+Action 3 User view records and clicks Recalculate.
+Results [Total Risk] is recalculated immediately.
+Recalculations in view mode
+When in View mode, a message is displayed stating that the content may not be current. The Recalculate button is
+available.
+Example: Cross-Referenced field updated
+The following table describes the example.
+Calculated field is [Total Risk] in Application A. [Risk] is a cross-referenced field.
+[Controls] is a level in the cross-reference multi-level application and [Severity
+Rating] is a field in the Controls data level.
+SUM(REF([Risk], [Severity Rating], [Controls]))
+Scenario
+https://help.archerirm.cloud/platform_2024_11/en-us/content/platform/fields/fld_calc_recalculation_conditions.htm
+
+
+===== PAGE 5 | METHOD: OCR =====
+
+
+3/2/26, 1:37 PM
+Recalculation Conditions
+User edits [Severity Rating] in Application B.
+Action 1 [Severity] = 12.
+User changes value of [Risk] to 11 and clicks Save.
+Content of [Total Risk] is ‘marked’ for recalculation.
+Action 2 User with Read and Update permissions returns to Application A in View mode and
+clicks Recalculate.
+Action 3 | User saves record in Application B.
+Results [Total Risk] is recalculated immediately, and the updated value is displayed.
+[Total Risk]=23
+Archer
+ABOUT
+ADDRESS CUSTOMERS CONNECT WITH US
+ARCHER
+13200 Metcalf Ave Events Archer Academy ny @
+Suite 300 Resources Archer Exchange
+Overland Park, KS Services Support
+66213
+About Us Archer Community
+Archer is a leading provider of enterprise risk management solutions, which include third party risk management, IT risk
+management, operational risk management, and more. Contact us now to learn more about integrated risk management
+solutions from Archer.
+© 2024 Archer Technologies LLC. All rights
+Trademarks | Terms of | Privacy | Standard Form
+reserved.
+Use Policy Agreements
+https://help.archerirm.cloud/platform_2024_11/en-us/content/platform/fields/fld_calc_recalculation_conditions.htm
+5/5

@@ -1,0 +1,225 @@
+
+
+===== PAGE 1 | METHOD: OCR =====
+
+
+3/2/26, 1:26 PM References in Formulas
+You are here: Set Up & Maintenance > Building Applications, Questionnaires, and Solutions > Fields > References in
+Formulas
+https://help.archerirm.cloud/platform_2024_11/en-us/content/platform/fields/fld_calc_references.htm 1/6
+
+
+===== PAGE 2 | METHOD: OCR =====
+
+
+3/2/26, 1:26 PM References in Formulas
+References in Formulas
+Calculated fields can be applied in any application, questionnaire, or sub-form. Design the formula of the field to
+reference fields that reside within the application, a sub-form embedded in the application, or a related application. If
+creating a calculated field for a sub-form, design the formula of the field to reference fields that reside in the sub-form or
+in a related application.
+Use the REF function to reference fields in an application, fields in related applications or questionnaires, fields in a
+parent or child level, and specific values from values list fields.
+On this page
+Field references in formulas
+By referencing fields and field values in a calculated field formula, you can produce calculated values that are based on
+other conditions within the application, questionnaire, or sub-form.
+Example: Formula containing field references
+IF(CONTAINS(ANY, [Location], VALUEOF([Location], "New York")),"Yes","No")
+In individual records, this formula produces the value "Yes" or "No" in the calculated field depending on whether the
+value "New York" is selected in the "Location" field. If the value "New York" is selected, the calculated field returns the
+value "Yes." If the value "New York" is not selected, the calculated field returns the value "No."
+The following table provides a list of field types that can be referenced in an application or questionnaire.
+¢ Cross-Reference * Record Status
+e Related Records
+¢ Scheduler
+¢ Date (with or without time information)
+e First Published Date (with or without time
+information) e Sub-Form
+e Last Updated Date (with or without time e Text
+information) e Tracking ID
+e Multiple Reference Display Control * User/Groups List
+e Numeric e Values List
+¢ Record Permissions
+The following table provides a list of Field types that can be referenced in a sub-form.
+¢ Cross-Reference e Numeric
+¢ Record Status
+e Related Records
+¢ Date (with or without time information)
+e First Published Date (with or without time
+information) ¢ Text
+e Last Updated Date (with or without time e Tracking ID
+information)
+¢ Values List
+¢ Multiple Reference Display Control
+https://help.archerirm.cloud/platform_2024_11/en-us/content/platform/fields/fld_calc_references.htm
+
+
+===== PAGE 3 | METHOD: OCR =====
+
+
+3/2/26, 1:26 PM References in Formulas
+Example: Calculations with dependent fields in the same level
+The following table describes an example scenario of calculations with
+dependent fields in the same level.
+Application has 2 fields Risk and Criticality.
+Scenario [Total Risk] is a calculated field dependent on the value of [Criticality]
+SUM([Risk], [Criticality])
+User changes the value of Criticality and clicks Save.
+Action 1
+con" Where [Risk] = 12 and [Criticality] = 7
+[Risk] is calculated immediately, and the updated value is displayed.
+Result
+esas [Risk]=19
+Cross-Application references in formulas
+When you create a calculated field in an application, questionnaire, or sub-form, you can reference fields residing in
+related applications or questionnaires, enabling you to perform cross-application calculations. The Available Fields list
+in the formula builder displays all fields that are available for reference in your formula, including cross-reference and
+related records fields. By expanding a cross-reference or related records field in the formula builder, as shown in the
+following figure, you can select fields from the related component for reference in your formula.
+¥ Formula Definition
+Available Fields:
+~~ Address
++) Projects
+1 |. Risk Assessments
+=> Assessment Name
+i First Published
+2 >|... Last Updated
+L Overall Risk Exposure
+“ow Sendor ID
+4] HES
+e 1- Cross-Reference field to the Risk Assessments application
+e 2 - Fields available for reference from the related application
+When you reference a field from a related application or questionnaire in a formula, the field reference displays as
+follows: REF([Cross-Reference Field Name], [Field Name]).
+Example: Formula that references a field from a related application
+IF(CONTAINS(REF([Risk Assessments], [Overall Risk Exposure]), VALUEOF("High")),"No","Yes")
+This formula examines the Overall Risk Exposure field in the Risk Assessments cross-reference field for the value
+"High." If the value is found, the calculated field is populated with the value "No." Otherwise, the field is populated with
+the value "Yes."
+https://help.archerirm.cloud/platform_2024_11/en-us/content/platform/fields/fld_calc_references.htm
+
+
+===== PAGE 4 | METHOD: OCR =====
+
+
+3/2/26, 1:26 PM References in Formulas
+Referencing leveled applications
+The calculation engine also allows you to reference fields from leveled applications. When you reference a field from a
+related leveled application in a formula, the field reference displays as follows: REF([Cross-Reference Field Name],
+[Field Name], [Data Level Name]).
+Example: Formula that references a field from a related leveled application
+AVERAGE(REF([Response Measures], [Severity Rating], [Responses]))
+This formula averages the values of the Severity Rating field for related records within the Responses data level of the
+related application. If there are 3 records related to the parent record, with values of "2", "9" and "4" in the Severity
+Rating field within the Responses data level, this calculation returns a value of "5".
+Referencing sets of values
+Reference fields are particularly handy for calculations that require a set of values, rather than a single value, as input. In
+this case, reference a cross-reference field that points to a field that contains several values as input. For example, the
+LARGE function returns the k-th largest value in a data set. The syntax, LARGE(values,k), requires a set of values as
+input.
+Example: Formula using a REF statement that points to a cross reference field
+LARGE(REF([Data Set],[ Values]),3)
+In this example, Data Set is a cross-reference field and the records in the Values field are 3, 5, 3, 5, 4, 4, 2, 4, 6 and 7.
+This calculation returns the third largest value in the data set provided, which is 5.
+Example: Cross-Referenced field updated by user
+The following table describes an example scenario of a cross-referenced field updated by a
+user.
+Calculated field is [Total Risk] in Application A. [Risk] is a cross-referenced field.
+[Controls] is a level in the cross-reference multi-level application and [Severity
+Rating] is a field in the Controls data level.
+SUM(REF([Risk], [Severity Rating], [Controls]))
+Scenario
+User drills into [Severity Rating] in Application B.
+[Severity] = 12.
+User changes value of [Risk] to 11 and clicks Save.
+Content of [Total Risk] is ‘marked’ for recalculation.
+Action 1
+User with Read and Update permissions returns to Application A in Edit mode and
+Action 2 clicks Save.
+Action 3 User saves record in Application B.
+[Total Risk] is recalculated immediately, and the updated value is displayed.
+Result
+esul's [Total Risk]=23
+https://help.archerirm.cloud/platform_2024_11/en-us/content/platform/fields/fld_calc_references.htm
+
+
+===== PAGE 5 | METHOD: OCR =====
+
+
+3/2/26, 1:26 PM References in Formulas
+Cross-Level references in formulas
+When you create a calculated field in a leveled application, reference fields in a parent or child level using the REF
+function.
+AVERAGE(REF([Vendors], [Assessments], [Risk Rating])
+This formula, created for a calculated field in the parent Vendors level of a 2-level application, references the Risk
+Rating field in the child Assessments level. The formula produces a numeric value showing the average Risk Rating in
+all Assessment records associated with a parent-level Vendors record.
+Values list value references in formulas
+When creating a calculated field in an application or sub-form, reference specific values from values list fields within
+your formula. Archer dynamically maintains these field-value references, meaning that if you modify a value within a
+values list and that value has been referenced in a formula. Archer automatically updates the value within the formula so
+it remains a valid field-value reference. For example, if you change the value "Important" to "Urgent" within your global
+or field-specific values list, any formula that references the value "Important" updates to reference the value "Urgent"
+instead.
+Formula using the VALUEOF function
+To reference a values list value in a formula, use the VALUEOF function and surround the value name in quotes.
+IF(CONTAINS(EXACT, VALUEOF([Risk Rating], "High")),"Yes","No")
+This formula examines the Risk Rating field, which is a values list field, for the presence of the value "High." If the
+formula finds this value, it populates the calculated field with "Yes." If not, it populates with "No."
+In addition to monitoring a values list field for the presence of a specific value, the VALUEOF function enables you to
+set a values list field selection dynamically based on other conditions within the record.
+Example: Dependent on value in a values list
+The following table provides an example formula of the VALUEOF function.
+IF(CONTAINS(ANY, [Location], VALUEOF([Location], "New York")),
+Formula (vaLUEOF[Areal,""Local", (VALUEOF[Area],"Global"))
+This formula evaluates the Location field for the presence of the value New York.
+If the value is present and selected, the value Local is selected in the calculated Values
+Results List field.
+If the value New York is not found, the calculated field is populated with the value
+Global.
+Formula for a calculated values list field
+IF(CONTAINS(ANY, [Location], VALUEOF([Location], "New York")), "Local", "Global")
+This formula examines the Location field for the presence of the value "New York." If the value is present and selected,
+the value "Local" is selected in the calculated Values List field. If the value "New York" is not found, the calculated field
+is populated with the value "Global."
+https://help.archerirm.cloud/platform_2024_11/en-us/content/platform/fields/fld_calc_references.htm
+
+
+===== PAGE 6 | METHOD: OCR =====
+
+
+3/2/26, 1:26 PM References in Formulas
+If the values list values that you want to reference in a calculated field formula have associated numeric values, you can
+reference those numeric values using the SELECTEDVALUENUMBER function. For example, you have an Affected
+Departments field with the values "Accounting," "IT" and "Sales," and those text values have been assigned the numeric
+values 10, 8 and 6, respectively.
+Formula using the SELECTEDVALUENUMBER function
+AVERAGE(SELECTEDVALUENUMBER([Affected Departments]))
+If the values "Accounting" AND "IT" have been selected in the Affected Departments field, this formula would populate
+the calculated field with the value "9."
+Example: Average of numeric values in selected field
+The following table describes an example scenario.
+The Affected Departments field has the values Accounting, IT, and Sales and those
+Scenario . : .
+text values are assigned the numeric values 10, 8, and 6, respectively.
+Formula) AVERAGE(SELECTEDVALUENUMBER([Affected Departments]))
+If the values Accounting and IT are selected in the Affected Departments field, this
+Results formula populates the calculated field with the value 9.
+Archer
+ABOUT
+ADDRESS CUSTOMERS CONNECT WITH US
+ARCHER
+13200 Metcalf Ave Events Archer Academy in 3 @
+Suite 300 Resources Archer Exchange
+Overland Park, KS Services Support
+66213
+About Us Archer Community
+Archer is a leading provider of enterprise risk management solutions, which include third party risk management, IT risk
+management, operational risk management, and more. Contact us now to learn more about integrated risk management
+solutions from Archer.
+© 2024 Archer Technologies LLC. All rights
+Trademarks | Terms of _| Privacy | Standard Form
+reserved.
+Use Policy Agreements
+https://help.archerirm.cloud/platform_2024_11/en-us/content/platform/fields/fld_calc_references.htm 6/6

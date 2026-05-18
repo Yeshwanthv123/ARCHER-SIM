@@ -1,0 +1,285 @@
+
+
+===== PAGE 1 | METHOD: OCR =====
+
+
+3/2/26, 1:38 PM Troubleshooting Tips for Calculations
+You are here: Set Up & Maintenance > Building Applications, Questionnaires, and Solutions > Fields > Troubleshooting
+Calculations
+https://help.archerirm.cloud/platform_2024_11/en-us/content/platform/fields/fld_calc_troubleshooting_tips.htm 1/8
+
+
+===== PAGE 2 | METHOD: OCR =====
+
+
+3/2/26, 1:38 PM
+Troubleshooting Tips for Calculations
+Troubleshooting Tips for Calculations
+When working with formulas, you may encounter error messages.
+On this page
+Common mistakes
+Syntax errors cause many of the common mistakes.
+The following table provides a list of common mistakes that occur when using the DATE,
+ROUND, STRING, and VALUEOF functions.
+Function
+DATE
+ROUND
+STRING
+Description
+Dates and times are converted to Coordinated Universal Time (UTC) in the Archer
+database. As a result, dates and times in calculations are returned in UTC.
+Dates and times are converted to the locale of the user when the date or time is
+displayed in a field. For example, the locale is Central Time and the date entered in
+a Date field called Due Date is 8/3/2012 9:00 PM. The date and time stored in the
+database is 8/4/2012 2:00 ARE. Any user viewing this record with this field sees
+the user’s time zone. For example, the user's time zone is EST 8/3/2012 10:00 PM.
+When manipulating date and time and displaying them in a field type other than a
+Date field, dates and times are displayed in UTC. For example, a calculated text
+field with the formula DATEFORMAT([Due Date], “YY YY-MM-DD HH-MM
+AM”) referencing the Due Date from the formula above returns 08-04-2012 2:00
+AM.
+A numeric calculated field with the formula DAY([Due Date]) returns 4.
+Rounds a number to a specified number of digits. When the number to the right of
+the decimal point is 5 or greater, the number is rounded up to the nearest integer.
+If the num_digits parameter is greater than 0 (zero), the number is rounded to the
+specified number of decimal places. If the num_digits parameter is equal to 0, the
+number is rounded to the nearest integer. If the num_digits parameter is less than 0,
+the number is rounded to the left of the decimal point to the specified number of
+decimal places.
+For example, if the num_digits parameter is -1 and the number is 101.5, the number
+is rounded to 100.
+When using string manipulations, consider the data that is stored in the field. For
+example, a Text Area field named Description contains <strong>Hello</strong>,
+and the formula is LEN([Description]). Although the user only sees Hello, the
+calculation results are 22, which is the total number of characters in the string.
+https://help.archerirm.cloud/platform_2024_11/en-us/content/platform/fields/fld_calc_troubleshooting_tips.htm
+2/8
+
+
+===== PAGE 3 | METHOD: OCR =====
+
+
+3/2/26, 1:38 PM Troubleshooting Tips for Calculations
+Function Description
+VALUEOF  Acommon misconception of the VALUEOF is that it returns true or false if the
+referenced value is selected in the referenced field. Often a formula is written as
+IF(VALUEOF[Color], “Blue”, 1,0) and should be written as IF([Color] =
+VALUEOF[Color], “Blue”, 1,0).
+The only purpose of the VALUEOF function is to make a formula resilient to value
+changes in a Values List. If the text of a value is changed in a custom or global
+values list by an administrator, this function automatically updates the formula to
+use the new text for the value.
+For example, if the value "Blue" is referenced in a formula with the VALUEOF
+function, and that value is subsequently changed to "Red" in the values list, the
+value reference of "Blue" is automatically changed to "Red" in the formula.
+Common error messages
+The following are common scenarios that may cause formula calculations to fail:
+Invalid value
+The following table describes an invalid value scenario.
+Formula DATEDIF([Open Date],{[Due Date], HOUR)
+Error Value is not a valid number: B2 Parameter name: serialDate
+Cause 1 of the date fields does not have data.
+Use the ISEMPTY function to check for empty dates and to avoid .calculating
+Resolution .
+against an empty date.
+Multiple values
+The following table describes a multiple value scenario.
+Formula DATEDIF([First Published], REF([Incidents],[Open Date]), HOUR)
+A parameter "!2!A1:A2" expected to be a single value was multiple values.
+Error
+Parameter name: !2!A1:A2
+Cause DATEDIF expects only 1 value, and this record relates to multiple incidents.
+. Use an interim function to generate 1 value for the second parameter. For example,
+Resolution
+use the MAX function.
+Divide by zero
+The following table describes a divide by zero scenario.
+Formula 1 + 10/[Value]
+Error A calculation within the formula returned the non-numeric value infinity.
+Cause The value is 0.
+https://help.archerirm.cloud/platform_2024_11/en-us/content/platform/fields/fld_calc_troubleshooting_tips.htm
+3/8
+
+
+===== PAGE 4 | METHOD: OCR =====
+
+
+3/2/26, 1:38 PM Troubleshooting Tips for Calculations
+Resolution Use zero checks to avoid dividing by zero.
+Reference outside logical expression
+The following table describes a reference outside logical expression
+scenario.
+Formula IF(VALUEOF([Risk],”Medium”), “true”, “‘false’’)
+Error _ invalid expression
+Cause Using the VALUEOF function without an equality operation.
+Write the formula as follows:
+IF([Risk]=VALUEOF([Risk],” Medium’”),”true”,”’false”’)
+Resolution
+Reference to more characters than exist
+The following table describes a reference to more characters than exist scenario.
+Formula SUBSTRING([Description], 1,10)
+Error Index and length must refer to a location within the string. Parameter name: length
+Description field contains less than specified number of characters. In this case, the
+Cause Description field has less than 10 characters.
+Use LEFT or RIGHT function instead or use these functions in combination with
+Resoluti . . .
+esolution LEN to avoid reading passed the end of a string.
+Deciphering error messages
+The calculation engine stores data in cells or ranges much like an Excel spreadsheet. These references are not visible to a
+user, making it more difficult to decipher error messages. The calculation engine stores dates as numbers in cells.
+For example, a formula that compares 2 dates might look like:
+|
+DATEDIF([Open Date],[Due Date], HOUR)
+Using the formula as an example, the Open Date might be stored in B2 and the Due Date stored in B3.
+An error message for this formula might look like the following, where B3 is the parameter cell for Due Date and
+DATEDIF expects a valid serial date:
+Value is not a valid number:
+B3)Parameter name: seralDate
+https://help.archerirm.cloud/platform_2024_11/en-us/content/platform/fields/fld_calc_troubleshooting_tips.htm 4/8
+
+
+===== PAGE 5 | METHOD: OCR =====
+
+
+3/2/26, 1:38 PM Troubleshooting Tips for Calculations
+Dependencies resolution
+1 of the most powerful facets of working with calculations is the ability to reference 1 or more calculated fields in
+another calculated field formula.
+For example, a final score value might be computed by summing the values of several calculated section score fields.
+In this example, there are inherent calculation dependencies. Each of the section score values must be computed before
+the final score can be computed. You can specify the order in which calculations are performing. After the field
+calculation order is established for an application, field dependencies simply manage themselves.
+Circular references
+Circular references are sometimes difficult to detect. Circular references are caused by formulas that form either a direct
+or indirect loop.
+e Adirect loop is formed when a series of field references form a closed circuit.
+e An indirect loop can sometimes result when a series of field references includes a reference to a field that is set
+to Always recalculate.
+Archer does not allow formulas that might result in circular references. Whenever a possible circular reference condition
+exists, a validation message is displayed.
+Validation messages help reconcile circular references. The validation message includes the field name and module
+name of both the field and the field to which it references.
+The following table describes examples of validation messages.
+Calc Depend
+Field Module Level Always All
+{fieldref01}  {modulename01} — {levelname01} No No
+{fieldref02} {modulename02}  _{levelname02} No No
+{fieldref01}  {modulename01}  {levelname01} No No
+The Calc Always column contains the value of the Always Recalculate flag set at the calculated field. The Depend All
+column contains the value set by Archer for a questionnaire that has questions dependent on any calculated field.
+To see the circular reference details, validate the calculation in the formula builder.
+The following table describes a possible validation message for a condition
+that occurs where using the fields from 2 different applications that
+reference each other.
+Calc Depend
+Field Module Level Always All
+{Rating} {Risk Management} {levelname01} = No No
+{Controls} {Policy Management}  {levelname02} No No
+{Rating} {Risk Management} {levelname01} = No No
+https://help.archerirm.cloud/platform_2024_11/en-us/content/platform/fields/fld_calc_troubleshooting_tips.htm
+
+
+===== PAGE 6 | METHOD: OCR =====
+
+
+3/2/26, 1:38 PM Troubleshooting Tips for Calculations
+Example: Always recalculate
+When the Always flag is set on a calculated field, the field recalculates every time a record is saved. The formula
+indirectly results in a circular calculation that cannot be resolved. A validation error is reported when this condition
+exists.
+| Note: Clicking Apply will not cause contents to recalculate.
+For example, the following figure shows an indirect loop caused by a circular reference. This condition results in a
+circular reference because Rating is indirectly dependent on Criticality. Because Rating is set to Recalculate Always, it
+calculates every time that Criticality calculates.
+Download the source file of the diagram here: Platform - Always Recalculate Diagram
+Risk Management Policy Management
+IF(DATEDIF(NOW(),MAX([Policy Management], Formula 2: SUM(REF(([Risk Management,
+Formula 1: ‘Resolution Date}), MINUTE())>120, 10, 1) [Criticality], ([Rating]))
+Recalculate: C
+Always
+Indirect reference between A1 and A2
+IF(SUM([Policy Management], Controls])>50,
+Formula 3: VALUEOF ([Criticality],“High”), VALUEOF
+([Criticality],“LOW"))
+Attempt to save Formula 3. A circular reference is detected, and a validation message is displayed that may read like the
+following:
+"Circular Calculation Detected: The following displays the path of the circle:"
+The following table describes a circular calculation.
+Calc Depend
+Field Module Level Always All
+{Criticality} | {Risk Management} {levelname01} Yes No
+{Controls} {Policy Management}  {levelname02} No No
+{Rating} {Risk Management} {levelname01} Yes No
+{Criticality} {Risk Management} {levelname01} Yes No
+Example: Circular reference with multiple formulas
+A circular reference containing 3 formulas in 3 different applications where each formula references a field in a cross-
+referenced application.
+The following table provides example formulas.
+https://help.archerirm.cloud/platform_2024_11/en-us/content/platform/fields/fld_calc_troubleshooting_tips.htm
+
+
+===== PAGE 7 | METHOD: OCR =====
+
+
+3/2/26, 1:38 PM Troubleshooting Tips for Calculations
+Formula 1 (Field 1 in Application A references Field 2 in Application B)
+ula 1: .
+Field 1 recalculates on every save
+Formula 2: | (Field 2 in Application B references Field 3 in Application C)
+Formula 3: (Field 3 in Application C references Field 1 in Application A)
+For example, the circular reference is created by Field 3 referencing Field 1.
+Attempt to save Formula |. A circular reference is detected, and a validation message is displayed that may read like the
+following:
+"Circular Calculation Detected: The following displays the path of the circle:"
+The following table describes a circular calculation.
+Calc Depend
+Field Module Level Always All
+{Rating} {Vendor Management} {levelname01}' No No
+{Controls} {Policy Management} {levelname02} No No
+{Criticality} | {Risk Management} {levelname01} No No
+{Rating} {Vendor Management} {levelname01} No No
+Example: Direct-Loop circular reference
+Download the source file of the diagram here: Platform - Direct-Loop Circular Reference Diagram
+Formula 1: Formula 2:
+IF(SUM(REF([Policy Management], SUM(SELECTEDVALUENUM BER(REF
+[Controls]=100, 10, 1))) ([Risk Management] [Criticality]))
+Key
+Vendor Management
+field
+Policy Management
+field
+Risk Management
+field
+Formula 3:
+IF(REF(Vendor Management),[Rating] = “10”,
+VALUEOF ((Criticality] “High’),
+VALUEOF ([Criticality, “LOW")
+Archer
+ABOUT
+ADDRESS CUSTOMERS CONNECT WITH US
+ARCHER
+13200 Metcalf Ave Events Archer Academy ny @
+Suite 300 Resources Archer Exchange
+https://help.archerirm.cloud/platform_2024_11/en-us/content/platform/fields/fld_calc_troubleshooting_tips.htm
+7/8
+
+
+===== PAGE 8 | METHOD: OCR =====
+
+
+3/2/26, 1:38 PM Troubleshooting Tips for Calculations
+ABOUT
+ADDRESS CUSTOMERS CONNECT WITH US
+ARCHER
+Overland Park, KS Services Support
+66213
+About Us Archer Community
+Archer is a leading provider of enterprise risk management solutions, which include third party risk management, IT risk
+management, operational risk management, and more. Contact us now to learn more about integrated risk management
+solutions from Archer.
+© 2024 Archer Technologies LLC. All rights
+Trademarks | Terms of | Privacy | Standard Form
+reserved.
+Use Policy Agreements
+https://help.archerirm.cloud/platform_2024_11/en-us/content/platform/fields/fld_calc_troubleshooting_tips.htm
+8/8

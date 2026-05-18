@@ -1,0 +1,921 @@
+
+
+===== PAGE 1 | METHOD: OCR =====
+
+
+3/2/26, 1:19 PM System Functions
+You are here: Set Up & Maintenance > Building Applications, Questionnaires, and Solutions > Fields > System Functions
+https://help.archerirm.cloud/platform_2024_11/en-us/content/platform/calcfunctions/system_functions.htm 1/21
+
+
+===== PAGE 2 | METHOD: OCR =====
+
+
+3/2/26, 1:19 PM System Functions
+System Functions
+The following system functions work with variables specific to Archer and options to produce dynamic results.
+On this page
+COMBINESELECTIONS Function
+The COMBINESELECTIONS function merges the Selected Values of all the Values List fields included in a function
+for | or more applications.
+Important: The calculated Values List field must contain all of the Values List Values of the referenced Values Lists
+in order for all of the Selected Values to be shown. Also, the function performs a case-insensitive string comparison of
+the Selected Values, so it is possible that the Values List fields referenced in the function may refer to different Values
+Lists.
+Return Type: Values List
+Syntax: COMBINESELECTIONS([values_listfield1], [values_listfield2],[...])
+In the above syntax, the expression must contain at least 1 values list field.
+The following table describes COMBINESELECTIONS function parameters.
+Parameter Description
+values _listfieldl | The values list fields that are being combined.
+values_listfield2 | Additional values lists, up to a maximum of 255 items. The values list fields
+must be separated by commas.
+Example:
+The following table provides an example formula of the COMBINESELECTIONS function.
+Formula Result
+COMBINESELECTIONS(REF([AppB],[Colors])) Red
+Green
+where the colors values list contains Red and Green in | related record and Green and Blue
+Blue in another related record of the cross-referenced application.
+CONTAINS Function
+The CONTAINS function is used to determine if any value within a list of values matches the value stored in a given
+field. If 1 of the values matches the field value, the function evaluates to TRUE and 1 value is returned. If there is no
+match between the list of values and the field value, the function evaluates to FALSE and another value is returned. The
+CONTAINS function must be used in conjunction with an IF function.
+Although done infrequently, the CONTAINS function may be used to test whether the string value of a given Text field
+is equal to any | ofa list of given string values. When a Text field is targeted, the string value in the field will be
+compared to the given test strings. Matching will be based on complete strings only. The function will not find a match
+based on a substring. For example, if the target Text field contains the value “Confiscated laptop”, CONTAINS will not
+find a match for a test string of “laptop”.
+https://help.archerirm.cloud/platform_2024_11/en-us/content/platform/calcfunctions/system_functions.htm 2/21
+
+
+===== PAGE 3 | METHOD: OCR =====
+
+
+3/2/26, 1:19 PM System Functions
+Return Type: TRUE or FALSE
+Syntax: IF(CONTAINS(eval_type, field_ref, valuel, value2...),value_if_true,value_if_false)
+In the above syntax, parameters in bold are required.
+The following table describes CONTAINS function parameters.
+Parameter Description
+eval_type 1 of the following evaluation type keywords:
+e ANY. Specifies that the targeted field must contain at least | of the given
+selections.
+¢ EXACT. Specifies that the targeted function must contain each of the
+given selections and only those selections
+¢ ALL. Specifies that the target field must, at a minimum, contain each of
+the given selections. When using ALL, CONTAINS will still return
+TRUE even if there are selections in the field in addition to the ones
+specified.
+Note: When targeting a Text field, CONTAINS will return TRUE if 1 or more
+of the supplied test strings match the string value of the Text field. The behavior
+of EXACT and ALL is the same when targeting a text field. When using
+EXACT or ALL against a Text field, only 1 test string should be specified
+because a Text field can have only | value.
+field_ref A reference to a field, for example, [field name]. The reference must be a Values
+List, User/Groups List, Record Permissions, or Text field.
+valuel, Any | the following:
+value 2, ... ¢ 1 or more string values supplied as a potential match for the values
+selected in the targeted list field. (When evaluating the selections in a
+Values List field, the test string values should be enclosed in a
+VALUEOF function.)
+¢ 1 or more references to additional Values List, User/Groups List, or
+Record Permissions fields. At runtime, the system will extract the list of
+selections in the supplied fields and treat those values as strings (or
+user/group IDs) to be tested against the selections in the targeted field.
+e | Note: When referencing multiple fields to obtain test values, all fields
+must be of the same type and that type must match the type of the
+target field. When referencing a User/Groups List or Record
+Permissions field to obtain test values, the field reference must be
+wrapped in either the GETUSERS or GETGROUPS function to
+provide the proper context for retrieving the selections. Selections in
+User/Groups List and Record Permissions fields will be returned as
+IDs, while selections in a Values List field will be returned as strings.
+¢ Acombination of both literal values and field references. At runtime, the
+system will extract the list of selections for any referenced field and,
+conceptually, marry those selections to the literal values provided to
+form a single list of selections to test against the target field.
+https://help.archerirm.cloud/platform_2024_11/en-us/content/platform/calcfunctions/system_functions.htm
+3/21
+
+
+===== PAGE 4 | METHOD: OCR =====
+
+
+3/2/26, 1:19 PM System Functions
+Examples:
+The following table provides examples of the CONTAINS function.
+Formula Result
+IF(CONTAINS(ANY, [Location], VALUEOF([Office], "Chicago", "Local", Local
+"Global")))
+where the selected value in Location is Chicago.
+IF(CONTAINS(ANY, [Region], VALUEOF([Office], "Connecticut", "New Connecticut
+York", "Massachusetts"), VALUEOF ([Office], "Kansas", "Illinois", "Texas")) New York
+Massachusetts
+CONTENTID Function
+The CONTENTID function returns a content record ID that uniquely identifies the current record within the context of
+the current application or sub-form. Content IDs are generated sequentially, beginning with the number 1.
+Return Type: Numeric
+Syntax: CONTENTIDQ,
+This function does not have any parameters.
+Example:
+The following table provides an example formula of the CONTENTID function.
+Formula Result
+[Type Code] & "=" & TRACKINGID() & "=" & CONTENTID() WORM-
+where the value in the Type Code field is WORM, the system-wide tracking ID | 678904-34
+is 678904 and the application-specific tracking ID is 34.
+GETGROUPS Function
+The GETGROUPS function returns a list of group IDs for the groups currently selected in a specified User/Groups List
+or Record Permissions field. The list of group IDs can then be evaluated by another function. For example,
+GETGROUPS might be used inside a CONTAINS function to determine whether a given group is contained in the list
+of groups retrieved from a specified User/Groups List field.
+Return Type: Numeric
+Syntax: GETGROUPS(field_ref)
+In the above syntax, parameters in bold are required.
+The following table describes the GETGROUPS function
+parameter.
+Parameter Description
+field_ref A User/Groups List or Record Permissions field.
+Examples:
+The following table provides example formulas of the GETGROUPS function.
+https://help.archerirm.cloud/platform_2024_11/en-us/content/platform/calcfunctions/system_functions.htm 4/21
+
+
+===== PAGE 5 | METHOD: OCR =====
+
+
+3/2/26, 1:19 PM
+System Functions
+Formula
+IF(CONTAINS(ANY, GETGROUPS([Team]), GROUP(NAME, "Training",
+"Support", "IT")), "Yes, “No”)
+where the group "Training” (which is referenced by name here but converted to
+an ID at runtime) matches the ID of a group returned from the a User/Groups List
+field named Team.
+IF(ISEMPTY(GETGROUPS([Reviewers]), "Empty - No groups selected", "Not
+Empty - | or more groups selected")
+where | or more groups are currently selected in the Reviewers Record
+Permissions field.
+In this example, ISEMPTY is only evaluating the Reviewers field for group
+selections, not user selections. In this example, ISEMPTY would have returned
+true if no groups were selected but | or more users were selected.
+IF(AND(ISEMPTY(GETUSERS ([Reviewers]), ISEMPTY(GETGROUPS,
+([Reviewers])),"Empty - No users or groups selected", "Not Empty - | or more
+users or groups selected")
+where the Reviewers Record Permissions field has no selections.
+To evaluate both user and group selections, 2 ISEMPTY functions can be
+wrapped in an AND function, as shown above.
+IF(AND(CONTAINS(EXACT, GETGROUPS([Case Managers]),
+GROUP(NAME, "Training", "Support", "IT")), CONTAINS(EXACT,
+GETUSERS([Case Managers]), USER(LOGIN, "blair.gates", "alfred.turks",
+"betty.smalls"))), "All test users and groups are selected", "Test failed")
+where the Case Managers Record Permissions field contains each of the test
+selections and only those selections.
+To test a User/Groups List or Record Permissions field for a combination of user
+and group selections, 2 CONTAINS functions can constructed (1 to test for
+groups; | to test for users) and wrapped in an AND, OR or NOT function.
+GETUSERS Function
+Result
+Yes
+Not Empty —
+1 or more
+groups
+selected
+Empty - No
+users or
+groups
+selected
+All test
+users and
+groups are
+selected
+The GETUSERS function returns a single user ID for a user currently selected in a specified User/Groups List or Record
+Permissions field. The user ID can then be evaluated by another function. For example, GETUSERS might be used
+inside a CONTAINS function to determine whether a given user matches the ID of a user returned from a specified
+User/Groups List field.
+Important: To ensure that this function returns no more than | user ID, you must set the Maximum Selections option
+in the Configuration section for a User/Groups List field or a Record Permissions field to 1. Otherwise, the
+GETUSERS function returns an error.
+Return Type: Numeric
+Syntax: GETUSERS(field_ref)
+In the above syntax, the parameter in bold is required.
+The following table describes the GETUSERS function
+parameter.
+Parameter Description
+https://help.archerirm.cloud/platform_2024_11/en-us/content/platform/calcfunctions/system_functions.htm
+5/21
+
+
+===== PAGE 6 | METHOD: OCR =====
+
+
+3/2/26, 1:19 PM System Functions
+Parameter Description
+field_ref A User/Groups List or Record Permissions field.
+Examples:
+The following table provides example formulas of the GETUSERS function.
+Formula Result
+IF(CONTAINS(ANY, GETUSERS ([Sales Rep]), USER(NAME, "Wilson, Yes
+Jonah", “Kellerman, Kathy”, “Boone, Julia’”)), "Yes”, “No”
+where the user "Boone, Julia” (who is referenced by name here but converted to
+an ID at runtime) matches the ID of a user returned from the User/Groups List
+field named Sales Rep.
+IF(SEMPTY(GETUSERS ([Associate]), "Empty - No users selected", "Not Empty — No
+Empty - | or more users selected") users selected
+where no users are currently selected in the Associate Users/Groups List field.
+In this example, ISEMPTY is only evaluating the Associate field for user
+selections, not group selections. In this example, ISEMPTY would have
+returned true if no users were selected but | or more groups were selected.
+IF(AND(ISEMPTY(GETUSERS ([Reviewers]), ISEMPTY(GETGROUBPS, Empty - No
+({Reviewers])),"Empty - No users or groups selected", "Not Empty - 1 or more users or
+users or groups selected") groups
+where the Reviewers Record Permissions field has no selections. selected
+To evaluate both user and group selections, 2 ISEMPTY functions can be
+wrapped in an AND function, as shown above.
+GROUP Function
+The GROUP function is used to maintain the validity of a formula reference to a specific group selection in a
+User/Groups List or Record Permissions field, even if the group name is changed later.
+The GROUP function also directly accepts system-assigned group ID numbers. Each group in the system has an internal
+ID number that is guaranteed to be unique. For example, if 2 groups both named Support exist in the system, the group
+name cannot be resolved to determine whether the intended Support is selected in the given User/Groups List or Record
+Permissions field. However, a system ID (for example, 48761) can be used in place of the ambiguous group name to
+uniquely identify the correct Support group.
+Return Type: Text or Numeric, depending on the format selected for the ref_type parameter
+Syntax: GROUP(ref_type, value1, value2...)
+In the above syntax, parameters in bold are required.
+The following table describes GROUP function parameters.
+Parameter Description
+ref_type Accepts the keyword NAME or ID. If NAME is specified, the function will
+inspect field selections by literal group name, for example, "Support". If ID is
+specified, the function will inspect group selections based on unique system-
+assigned ID numbers.
+https://help.archerirm.cloud/platform_2024_11/en-us/content/platform/calcfunctions/system_functions.htm 6/21
+
+
+===== PAGE 7 | METHOD: OCR =====
+
+
+3/2/26, 1:19 PM System Functions
+Parameter Description
+valuel, 1 or more values within a User/Groups or Record Permissions field.
+value2... NAME. If ref_type is NAME, group names must be passed exactly as they
+display in the User/Groups List or Record Permissions field. Matching will be
+case sensitive. When using NAME with GROUP, an error will occur during
+formula validation if any of the following is true:
+e Ifthe named group cannot be found in any domain
+¢ Ifthe named group is found in more than 1 domain
+¢ Ifthe named group is found in a single domain but the group name is not
+unique within that domain
+If the NAME string contains at least 1 @ sign, the system will assume that all text
+following the last @ sign is a domain reference and the system will attempt to
+locate that domain. If the NAME string does not contain a @ sign, the system will
+look for an exact match for the entire group name string in the Archer (NULL)
+domain and the default domain.
+Note: The system will attempt to match the domain name against both active
+and deleted (for example, soft-deleted) domains. Only active domain names
+must be unique; it is possible that a deleted domain has the same name as an
+active domain. If the group name string exists in more than | of the domains
+that have the same name, the system will fail the formula on validation.
+If the domain can be found:
+—
+. The system will treat all text in the name string before the last @ sign as
+the group name and will attempt to find that group within the domain.
+2. If the group is found within the domain, the system will replace the
+group name string in the formula with the ID of the group matching that
+login.
+3. If the domain cannot be found:
+4. The system will look for an exact match for the entire group name
+string in the Archer (NULL) domain and the default domain.
+5. If only 1 group with that name exists, the system will replace the group
+name string in the formula with the ID of that group.
+ID. If ref_type is ID, the function will expect 1 or more system-assigned group ID
+numbers. The IDs in the list should be quoted. When using ID with GROUP, an
+error will occur during formula validation the group ID cannot be found in any
+domain.
+Examples:
+The following table provides example formulas of the GROUP function.
+Formula Result
+IF(CONTAINS(ANY, GETGROUPS([Technician]), GROUP(NAME, "Tier 1", "Tier Priority
+4", “Tier 9”)), "Priority", "Standard")
+where the group "Tier 4" is selected in the Technician User/Groups List field.
+https://help.archerirm.cloud/platform_2024_11/en-us/content/platform/calcfunctions/system_functions.htm
+7/21
+
+
+===== PAGE 8 | METHOD: OCR =====
+
+
+3/2/26, 1:19 PM System Functions
+Formula Result
+IF(CONTAINS(ANY, GETGROUPS([Technician]), GROUP(ID, 76712, 89766, Yes
+90287)),"Yes", "No")
+where "Tier 9" is selected in the Technician User/Groups List field and that group’s
+unique system ID is 90287.
+ISCORRECT Function
+The ISCORRECT function evaluates a Values List question and determines whether the selected value is identified as
+“Correct” or “Incorrect.” Values are identified as either correct or incorrect on the Answer tab of the Define Fields page.
+The function evaluates to TRUE if the selected value is set as the “Correct” value. The function evaluates to FALSE if
+the selected value is not set as the “Correct” value. The ISCORRECT function must be used in conjunction with an IF
+function and can only be used against a Values List question within a questionnaire.
+Return Type: Text, numeric, date or a Values List field selection, depending on the type of data supplied for the
+value_if_true and value_if_ false parameters.
+Syntax: ISCORRECT([field_ref])
+In the above syntax, parameters in bold are required.
+The following table describes the ISCORRECT function parameter.
+Parameter Description
+field_ref A reference to the Values List question, for example, [question name].
+Example:
+The following table provides an example formula of the ISCORRECT function.
+Formula Result
+IF(ISCORRECT([Password Question]),““Compliant”,““Not Compliant”) | Compliant
+where the value selected for the question is identified as “Correct”.
+ISEMPTY Function
+The ISEMPTY function is used to determine if a given field contains a value or is blank (empty). The function evaluates
+to TRUE if the specified field is blank, for example, contains no value. The function evaluates to FALSE if the specified
+field is not blank (contains a value). The ISEMPTY function must be used in conjunction with an IF function.
+Return Type: Text, numeric, date or a Values List field selection, depending on the type of data supplied for the
+value_if_true and value_if_false parameters.
+Syntax: ISEMPTY((field_ref])
+In the above syntax, parameters in bold are required.
+The following table describes the ISEMPTY function
+parameter.
+Parameter Description
+field_ref A reference to a field, for example, [field name].
+Examples:
+https://help.archerirm.cloud/platform_2024_11/en-us/content/platform/calcfunctions/system_functions.htm 8/21
+
+
+===== PAGE 9 | METHOD: OCR =====
+
+
+3/2/26, 1:19 PM System Functions
+The following table provides example formulas of the ISEMPTY function.
+Formula Result
+IF(ISEMPTY([Middle Name]), "No middle name", "Middle name is " & No middle name
+[Middle Name])
+where Middle Name is a Text field containing no value.
+IF(ISEMPTY([Middle Name]), "No middle name", "Middle name is " & Middle name is
+[Middle Name]) Douglas
+where Middle Name is a Text field containing the value Douglas.
+ISNUMBER Function
+The ISNUMBER function checks the specified value and returns TRUE or FALSE depending on whether it is a number.
+You can use this function to get information about a value before performing a calculation or other action with it.
+Return Type: TRUE or FALSE
+Syntax: ISNUMBER(value)
+In the above syntax, parameters in bold are required.
+The following table describes the ISNUMBER function parameter.
+Parameter Description
+value The value that you want tested. The value argument can be a blank (empty cell),
+error, logical value, text, number, or reference value, or a name referring to any of
+these. Returns TRUE if Value refers to a number.
+Note: The value arguments of the IS functions are not converted. Any numeric
+values that are enclosed in double quotation marks are treated as text. For
+example, in most other functions where a number is required, the text value "19"
+is converted to the number 19. However, in the formula ISNUMBER("19"), "19"
+is not converted from a text value to a number value, and the IINUMBER
+function returns FALSE.
+Example:
+The following table provides an example formula of the
+ISNUMBER function.
+Formula Result
+ISNUMBER(4) | Checks whether 4 is a number (TRUE)
+MOSTRECENTVALUE Function
+The MOSTRECENTVALUE displays a specific value from the record that is evaluated as the "most recent" from a list
+of related records. For example, if a record in the Facilities application is related to multiple questionnaires, you could
+use this function to return the value of the Quantitative Summary field from the most recently submitted questionnaire.
+Return Type: Text
+Syntax: MOSTRECENTVALUE(field_to_display, date_criteria_field)
+https://help.archerirm.cloud/platform_2024_11/en-us/content/platform/calcfunctions/system_functions.htm 9/21
+
+
+===== PAGE 10 | METHOD: OCR =====
+
+
+3/2/26, 1:19 PM System Functions
+In the above syntax, parameters in bold are required.
+The following table describes MOSTRECENTVALUE function parameters.
+Parameter Description
+field_to_display This is the reference for the field value that you want to display, for
+example, REF([Cross-Reference field name],[field name]).
+date_criteria_field This is the Date field that you will use to determine which of the related
+records has the most recent value, for example, REF([Cross-Reference field
+name],[Date field name]).
+Example:
+The following table provides an example formula of the MOSTRECENTVALUE function.
+Formula Result
+MOSTRECENTVALUE(REF([Risk Questionnaire],[Inherent Risk]), REF([Risk 65
+Questionnaire],[Submitted Date]))
+where the value in the Inherent Score field of the record with the most recent
+Submitted Date value is "65".
+NOVALUE Function
+The NOVALUE function is used either to set a null value for a calculated Date, Text, or Numeric field or to set a
+calculated Values List field to have no selection. The NOVALUE function is only valid within the context of the IF
+function.
+| Note: The NOVALUE function cannot be passed to VALUEOF to clear selections from a calculated Values List field.
+Return Type: None
+Syntax: NOVALUE()
+This function does not have any parameters.
+Examples:
+The following table provides an example formula of the NOVALUE function.
+Formula Result
+IF([Rating] >=0, “Action Required”, NOVALUE()) The calculated Text field is set
+where the value of Rating is less than 6 and the calculated field to null.
+is a Text field .
+OTHERTEXT Function
+The OTHERTEXT function returns the text a user has entered in the "Other" field for the specified Values List field or
+Values List question.
+Return Type: Text
+Syntax: OTHERTEXT((field_ref])
+In the above syntax, parameters in bold are required.
+https://help.archerirm.cloud/platform_2024_11/en-us/content/platform/calcfunctions/system_functions.htm 10/21
+
+
+===== PAGE 11 | METHOD: OCR =====
+
+
+3/2/26, 1:19 PM System Functions
+The following table describes the OTHERTEXT function parameter.
+Parameter Description
+field_ref A reference to a Values List field or Values List question, for example, [question
+name].
+Examples:
+The following table provides an example formula of the OTHERTEXT function.
+Formula Result
+OTHERTEXT([Severity of Last Security Incident]) We have not had a
+where the name of the Values List question is "Severity of Last Security security incident.
+Incident" and the text entered in the Other field is "We have not had a
+security incident."
+REF Function
+The REF function returns a reference to a field that is a child field to a parent Sub-Form, Cross-Reference, Related
+Records, or Scheduler field. It can be used within another calculation that requires a set of fields or values as input. REF
+is only valid for use with the following field types:
+¢ Cross-Reference
+¢ Related Records
+e Sub-Form
+¢ Scheduler
+Return Type: Text, Numeric, Date, or a Values List field selection, depending on the type of data returned from the
+referenced field
+Syntax: REF(parent_field, child_field, data_level_name)
+In the above syntax, parameters in bold are required.
+The following table describes REF function parameters.
+Parameter Description
+parent_field The name of the Cross-Reference, Related Records, Sub-Form, or Scheduler
+field. These field types are considered "parents" because they act as
+containers for other fields. For example, a Sub-Form field by itself does not
+have any value; values can only be derived from its child fields.
+child_field The name of a field that resides within the parent_field.
+data_level_ name _ Ifa Cross-Reference field targets a multi-level application, the name of the
+level under which the field resides. Passing data_level_name is optional and
+is only necessary when a Cross-Reference field targets a multi-level
+application.
+For a Scheduler field, the data_level_name is required, since Scheduler fields
+always target multiple levels. The Scheduler field always targets the
+Appointment application and may target either the resource application or |
+or more parent applications.
+https://help.archerirm.cloud/platform_2024_11/en-us/content/platform/calcfunctions/system_functions.htm 11/21
+
+
+===== PAGE 12 | METHOD: OCR =====
+
+
+3/2/26, 1:19 PM System Functions
+Examples:
+The following table provides example formulas of the REF function.
+Formula Result
+SUM(REF([Controls], [Risk])) Cross-Reference to Flat
+where Controls is a Cross-Reference field and Risk is a field in the Application
+cross-referenced flat application.
+AVERAGE(REF([Response Measures], [Severity Rating], Cross-Reference to
+[Responses])) Multi-Level Application
+where Response Measures is a Cross-Reference field, Responses is a
+level in the cross-referenced multi-level application and Severity
+Rating is a field in the Responses data level.
+COUNTA(REF [Baselines], [Name])) Related Records
+where Baselines is a Related Records field and Name is a field in the
+application that contains the corresponding Cross-Reference field.
+COUNTA(REF([Actions], [Contact ID])) Sub-Form
+where Actions is a Sub-Form field and Contact ID is a field in the
+sub-form associated with the Sub-Form field.
+SUM(REF([SchedulerField],[Duration (Hours)],[Appointment])) Scheduler Field
+where SchedulerField is a scheduler field, Duration (Hours) is a field reference to the
+in the Appointment application and Appointment is the level through = Appointment application
+which the scheduler is referencing.
+SELECTEDVALUENUMBER Function
+The SELECTEDVALUENUMBER function extracts the numeric value from the values list item selected from a Values
+List field. If the Values List field allows multiple selections, this function must be used in conjunction with an aggregate
+function, as the following example shows:
+SUM(SELECTEDVALUENUMBER([Multi-Select Values List Field]))
+In addition, if you reference a Values List field in a cross-referenced application, both the Cross-Reference field used to
+form the application relationship and the Values List field in the related application must be single-select fields in order
+to use the SELECTEDVALUENUMBER function without wrapping it in an aggregate function. If either the Cross-
+Reference or Values List field allows multiple selections, an aggregate function must also be used, as shown in the
+following example:
+AVERAGE(SELECTED VALUENUMBER(REF([Multi-Select Cross-Ref Field], [Values List Field])))
+If no numeric value is assigned to a values list item, that value will be treated as 0. The only exception is when the
+AVERAGE function is used in conjunction with the SELECTEDVALUENUMBER function. In this case, the null value
+will not be used in the calculation. Use the following values as an example:
+Value A: 10
+Value B: 5
+Value C: no numeric value assigned
+https://help.archerirm.cloud/platform_2024_11/en-us/content/platform/calcfunctions/system_functions.htm 12/21
+
+
+===== PAGE 13 | METHOD: OCR =====
+
+
+3/2/26, 1:19 PM System Functions
+If the SUM function is used in conjunction with SELECTEDVALUENUMBER, Value C will be treated as 0 in the
+calculation. If all 3 values were selected in the Values List field, the result of the calculation would be 15. However, if
+the AVERAGE function were used and all 3 values were selected in the Values List field, Value C would be ignored in
+the calculation since it has no numeric value. The result would be 7.5.
+Return Type: Numeric
+Syntax: SELECTED VALUENUMBER(field_ref)
+In the above syntax, parameters in bold are required.
+The following table describes the SELECTEDVALUENUMBER function parameter.
+Parameter Description
+field_ref A reference to a Values List field in the application, for example, [Risk Rating], a
+field in a child sub-form, for example, [Notes].[Risk Rating], or a field in a cross-
+referenced application, for example, [Vendors].[Risk Rating].
+Examples:
+The following table provides example formulas of the SELECTEDVALUENUMBER
+function.
+Formula Result
+SELECTED VALUENUMBER([Risk Rating]) 10
+where the selected value in the Risk Rating field is “High” and the numeric value
+assigned to the value “High” is 10.
+MAX(SELECTEDVALUENUMBER([Affected Departments])) 10
+where the Affected Departments field is a multi-select Values List field, the selected
+values are “Operations” and “IT,” and the associated numeric values are 7 and 10,
+respectively.
+AVERAGE(SELECTEDVALUENUMBER(REF([Vendors], [Risk Rating]))) 9
+where Vendors is a multi-select Cross-Reference field to the Vendors application, Risk
+Rating is a single-select Values List field in the Vendors application, the selected values
+in the related records are “High” and “Low,” and the associated numeric values are 10
+and 8, respectively.
+TRACKINGID Function
+The TRACKINGID function returns a record ID that uniquely identifies the current record across all applications. This
+function could be used in conjunction with the CONTENTID function to produce a complex ID that combines the
+system-wide ID, the application-specific ID, and data pulled from other fields.
+Return Type: Numeric
+Syntax: TRACKINGIDQ).
+This function does not have parameters.
+Example:
+The following table provides an example formula of the TRACKINGID function.
+Formula Result
+https://help.archerirm.cloud/platform_2024_11/en-us/content/platform/calcfunctions/system_functions.htm 13/21
+
+
+===== PAGE 14 | METHOD: OCR =====
+
+
+3/2/26, 1:19 PM System Functions
+Formula Result
+[Type Code] & "-" & TRACKINGID() & "=" & CONTENTID() WORM-
+where the Type Code field is WORM, the system-wide tracking ID is 678904, 678904-34
+and the application-specific content record ID is 34.
+USER Function
+The USER function maintains the validity of a formula reference to a specific user selection in a User/Groups List or
+Record Permissions field, even if the user name is changed later. User references can be passed as either as literal names
+or logon IDs. A logon name can optionally be referenced by a specific domain.
+For example, if the literal user name "Jones, Mary" is referenced in a formula within the USER function and that user’s
+name is subsequently changed to "Jones-Smith, Mary", the original user name reference will automatically be updated in
+the formula to "Jones-Smith, Mary".
+As another example, user Mary Jones is referenced in a formula by her Archer logon name for the domain
+"bigcompany.com". Her logon name should be passed to the USER function as "mjones@bigcompany.com". If an
+administrator later changes Mary Jones’ logon name on that domain to "msmith", the original logon name will
+automatically be updated to "msmith@bigcompany.com".
+The USER function also directly accepts system-assigned user ID numbers. Each user in the system has an internal ID
+number that is guaranteed to be unique. For example, if 2 users both named Graham, Ned exist in the system, the user
+name cannot be resolved to determine whether the intended Graham, Ned is selected in the given User/Groups List or
+Record Permissions field. However, a system ID, for example, 76219, can be used in place of the ambiguous user name
+to uniquely identify the correct Graham, Ned.
+Return Type: Text or Numeric, depending on the format selected for the ref_type parameter
+Syntax: USER(ref_type, valuel, value2...)
+In the above syntax, parameters in bold are required.
+The following table describes USER function parameters.
+Parameter Description
+ref_type Accepts the keyword NAME, LOGIN, or ID.
+e If NAME is specified, the function will inspect field selections by literal
+user name, for example, "Jones, Mary".
+e If LOGIN is specified, the function will inspect user selections based on
+logon name, rather than user name, for example,
+mjones@bigcompany.com.
+¢ If ID is specified, the function will inspect user selections based on
+unique system-assigned ID numbers.
+https://help.archerirm.cloud/platform_2024_11/en-us/content/platform/calcfunctions/system_functions.htm 14/21
+
+
+===== PAGE 15 | METHOD: OCR =====
+
+
+3/2/26, 1:19 PM
+Parameter
+valuel,
+value2...
+System Functions
+Description
+1 or more values within a User/Groups or Record Permissions field.
+e NAME. If ref_type is NAME, user names must be passed exactly as
+they display in the User/Groups List or Record Permissions field. If
+passing a user’s name, the name must be specified in the following
+format: "lastname, firstname". Matching will be case sensitive. The
+system will test only against non-deleted users.
+When using NAME with USER, an error will occur during formula
+validation if any of the following is true:
+o Ifthe named user cannot be found in any domain
+o Ifthe named user is found in more than 1 domain
+o Ifthe named user is found in a single domain only but the user
+name is not unique within that domain.
+LOGIN. If ref_type is LOGIN, the function will expect 1 or more
+Archer user logon name values. Matching will be performed against
+users’ logons rather than by their last and first names.
+When using LOGIN with USER, an error will occur during formula
+validation if any of the following is true:
+o Ifthe user referenced by logon cannot be found in any domain
+o Ifthe user referenced by logon is found in more than 1 domain
+If the LOGIN string contains at least 1 @ sign, the system will assume
+that all text following the last @ sign is a domain reference and the
+system will attempt to locate that domain. If the LOGIN string does not
+contain a @ sign, the system will look for an exact match for the entire
+login string in the Archer (NULL) domain and the default domain.
+Note: The system will attempt to match the domain name against both
+active and deleted, for example, soft-deleted, domains. Only active
+domain names must be unique; it is possible that a deleted domain has
+the same name as an active domain. If the logon string exists in more
+than | of the domains that have the same name, the system will fail the
+formula on validation.
+e Ifthe domain can be found:
+1. The system treats all text in the logon string before the last @
+sign as the user logon name and will attempt to find that user
+logon within the domain.
+2. If the logon is found within the domain, the system will
+replace the logon string in the formula with the ID of the user
+matching that logon.
+If the domain cannot be found:
+1. The system will look for an exact match for the entire logon
+string in the Archer (NULL) domain and the default domain.
+2. If only | user with that logon exists, the system will replace
+the logon string in the formula with the ID of the user
+https://help.archerirm.cloud/platform_2024_11/en-us/content/platform/calcfunctions/system_functions.htm 15/21
+
+
+===== PAGE 16 | METHOD: OCR =====
+
+
+3/2/26, 1:19 PM System Functions
+Parameter Description
+matching that logon.
+¢ ID. Ifref_type is ID, the function will expect 1 or more system-assign
+user ID numbers. User IDs are assigned by the system and are always
+unique. User IDs are numbers and should not be quoted. When using ID
+with USER, an error will occur during formula validation if any of the
+following is true referenced user ID cannot be found in any domain.
+Examples:
+The following table provides example formulas of the USER function.
+Formula Result
+IF(CONTAINS(ANY, GETUSERS([Technician]), USER(NAME, Standard
+"Thurman, Laurie", "Winters, George")), "Standard", Priority")
+where the user "Thurman, Laurie" is selected in the Technician
+User/Groups List field.
+IF(CONTAINS(ANY, GETUSERS([Reviewer]), USER(NAME, "Jasper, Yes
+Susan", "Miner, Burt", "Rollins, Jacob")), "Yes", "No")
+where the user "Miner, Burt" is selected in the Reviewer Record
+Permissions field.
+IF(CONTAINS(ANY, GETUSERS([Manager]), USER(LOGIN, The value "Escalate"
+"kjackson", "tbarnett@bigcompany.com", "jwilson@bigcompany.net", is selected in the
+"smartin")), VALUEOF([Alert], "Escalate"), VALUEOF([Alert], Alert Values List
+NOVALUE())) field.
+where "Barnett, Tina" is selected in the User/Groups List field and her
+Archer logon ID for the "bigcompany.com" domain is "tbarnett".
+IF(CONTAINS(ANY, GETUSERS([Associates]), USER(ID, 76299, Found
+56897, 79867)),” Found”, "Not Found”)
+where "Eastman, Tina" is selected in the User/Groups List field and her
+system user ID is 79867.
+USERDEFAULTEMAIL Function
+The USERDEFAULTEMAIL function returns the email address of either the record creator or the record editor. The
+creator is defined as the user who created the record (or is currently creating the record). The editor is defined as the user
+who last edited the record.
+Return Type: Text
+Syntax; USERDEFAULTEMAIL(user_type)
+In the above syntax, parameters in bold are required.
+The following table describes the USERDEFAULTEMAIL function parameter.
+Parameter Description
+https://help.archerirm.cloud/platform_2024_11/en-us/content/platform/calcfunctions/system_functions.htm 16/21
+
+
+===== PAGE 17 | METHOD: OCR =====
+
+
+3/2/26, 1:19 PM
+Parameter
+user_type
+Examples:
+System Functions
+Description
+Accepts the keyword CREATOR or EDITOR. If CREATOR is specified, the
+function returns the default email address the user associated with creating the
+record. If EDITOR is supplied, the function returns the default email address of the
+user associated with the most recent record update.
+The following table provides example formulas of the USERDEFAULTEMAIL function.
+Formula Result
+"Hello, " & USERDEFAULTEMAIL(CREATOR) Hello
+Where Janet@archer.com is the default email address of the record Janet@archer.com
+creator.
+"Hello, " & USERDEFAULTEMAIL(EDITOR) Hello
+Where Miles@archer.com is the default email address of the record Miles@archer.com
+editor.
+USERFIRSTNAME Function
+The USERFIRSTNAME function returns the first name of either the record creator or the record editor. The creator is
+defined as the user who created the record (or is currently creating the record). The editor is defined as the user who last
+edited the record.
+Return Type: Text
+Syntax: USERFIRSTNAME(user_type)
+In the above syntax, parameters in bold are required.
+The following table describes the USERFIRSTNAME function parameter.
+Parameter
+user_type
+Examples:
+Description
+Accepts the keyword CREATOR or EDITOR. If CREATOR is specified, the
+function returns the first name of the user associated with creating the record. If
+EDITOR is supplied, the function returns the first name of the user associated with
+the most recent record update.
+The following table provides example formulas of the
+USERFIRSTNAME function.
+Formula Result
+"Hello, " & USERFIRSTNAME(CREATOR) Hello, Janet
+where Janet is the first name of the record creator.
+"Hello, " & USERFIRSTNAME(EDITOR) Hello, Miles
+where Miles is the first name of the record editor.
+https://help.archerirm.cloud/platform_2024_11/en-us/content/platform/calcfunctions/system_functions.htm
+17/21
+
+
+===== PAGE 18 | METHOD: OCR =====
+
+
+3/2/26, 1:19 PM System Functions
+USERLASTNAME Function
+The USERLASTNAME function returns the last name of either the record creator or the record editor. The creator is
+defined as the user who created the record (or is currently creating the record). The editor is defined as the user who last
+edited the record.
+Return Type: Text
+Syntax: USERLASTNAME(user_type)
+In the above syntax, parameters in bold are required.
+The following table describes the USERLASTNAME function parameter.
+Parameter Description
+user_type Accepts the keyword CREATOR or EDITOR. If CREATOR is specified, the
+function returns the last name of the user associated with creating the record. If
+EDITOR is supplied, the function returns the last name of the user associated with
+the most recent record update.
+Examples:
+The following table provides example formulas of the
+USERLASTNAME function.
+Formula Result
+"Last Name: " & USERLASTNAME(CREATOR) Last Name: Rossi
+where Rossi is the last name of the record creator.
+"Last Name: " & USERLASTNAME(EDITOR) Last Name: Eldrich
+where Eldrich is the last name of the record editor.
+USERMIDDLENAME Function
+The USERMIDDLENAME function returns the middle name of either the record creator or the record editor. The
+creator is defined as the user who created the record (or is currently creating the record). The editor is defined as the user
+who last edited the record.
+Return Type: Text
+Syntax: USERMIDDLENAME(user_type)
+In the above syntax, parameters in bold are required.
+The following table describes the USERMIDDLENAME function parameter.
+Parameter Description
+user_type Accepts the keyword CREATOR or EDITOR. If CREATOR is specified, the
+function returns the middle name of the user associated with creating the record. If
+EDITOR is supplied, the function returns the middle name of the user associated
+with the most recent record update.
+Examples:
+The following table provides example formulas of the USERMIDDLENAME
+function.
+https://help.archerirm.cloud/platform_2024_11/en-us/content/platform/calcfunctions/system_functions.htm
+18/21
+
+
+===== PAGE 19 | METHOD: OCR =====
+
+
+3/2/26, 1:19 PM System Functions
+Formula Result
+"Middle Name: "& USERMIDDLENAME(CREATOR) | Middle Name: Ellen
+where Ellen is the middle name of the record creator.
+"Middle Name: " & USERMIDDLENAME(EDITOR) Middle Name: Quentin
+where Quentin is the middle name of the record editor.
+VALUEOF Function
+The VALUEOF function maintains the validity of a Values List field selection. If the text of a value is changed in the
+custom or global values list by the Archer administrator, this function automatically updates the formula to use the new
+text for the value. For example, if the value "Blue" is referenced in a formula with the VALUEOF function and that
+value is subsequently changed to "Red" within the values list, the value reference "Blue" will automatically be changed
+to "Red" within the formula.
+From a user perspective, the VALUEOF function serves 2 additional purposes, it enables you to:
+e Evaluate a Values List field for the presence of a specific value.
+¢ Set value selections in a Values List field.
+The following example shows the use of the VALUEOF function in a formula for a calculated Values List field. The
+VALUEOF function is used for both the "value_if_true" and "value_if_false" parameters within the IF function syntax.
+IF([Risk Rating]>=10, VALUEOF([Criticality], "High"), VALUEOF([Criticality], "Low"))
+In a record, this formula will evaluate Risk Rating, and if the value in that field is greater than or equal to 10, the
+formula selects the value High in the Criticality calculated Values List field. If the value in Risk Rating is less than 10,
+the formula selects the value Low in Criticality.
+This second example shows the use of the VALUEOF function in a formula for a calculated Text field. The VALUEOF
+function is used for the value parameter within the CONTAINS function syntax.
+IF(CONTAINS(ANY, [Location], VALUEOF([Location], "New York")),"Yes","No")
+In a record, this formula produces the value "Yes" or "No" in the calculated Text field depending on whether the value
+"New York" is selected in Location, which is a Values List field. If the value "New York" is selected, the calculated Text
+field displays the value "Yes." If the value "New York" is not selected, the calculated Text field displays the value "No."
+Return Type: Text
+Syntax: VALUEOF(field_ref, value1, value2...)
+In the above syntax, parameters in bold are required.
+The following table describes VALUEOF function parameters.
+Parameter Description
+field_ref A reference to a field, for example, [field name].
+valuel, value | A value within a Values List field. Enter the value as "value", for example,
+2,0. "Urgent". If the Values List field allows multiple selections, multiple values can
+be entered as "value!","value2","value3".
+VALUEOF([Values List Name], "value", "value2", "value3"). For example,
+VALUEOF([States], "Washington", "New York", "Massachusetts")
+Examples:
+https://help.archerirm.cloud/platform_2024_11/en-us/content/platform/calcfunctions/system_functions.htm 19/21
+
+
+===== PAGE 20 | METHOD: OCR =====
+
+
+3/2/26, 1:19 PM System Functions
+The following table provides example formulas of the VALUEOF function.
+Formula Result
+IF(CONTAINS(ANY, [Location], VALUEOF([Office], "Chicago”, "Local", Local
+"Global")))
+where the selected value in Location is Chicago.
+IF(CONTAINS(ANY, [Region], VALUEOF([Region], "Northeast")), Connecticut
+VALUEOF([Office], "Connecticut", "New York", Massachusetts"), New York
+VALUEOF([Office], "Kansas", "Illinois", '"Texas")) Massachusetts
+where the selected value in Region is Northeast.
+IF(CONTAINS(ANY, [Color], VALUEOF([Color], "Red", "Green", "Blue", Other
+"Yellow")), "Primary Color", "Other")
+where the selected value in Color is Silver.
+WEIGHTEDSCORE Function
+The WEIGHTEDSCORE function returns the weighted score value for the values selected in a Values List question.
+This function is only useful if you assigned a weight to the Values List question and you assigned a numeric value to
+each of the possible answers to the question.
+Using this function will run the following calculation:
+[values list selection numeric value] * [values list question weighting] = WEIGHTEDSCORE
+or (for multi-select Values List questions):
+SUM([values list selection numeric valuel], [values list selection numeric value2]) * [values list question weighting] =
+WEIGHTEDSCORE
+The WEIGHTEDSCORE function can only be used within a questionnaire and can only reference a Values List
+question.
+Return Type: Numeric
+Syntax: WEIGHTEDSCORE(field_ref)
+In the above syntax, parameters in bold are required.
+The following table describes the WEIGHTEDSCORE function parameter.
+Parameter Description
+field_ref A reference to the Values List question, for example, [question name].
+Example:
+The following table provides an example formula of the WEIGHTEDSCORE function.
+Formula Result
+WEIGHTEDSCORE([New User Access]) 50
+where the weighting value for the New User Access question is "10" and the numeric
+value for the answer is "5".
+https://help.archerirm.cloud/platform_2024_11/en-us/content/platform/calcfunctions/system_functions.htm 20/21
+
+
+===== PAGE 21 | METHOD: OCR =====
+
+
+3/2/26, 1:19 PM System Functions
+WEIGHTING Function
+The WEIGHTING function returns the weighting value of a Values List question. The WEIGHTING function can only
+be used within a questionnaire and can only reference a Values List question.
+Return Type: Numeric
+Syntax: WEIGHTING ((field_ref])
+In the above syntax, parameters in bold are required.
+The following table describes the WEIGHTING function parameter.
+Parameter Description
+field_ref A reference to the Values List question, for example, [question name].
+Example:
+The following table provides an example formula of the WEIGHTING
+function.
+Formula Result
+WEIGHTING([New User Access]) 10
+where the weighting value for the New User Access question is "10".
+Archer
+ADDRESS ABOUT CUSTOMERS CONNECT WITH US
+ARCHER
+13200 Metcalf Ave Events Archer Academy ny @
+Suite 300 Resources Archer Exchange
+Overland Park, KS Services Support
+66213
+About Us Archer Community
+Archer is a leading provider of enterprise risk management solutions, which include third party risk management, IT risk
+management, operational risk management, and more. Contact us now to learn more about integrated risk management
+solutions from Archer.
+© 2024 Archer Technologies LLC. All rights
+Trademarks |Terms of _| Privacy | Standard Form
+reserved.
+Use Policy Agreements
+https://help.archerirm.cloud/platform_2024_11/en-us/content/platform/calcfunctions/system_functions.htm 21/21

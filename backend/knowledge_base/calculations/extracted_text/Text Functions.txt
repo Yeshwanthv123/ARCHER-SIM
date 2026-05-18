@@ -1,0 +1,360 @@
+
+
+===== PAGE 1 | METHOD: OCR =====
+
+
+3/2/26, 1:20 PM Text Functions
+You are here: Set Up & Maintenance > Building Applications, Questionnaires, and Solutions > Fields > Text Functions
+https://help.archerirm.cloud/platform_2024_11/en-us/content/platform/calcfunctions/text_functions.htm 1/10
+
+
+===== PAGE 2 | METHOD: OCR =====
+
+
+3/2/26, 1:20 PM Text Functions
+Text Functions
+The following text functions utilize and manipulate text strings to produce dynamic values.
+On this page
+CONCATENATE Function
+The CONCATENATE function joins up to 255 text strings into 1 text string. The joined items can be text, numbers, cell
+references, or a combination of those items. You must specify any spaces or punctuation that you want to appear in the
+results as an argument that is enclosed in quotation marks.
+Return Type: Text
+Syntax: CONCATENATE(text1, text2, ...)
+In the above syntax, parameters in bold are required.
+The following table describes CONCATENATE function parameters.
+Parameter Description
+textl The first text item to be concatenated.
+text2, ... Additional text items, up to a maximum of 255 items. The items must be separated
+by commas.
+Example:
+The following table provides an example formula of the CONCATENATE function.
+Formula Result
+CONCATENATE([First Name], '"", [Last Name]) John
+where the value in the First Name field is "John" and the value in the Last Name Smith
+field is "Smith".
+FIND Function
+The FIND function searches for a specific character or text string within another text string. It returns the number of the
+character at which the specific character or test string is first found. The FIND function is case sensitive.
+Return Type: Numeric
+Syntax: FIND(find_text, field_ref, start_num)
+In the above syntax, parameters in bold are required.
+The following table describes FIND function parameters.
+Parameter Description
+find_text The character or text string you want to find. You can format this parameter as a
+hard-coded character or text string, for example, "sci", or as a Text-field reference,
+for example, [field name].
+https://help.archerirm.cloud/platform_2024_11/en-us/content/platform/calcfunctions/text_functions.htm 2/10
+
+
+===== PAGE 3 | METHOD: OCR =====
+
+
+3/2/26, 1:20 PM Text Functions
+Parameter Description
+field_ref A Text-field reference, for example, [field name].
+start_num The character number in the field_ref parameter at which you want to start
+searching for the find_text parameter. If this parameter is omitted, the search will
+begin at the first character in the Text field. If this parameter is less than or equal
+to 0 (zero) or is greater than the number of characters in the Text field, a formula
+validation error will occur.
+Examples:
+The following table provides example formulas of the FIND function.
+Formula Result
+FIND("Sci", [Subject]) 10 (because "Sci" begins at the tenth character in this text string)
+where the value in the
+Subject field is "Arts
+and Sciences".
+FIND("s", [Subject], 5) 17 (notice that the first "s" in the Subject field value was skipped
+where the value in the because the start_num parameter required that the search begin at the
+Subject field is "Arts fifth character and the "S" in the Subject field value was skipped
+and Sciences". because it does not match the case specified)
+LEFT Function
+The LEFT function returns the first character or characters in a text string, based on the number of characters that you
+specify. LEFT is intended for use with languages that use the single-byte character set (SBCS). LEFT always counts
+each character, whether single-byte or double-byte, as 1, regardless of what the default language setting is.
+Return Type: Numeric
+Syntax: LEFT(text,num_chars)
+In the above syntax, parameters in bold are required.
+The following table describes LEFT function parameters.
+Parameter Description
+text The text string that contains the characters that you want to extract.
+num_chars The number of characters that you want LEFT to extract. Note that:
+¢ Num chars must be greater than or equal to zero.
+e Ifnum_chars is greater than the length of text, LEFT returns all of text.
+¢ Ifnum chars is omitted, it is assumed to be 1.
+Examples:
+The following table provides example formulas of the LEFT function.
+Formula Result
+https://help.archerirm.cloud/platform_2024_11/en-us/content/platform/calcfunctions/text_functions.htm 3/10
+
+
+===== PAGE 4 | METHOD: OCR =====
+
+
+3/2/26, 1:20 PM Text Functions
+Formula Result
+LEFT([Text],4) First 4 characters in the string (Sale)
+where the value in the Text string is Sale Price.
+LEFT([Text]) First character in the string (S)
+where the value in the Text string is Sweden.
+LEN Function
+The LEN function returns the number of characters in the supplied string.
+Return Type: Numeric
+Syntax: LEN(text)
+In the above syntax, parameters in bold are required.
+The following table describes the LEN function parameter.
+Parameter Description
+text The text string to be evaluated. This parameter should be formatted as a Text-field
+reference, for example, [field name].
+Example:
+The following table provides an example formula of the
+LEN function.
+Formula Result
+LEN ({Last Name]) 5
+where the value in the Last Name field is "Jones".
+LOWER Function
+The LOWER function converts all characters in the supplied text string to lowercase. This function does not affect non-
+alphabetic characters.
+Return Type: Text
+Syntax: LOWER(text)
+In the above syntax, parameters in bold are required.
+The following table describes the LOWER function parameter.
+Parameter Description
+text The text string to be converted to lowercase. This parameter should be formatted
+as a Text-field reference, for example, [field name].
+Examples:
+The following table provides example formulas of the LOWER function.
+Formula Result
+https://help.archerirm.cloud/platform_2024_11/en-us/content/platform/calcfunctions/text_functions.htm 4/10
+
+
+===== PAGE 5 | METHOD: OCR =====
+
+
+3/2/26, 1:20 PM Text Functions
+Formula Result
+LOWER([Name]) jake miller
+where the value in the Name field is "Jake Miller ".
+LOWER([{Email Address]) suzy.williams@shore2shore.org
+where the value in the Email Address field is
+"SUZY.WILLIAMS@Shore2Shore.org".
+MASKEDTEXT Function
+The MASKEDTEXT function returns the string value of the referenced Text field using the mask (if any) defined for the
+field. If the function references a Text field for which a mask has not been defined, the function will return the raw value
+from the field.
+Note: Unless a Text field reference is wrapped in MASKEDTEXT, the calculation engine will always evaluate the
+raw, unformatted value of the Text field.
+Return Type: Text
+Syntax: MASKEDTEXT(text_field)
+In the above syntax, parameters in bold are required.
+The following table describes the MASKEDTEXT function.
+Parameter Description
+text_field This parameter should be formatted as a Text-field reference, for example, [field
+name].
+| Note: This function is valid only for Text fields.
+Examples:
+The following table provides example formulas of the MASKEDTEXT function.
+Formula Result
+MASKEDTEXT([Phone]) (913) 786-
+where the raw value in the Phone field is 9137862356 and the Text field is defined | 2356
+to use a phone number mask.
+MASKEDTEXT([SIN]) 046 454
+where the raw value is 046454286 and the Text field is defined to use a custom 286
+mask for the Canadian Social Insurance Number.
+NUMBERFORMAT Function
+The NUMBERFORMAT function is used to "pad" zeros (0) to the left of a given numeric value based on the count of
+digits specified by the number "mask." The zero padding is only applied if the number of digits in the numeric value
+falls short of the number of digits specified in the mask. This function returns a text value (string) that can be
+concatenated to other strings or stored directly in the Text field.
+Return Type: Text
+https://help.archerirm.cloud/platform_2024_11/en-us/content/platform/calcfunctions/text_functions.htm 5/10
+
+
+===== PAGE 6 | METHOD: OCR =====
+
+
+3/2/26, 1:20 PM Text Functions
+Syntax: NUMBERFORMAT(value, value_mask)
+In the above syntax, parameters in bold are required.
+The following table describes the NUMBERFORMAT function parameters.
+Parameter Description
+value The numeric value, which can be derived through a Numeric-field reference, for
+example, [field name], or through the use of a function that returns a numeric
+value.
+value_mask The mask used to format the returned text value. The value_mask parameter must
+be enclosed in quotes.
+The final placeholder in the value_mask parameter must always be a single pound
+sign (#). The placeholders allowed for this function are:
+0 = Zero placeholder
+# = Value placeholder
+Examples:
+The following table provides example formulas of the NUMBERFORMAT function.
+Formula Result
+NUMBERFORMAT(TRACKINGID(O), "00#") 001
+where the tracking ID returned by the TRACKINGID function is 1.
+NUMBERFORMAT(TRACKINGID(), "000000#") 0000937
+where the tracking ID returned by the TRACKINGID function is 937.
+CONTENTID() & "-" & NUMBERFORMAT(TRACKINGID(Q), "000#") 878762-
+where the content ID returned by the CONTENTID function is 878762 and the 0008
+tracking ID returned by the TRACKINGID function is 8.
+NUMBERFORMAT ([Risk] + [Criticality], "00#") 019
+where the value in the Risk field is 12 and the value in the Criticality field is 7.
+PROPER Function
+The PROPER function capitalizes the first letter of each word in the supplied string, as well as the first letter that
+follows any non-alphabetic character in the string. All other letters in the string are converted to lowercase.
+Return Type: Text
+Syntax: PROPER(text)
+In the above syntax, parameters in bold are required.
+The following table describes the PROPER function parameter.
+Parameter Description
+text The text string to be converted to proper text format. This parameter should be
+formatted as a Text-field reference, for example, [field name].
+Examples:
+https://help.archerirm.cloud/platform_2024_11/en-us/content/platform/calcfunctions/text_functions.htm
+6/10
+
+
+===== PAGE 7 | METHOD: OCR =====
+
+
+3/2/26, 1:20 PM Text Functions
+The following table provides example formulas of the PROPER function.
+Formula Result
+PROPER({Last Name]) Jane Pearson-Wyatt
+where the value in the Last Name field is "jane pearson-wyatt".
+PROPER([Last Name]) O’Neil
+where the value in the Last Name field is "O’NEIL".
+PROPER({Last Name]) St. John
+where the value in the Last Name field is "ST. JOHN".
+PROPER([Web Page]) Www.Archer-
+where the value in the Web Page field is "www.archer-tech.com". Tech.Com
+PROPER([Equipment Note]) This Is Mike’S Laptop.
+where the value in the Equipment Note field is "This is Mike’s
+laptop."
+RIGHT Function
+The RIGHT function returns a specific number of characters from the right side of the string. For example, if you
+specify 3 characters, the last 3 characters from the string will be returned.
+Return Type: Text
+Syntax: RIGHT(text, num_chars)
+In the above syntax, parameters in bold are required.
+The following table describes RIGHT function parameters.
+Parameter Description
+text The text string that contains the characters that you want to return. This parameter
+should be formatted as a Text-field reference, for example, [field name].
+num_chars Specifies the number of characters in the text string that you want to return. This
+parameter must be greater than or equal to 0 (zero). If this parameter is negative,
+the function will return an error.
+Example:
+The following table provides an example formula of the RIGHT
+function.
+Formula Result
+RIGHT([Department Name], 4) ting
+where the value in the Department Name field is "Marketing".
+https://help.archerirm.cloud/platform_2024_11/en-us/content/platform/calcfunctions/text_functions.htm 7/10
+
+
+===== PAGE 8 | METHOD: OCR =====
+
+
+3/2/26, 1:20 PM Text Functions
+STRIPHTML Function
+The STRIPHTML function removes HTML tags from calculated text fields within a data feed while the feed is taking
+place. There are no defined parameters for this function because it is coded only to remove the HTML tags from text
+fields in the data feed.
+Return Type: Text
+Syntax: STRIPHTML
+SUBSTRING Function
+The SUBSTRING function returns a specified number of characters from a text string. When creating a formula with
+this function, you specify the character position where you want to start extracting text, and you specify the number of
+characters to return. For example, if you enter | as the start position and 3 as the number of characters to return, you
+would get the substring "Mar" from a Text field with the value "Marketing."
+Return Type: Text
+Syntax: SUBSTRING(text_field, start_num, num_chars)
+In the above syntax, parameters in bold are required.
+The following table describes SUBSTRING function parameters.
+Parameter Description
+text_field The text string that contains the characters that you want to return. This parameter
+should be formatted as a Text-field reference, for example, [field name].
+start_num Specifies the position of the first character that you want to extract from the Text
+field. The first character in a string has a start number of 1. If the start number
+value is less than | or is greater than the number of characters in the string, the
+calculation will fail.
+num_chars Specifies the number of characters in the Text field that you want to return. If you
+specify a value that is larger than the total number of characters in the string, then
+this parameter returns all characters to the end of the string.
+Example:
+The following table provides an example formula of the
+SUBSTRING function.
+Formula Result
+SUBSTRING([Department Name], 1, 4) Mark
+where the value in the Department Name field is "Marketing".
+Note: If the text string contains ampersand (&), less than (<), greater than (>), pound (#), single quotation (') or double
+quotation (") characters, then the SUBSTRING function returns results incorrectly.
+https://help.archerirm.cloud/platform_2024_11/en-us/content/platform/calcfunctions/text_functions.htm 8/10
+
+
+===== PAGE 9 | METHOD: OCR =====
+
+
+3/2/26, 1:20 PM Text Functions
+TRIM Function
+The TRIM function removes spaces from text strings, with the exception of single spaces between words. A common use
+for the TRIM function is to remove extra spaces from data received from an integration or data import. Often, data
+formatted in another system has irregular spacing. Using the TRIM function ensures that unnecessary spaces are
+removed from your Archer text.
+Return Type: Text
+Syntax: TRIM(text)
+In the above syntax, parameters in bold are required.
+The following table describes the TRIM function parameter.
+Parameter Description
+text The text string from which you want to remove the unnecessary spaces.
+Example:
+The following table provides an example formula of the TRIM function.
+Formula Result
+TRIM({Asset Description]) "The HR-DB Server is used to store
+where the value of the Asset Description field is "The our human resources information."
+HR-DB Server is used to store our human resources
+information."
+UPPER Function
+The UPPER function converts all characters in the supplied string to uppercase. This function does not affect non-
+alphabetic characters.
+Return Type: Text
+Syntax: UPPER(text)
+In the above syntax, parameters in bold are required.
+The following table describes the UPPER function parameter.
+Parameter Description
+text The text string to be converted to uppercase. This parameter should be formatted
+as a Text-field reference, for example, [field name].
+Examples:
+The following table provides example formulas of the UPPER function.
+Formula Result
+UPPER([Name]) JAKE MILLER
+where the value in the Name field is "Jake Miller ".
+https://help.archerirm.cloud/platform_2024_11/en-us/content/platform/calcfunctions/text_functions.htm 9/10
+
+
+===== PAGE 10 | METHOD: OCR =====
+
+
+3/2/26, 1:20 PM Text Functions
+Formula Result
+UPPER([Web Site]) WWW.ARCHER-
+where the value in the Web Site field is "www.archer-tech.com TECH.COM
+Archer
+ABOUT
+ADDRESS CUSTOMERS CONNECT WITH US
+ARCHER
+13200 Metcalf Ave Events Archer Academy in ¥o
+Suite 300 Resources Archer Exchange
+Overland Park, KS Services Support
+66213
+About Us Archer Community
+Archer is a leading provider of enterprise risk management solutions, which include third party risk management, IT risk
+management, operational risk management, and more. Contact us now to learn more about integrated risk management
+solutions from Archer.
+© 2024 Archer Technologies LLC. All rights
+Trademarks | Terms of | Privacy | Standard Form
+reserved.
+Use Policy Agreements
+https://help.archerirm.cloud/platform_2024_11/en-us/content/platform/calcfunctions/text_functions.htm 10/10

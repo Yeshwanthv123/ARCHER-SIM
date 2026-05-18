@@ -1,0 +1,64 @@
+
+
+===== PAGE 1 | METHOD: OCR =====
+
+
+3/2/26, 1:36 PM Setting the Run Order for Multiple Calculated Fields
+You are here: Set Up & Maintenance > Building Applications, Questionnaires, and Solutions > Fields > Setting the Run Order
+for Multiple Calculated Fields
+https://help.archerirm.cloud/platform_2024_11/en-us/content/platform/fields/fld_calc_exec_order_multi_setting.htm 1/3
+
+
+===== PAGE 2 | METHOD: OCR =====
+
+
+3/2/26, 1:36 PM
+Setting the Run Order for Multiple Calculated Fields
+If you are working with an application, a questionnaire, or a sub-form that contains multiple calculated fields and the
+formula for | calculated field is dependent on the result of another calculated field, you must specify the order in which
+you want to compute the calculated fields.
+Note: When you add a new calculated field to an application, a questionnaire, or a sub-form, it displays at the bottom
+Setting the Run Order for Multiple Calculated Fields
+of the list in the Field Calculation Order listing.
+Set the run order for multiple calculated fields
+1. From the menu, click w > Application Builder > Applications.
+2. Click the Calculations tab.
+3. Go to the Field Calculation Order section.
+4. Reorder the fields within the Fields section to the calculation order you want.
+5. Click Save.
+Archer
+ADDRESS
+13200 Metcalf Ave
+Suite 300
+Overland Park, KS
+66213
+ABOUT
+ARCHER
+Events
+Resources
+Services
+About Us
+CUSTOMERS
+Archer Academy
+Archer Exchange
+Support
+Archer Community
+CONNECT WITH US
+in’ @
+https://help.archerirm.cloud/platform_2024_11/en-us/content/platform/fields/fld_calc_exec_order_multi_setting.htm
+2/3
+
+
+===== PAGE 3 | METHOD: OCR =====
+
+
+3/2/26, 1:36 PM Setting the Run Order for Multiple Calculated Fields
+Archer is a leading provider of enterprise risk management solutions, which include third party risk management, IT risk
+management, operational risk management, and more. Contact us now to learn more about integrated risk management
+solutions from Archer.
+© 2024 Archer Technologies LLC. All rights
+Trademarks | Terms of | Privacy | Standard Form
+reserved.
+Use Policy Agreements
+https://help.archerirm.cloud/platform_2024_11/en-us/content/platform/fields/fld_calc_exec_order_multi_setting.htm
+3/3

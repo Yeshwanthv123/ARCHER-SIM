@@ -1,0 +1,168 @@
+
+
+===== PAGE 1 | METHOD: OCR =====
+
+
+3/2/26, 1:17 PM Logical Functions
+You are here: Set Up & Maintenance > Building Applications, Questionnaires, and Solutions > Fields > Logical Functions
+https://help.archerirm.cloud/platform_2024_11/en-us/content/platform/calcfunctions/logical_functions.htm 1/5
+
+
+===== PAGE 2 | METHOD: OCR =====
+
+
+3/2/26, 1:17 PM Logical Functions
+Logical Functions
+The following logical functions evaluate an expression and return a specific result.
+On this page
+AND Function
+The AND function evaluates logical conditions. If all of its conditions are TRUE, the function will return TRUE. If 1 or
+more of its conditions is FALSE, the function will return FALSE. The AND function must be used in conjunction with
+an IF function.
+Return Type: TRUE or FALSE
+Syntax: AND(logical1, logical2....)
+In the above syntax, parameters in bold are required.
+The following table describes AND function parameters.
+Parameter Description
+logicall, Conditions that can be evaluated to TRUE or FALSE. This condition can be
+logical2, written with any comparison operator (=, <, >, <=, >=, <>). An example of how
+and so on this parameter might be formatted is [Field 1]>20.
+Examples:
+The following table provides example formulas of the AND function.
+Formula Result
+IF(AND({Age] > 1, [Age] < 50)) TRUE
+where the value in the Age field is 35.
+IF(AND([Severity] = 10, [Impact] > 7)) FALSE
+where the value in the Severity field is 10 and the value in the Impact field is 3.
+IF Function
+The IF function evaluates a logical condition, and if the condition is TRUE, | value is returned. If the condition is
+FALSE, another value is returned. The IF function can also be nested to construct more elaborate tests, as shown in the
+following example:
+IF([Rating]>15,"A", IF([Rating]>10,"B", IF([Rating]>5," C")))
+For more information on nesting IF functions, see the fourth example in the "Examples" section below.
+Return Type: Text, numeric, date or a Values List field selection, depending on the type of data supplied for the
+value_if true and value_if false parameters
+Syntax: IF(logical_test, value_if_true, value_if false)
+In the above syntax, parameters in bold are required.
+The following table describes IF function parameters.
+https://help.archerirm.cloud/platform_2024_11/en-us/content/platform/calcfunctions/logical_functions.htm
+
+
+===== PAGE 3 | METHOD: OCR =====
+
+
+3/2/26, 1:17 PM Logical Functions
+Parameter Description
+logical_test Any condition that can be evaluated to TRUE or FALSE. This condition can be
+written with any comparison operator (=, <, >, <=, >=, <>). An example of how
+this parameter might be formatted is [Field 1]>20.
+value_if true | The value that is returned if the logical_test parameter is TRUE. This parameter
+can be formatted as a text string, such as "High Risk", or as a Values List field
+selection, such as VALUEOF("Urgent"). The parameter can also be formatted as
+another formula, such as SUM([Field 1],[Field 2]).
+value_if false The value that is returned if the logical_test parameter is FALSE. This parameter
+can be formatted as a text string, such as "Low Risk", or as a Values List field
+selection, such as VALUEOF("Not Urgent"). The parameter can also be
+formatted as another formula, such as SUM([Field 1],[Field 3]). If this parameter
+is omitted from the formula and the logical_test parameter evaluates to FALSE,
+the calculated field will return empty (no value).
+Examples:
+The following table provides example formulas of the IF function.
+Formula Result
+IF([Days Since Last Virus Scan] > 1, "High risk", "Low risk") High risk
+where the value in the Days Since Last Virus Scan field is 3.
+IF([Rating] = 10, "Follow up") The field
+where the value in the Rating field is 7. will
+return
+empty.
+IF([Severity] >= 10, VALUEOF("Urgent"), VALUEOF("Not Urgent")) Urgent
+where the value in the Severity field is 10.
+IF([Rating] > 15, "A", IF([Rating] > 10, "B", IF([Rating] > 5, "C"))) B
+where the value in the Rating field is 12.
+Note: In this example of nested IF statements, the second IF statement serves as
+the value_if false parameter to the first IF statement, and the third IF statement
+serves as the value_if false parameter to the second IF statement. Because the
+value of the Rating field in this example is 12, the first IF statement does not prove
+TRUE, so the second IF statement is evaluated and, in this case, proves TRUE. If
+the value of the Rating field were 8, the second IF statement would also prove
+FALSE, and the third IF statement would be evaluated.
+NOT Function
+The NOT function evaluates a logical condition. If the condition is TRUE, the function returns the value of FALSE. If
+the condition is FALSE, the function returns the value of TRUE. Use the NOT function when you want to ensure that a
+value is not equal to 1 particular value.
+Return Type: TRUE or FALSE
+Syntax: NOT(logical_test)
+https://help.archerirm.cloud/platform_2024_11/en-us/content/platform/calcfunctions/logical_functions.htm
+
+
+===== PAGE 4 | METHOD: OCR =====
+
+
+3/2/26, 1:17 PM Logical Functions
+In the above syntax, parameters in bold are required.
+The following table describes the NOT function parameter.
+Parameter Description
+logical test | Any condition that can be evaluated to TRUE or FALSE. This condition can be
+written with any comparison operator (=, <, >, <=, >=, <>). An example of how
+this parameter might be formatted is [Field 1]>20.
+Examples:
+The following table provides example formulas of the NOT function.
+Formula Result
+NOT([Rating] = 10) FALSE
+where the value in the Rating field is 10.
+NOT([Number of Clients in Attendance] > 20) TRUE
+where the value in the Number of Clients in Attendance field is 12.
+OR Function
+The OR function evaluates logical conditions. If any of the condition evaluates to TRUE, the function returns the value
+of TRUE. If none of conditions evaluate to TRUE, the function returns the value of FALSE.
+Return Type: TRUE or FALSE
+Syntax: OR(logical1, logical2....)
+In the above syntax, parameters in bold are required.
+The following table describes OR function parameters.
+Parameter Description
+logicall, Conditions that can be evaluated to TRUE or FALSE. This condition can be
+logical2, written with any comparison operator (=, <, >, <=, >=, <>). An example of how
+and so on this parameter might be formatted is [Field 1]>20.
+Examples:
+The following table provides example formulas of the OR function.
+Formula Result
+OR([Risk] = 4, [Criticality] = 7) True (because | of the 2 parameters
+where the value in the Risk field is 4 and the value in evaluated TRUE)
+the Criticality field is 2.
+OR({Risk] = 4, [Criticality] = 7) False (because both of the parameters
+where the value in the Risk field is 9 and the value in evaluated FALSE)
+the Criticality field is 5.
+https://help.archerirm.cloud/platform_2024_11/en-us/content/platform/calcfunctions/logical_functions.htm 4/5
+
+
+===== PAGE 5 | METHOD: OCR =====
+
+
+3/2/26, 1:17 PM
+Archer
+ADDRESS
+13200 Metcalf Ave
+Suite 300
+Overland Park, KS
+66213
+ABOUT
+ARCHER
+Events
+Resources
+Services
+About Us
+Logical Functions
+CUSTOMERS CONNECT WITH US
+Archer Academy ny @
+Archer Exchange
+Support
+Archer Community
+Archer is a leading provider of enterprise risk management solutions, which include third party risk management, IT risk
+management, operational risk management, and more. Contact us now to learn more about integrated risk management
+solutions from Archer.
+© 2024 Archer Technologies LLC. All rights
+reserved.
+Trademarks | Terms of | Privacy | Standard Form
+Use Policy Agreements
+https://help.archerirm.cloud/platform_2024_11/en-us/content/platform/calcfunctions/logical_functions.htm
+5/5

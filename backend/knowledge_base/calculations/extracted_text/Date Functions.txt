@@ -1,0 +1,535 @@
+
+
+===== PAGE 1 | METHOD: OCR =====
+
+
+3/2/26, 1:16 PM Date Functions
+You are here: Set Up & Maintenance > Building Applications, Questionnaires, and Solutions > Fields > Date Functions
+https://help.archerirm.cloud/platform_2024_11/en-us/content/platform/calcfunctions/date_functions.htm 1/14
+
+
+===== PAGE 2 | METHOD: OCR =====
+
+
+3/2/26, 1:16 PM Date Functions
+Date Functions
+Important: Dates and times are converted to Coordinated Universal Time (UTC) in Archer database. As a result,
+dates and times in calculations are returned in UTC.
+The following date functions produce dynamic values and to manipulate date information.
+On this page
+DATEADD Function
+The DATEADD function increases or decreases a date/time value by a given number of date/time units, such as days,
+hours or minutes.
+Dates and times are converted to Coordinated Universal Time (UTC) in the Archer database. As a result, dates and times
+in calculations are returned in UTC.
+Important: DATEADD always considers time, even if the referenced Date field is not configured to show time
+information. If a literal date string is supplied that does not contain time, midnight will be assumed.
+Return Type: Date with time
+Syntax: DATEADD(datetime_unit, increment, datetime)
+In the above syntax, parameters in bold are required.
+The following table describes DATEADD function parameters.
+Parameter Description
+datetime_unit | The date/time part that should be used as the interval for increasing or decreasing
+the datetime parameter’s value. This parameter can be entered as DAY, HOUR or
+MINUTE.
+increment The number of date/time units that should be added to the datetime parameter’s
+value. This parameter must be formatted as a positive or negative integer greater
+than or equal to 1. (Decimal places are not supported.) If a positive number is
+provided, the function adds the specified number of date/time units to the
+datetime parameter’s value. If a negative number is provided, the function
+performs a subtraction.
+datetime The date/time value that should be increased or decreased by the specified
+number of date/time units. This parameter should be formatted as a Date-field
+reference, for example, [field name].
+Examples:
+The following table provides example formulas of the DATEADD function.
+Formula Result
+DATEADD(DAY, 10, [First Published]) 8/20/2010 7:21 AM
+where the value of First Published is 8/10/2010 7:21 AM
+DATEADD(HOUR, 6, [First Published]) 8/10/2010 1:21 PM
+where the value of First Published is 8/10/2010 7:21 AM
+https://help.archerirm.cloud/platform_2024_11/en-us/content/platform/calcfunctions/date_functions.htm 214
+
+
+===== PAGE 3 | METHOD: OCR =====
+
+
+3/2/26, 1:16 PM Date Functions
+Formula Result
+DATEADD(MINUTE, 30, [First Published]) 8/10/2010 7:51 AM
+where the value of First Published is 8/10/2010 7:21 AM
+DATEDIF Function
+The DATEDIF function calculates the number of days between 2 dates.
+Dates and times are converted to Coordinated Universal Time (UTC) in the Archer database. As a result, dates and times
+in calculations are returned in UTC.
+Important: DATEDIF always considers time in the comparison, even if the referenced Date field is not configured to
+show time information. Ifa literal date string is supplied that does not contain time, midnight will be assumed.
+Return Type: Numeric
+Syntax: DATEDIF(start_date, end_date, datetime_unit)
+In the above syntax, parameters in bold are required.
+The following table describes DATEDIF function parameters.
+Parameter Description
+start_date The starting date of the period. This date can be entered as a hard-coded value,
+for example, 10/21/2010, or as a Date-field reference, for example, [date field
+name]. If a hard-coded value is supplied, it must be wrapped in the
+DATETIMEVALUE function. If time is supplied to DATETIMEVALUE in a
+date string, it must be in 24-hour clock format, for example, 14:25 represents
+2:45 PM.
+end_date The ending date of the period. This date can be entered as a hard-coded value
+(for example, 10/21/2004) or as a Date-field reference (for example, [date field
+name]). If a hard-coded value is supplied, it must be wrapped in the
+DATETIMEVALUE function. If time is supplied to DATETIMEVALUE in a
+date string, it must be in 24-hour clock format, for example, 14:25 represents
+2:45 PM.
+datetime_unit The granularity of the time information to be returned. This parameter can be
+entered as DAY, HOUR or MINUTE. If the datetime_unit parameter is omitted,
+DAY will be assumed. If DAY is specified, the difference will be calculated
+based on 24 hour periods, rather than the day portion of the date value.
+Examples:
+The following table provides example formulas of the DATEDIF function.
+Formula Result
+DATEDIF(DATETIMEVALUE("10/21/2010"), [First Published]) 36
+where the value in the First Published field for the record is 11/26/2010.
+https://help.archerirm.cloud/platform_2024_11/en-us/content/platform/calcfunctions/date_functions.htm
+3/14
+
+
+===== PAGE 4 | METHOD: OCR =====
+
+
+3/2/26, 1:16 PM Date Functions
+Formula Result
+DATEDIF((First Published], [Last Updated], DAY) 0
+where the value in the First Published field for the record is 11/26/2010 11:59 PM and
+the value in the Last Updated field is 11/27/2010 12:01 AM.
+In this example, the day difference is zero (0) because the 2 dates are not 24 hours
+apart.
+DATEDIF([First Published], [Last Updated], HOUR) 50
+where the value in the First Published field for the record is 10/1/2010 8:05 AM and
+the value in the Last Updated field is 10/3/2010 10:32 AM.
+DATEDIF([First Published], [Last Updated], MINUTE) 147
+where the value in the First Published field for the record is 10/1/2010 8:05 AM and
+the value in the Last Updated field is 10/1/2010 10:32 AM.
+DATEFORMAT Function
+The DATEFORMAT function returns the supplied date in the format specified by the date mask.
+Dates and times are converted to Coordinated Universal Time (UTC) in the Archer database. As a result, dates and times
+in calculations are returned in UTC.
+Important: DATEFORMAT always permits full date and time formatting for the given Date field, even if that field is
+not configured to display time information.
+Return Type: Text
+Syntax: DATEFORMAT(date, date_mask)
+In the above syntax, parameters in bold are required.
+The following table describes DATEFORMAT function parameters.
+Parameter Description
+date The starting date of the period. This date can be entered as a hard-coded value, for
+example, 10/21/2010) or as a Date-field reference, for example, [field name].
+date_mask The mask used for formatting the returned date. The date_mask parameter must be
+enclosed in quotes.
+Date masks used with the DATEFORMAT function can contain any combination
+of the date elements.
+The following table provides examples of
+possible date part combinations.
+Date Mask Return Example
+M-d-yy h:mm tt 8-2-10 9:30 AM
+MM.dd.yyyy 08.02.2010
+MMMM 4d, yyyy HH:mm = August 2, 2010 09:30
+yyyy-MM-dd 2010-08-02
+https://help.archerirm.cloud/platform_2024_11/en-us/content/platform/calcfunctions/date_functions.htm 414
+
+
+===== PAGE 5 | METHOD: OCR =====
+
+
+3/2/26, 1:16 PM
+Date Functions
+Date Mask Return Example
+MMddyy 080210
+The following separator characters are supported for date masks:
+space
+forward slash (/)
+hyphen (-)
+period (.)
+comma (,)
+colon (:)
+Examples:
+The following table provides example formulas of the DATEFORMAT function.
+Formula Result
+DATEFORMAT ([First Published], "M/d/yyyy h:mm tt") 8/20/2010 7:21 AM
+where the date-time value of First Published is 8/2010 7:21 AM.
+DATEFORMAT([Last Updated], "M/d/yyyy HH:mm") 12/19/2010 14:51
+where the date-time value of Last Updated is 12/19/2010 2:51 PM.
+DATEFORMAT(NOW(), "h:mm tt") 5:12 AM
+where the date-time value of NOW() is 8/6/2010 5:12 AM.
+DATEFORMAT ([Start], "hh:mm t") 06:48 P
+where the date-time value of Start is 9/19/2010 6:48 PM.
+DATEFORMAT([Stop], "H") 19
+where the date-time value of Stop is 4/8/2010 7:00 PM.
+DATEFORMAT([Logged], "m'") 57
+where the date-time value of Logged is 12/29/2010 3:57 PM.
+DATETIMEVALUE Function
+The DATETIMEVALUE function converts a literal date/time string to a serial number. The serial number represents the
+number of whole and partial days that have elapsed since January 1, 1900.
+Important: Dates and times are converted to Coordinated Universal Time (UTC) in the Archer database. As a result,
+dates and times in calculations are returned in UTC.
+Return Type: Number (serial number representing date and time)
+Syntax: DATETIMEVALUE(datetime_ string)
+This function only accepts dates in the US format (MM/DD/YYYY). In the above syntax, parameters in bold are
+required.
+The following table describes the DATETIMEVALUE function parameter.
+https://help.archerirm.cloud/platform_2024_11/en-us/content/platform/calcfunctions/date_functions.htm
+5/14
+
+
+===== PAGE 6 | METHOD: OCR =====
+
+
+3/2/26, 1:16 PM Date Functions
+Parameter Description
+datetime_string The literal date/time string value to be converted. This cannot be a field
+reference.
+Examples:
+The following table provides example formulas of
+the DATETIMEVALUE function.
+Formula Result
+DATETIMEVALUE("10/02/2010") 40453
+DATETIMEVALUE("10/02/2010 01:50") | 40453.08
+DAY Function
+The DAY function returns an integer between | and 31, which represents the day of the month for the specified date
+value.
+Important: Dates and times are converted to Coordinated Universal Time (UTC) in the Archer database. As a result,
+dates and times in calculations are returned in UTC.
+Return Type: Numeric
+Syntax: DAY (date)
+In the above syntax, parameters in bold are required.
+The following table lists the DAY function parameter.
+Parameter Description
+date The date value to be evaluated in determining the day of the month. This
+parameter should be formatted as a Date-field reference, for example, [field
+name].
+Example:
+The following table provides an example formula of the DAY
+function.
+Formula Result
+DAY ([Logged]) 13
+where the value in the Logged field is 7/13/2010 10:45 AM.
+HOUR Function
+The HOUR function returns an integer between 0 and 23, which represents the hour of the day for the specified date
+value. Formula validation will fail for this function if the Time Information option is not enabled for the Date field
+referenced in the date parameter.
+Return Type: Numeric
+Syntax: HOUR(date)
+https://help.archerirm.cloud/platform_2024_11/en-us/content/platform/calcfunctions/date_functions.htm
+6/14
+
+
+===== PAGE 7 | METHOD: OCR =====
+
+
+3/2/26, 1:16 PM Date Functions
+In the above syntax, parameters in bold are required.
+The following table describes the HOUR function parameter.
+Parameter Description
+date The date value to be evaluated in determining the hour of the day. This parameter
+should be formatted as a Date-field reference, for example, [field name].
+Example:
+The following table provides an example formula of the
+HOUR function.
+Formula Result
+HOUR([Logged]) 14
+where the value in the Logged field is 7/13/2006 2:45 PM.
+MINUTE Function
+The MINUTE function returns an integer between 0 and 59, which represents the minute of the hour for the specified
+date value. Formula validation will fail for this function if the Time Information option is not enabled for the Date field
+referenced in the date parameter.
+Important: Dates and times are converted to Coordinated Universal Time (UTC) in the Archer database. As a result,
+dates and times in calculations are returned in UTC.
+Return Type: Numeric
+Syntax: MINUTE(date)
+In the above syntax, parameters in bold are required.
+The following table describes the MINUTE function parameter.
+Parameter Description
+date The date value to be evaluated in determining the minute of the hour. This
+parameter should be formatted as a Date-field reference, for example, [field
+name].
+Examples:
+The following table provides example formulas of the MINUTE function.
+Formula Result
+MINUTE([Logged]) 45
+where the value in the Logged field is 7/13/2006 2:45 PM.
+MINUTE([Patch Date]) 0
+where the Patch Date field is a Date field that is not configured to accept time entry.
+MONTH Function
+The MONTH function returns an integer between | and 12, which represents the month of the year for the specified date
+value.
+https://help.archerirm.cloud/platform_2024_11/en-us/content/platform/calcfunctions/date_functions.htm 7/14
+
+
+===== PAGE 8 | METHOD: OCR =====
+
+
+3/2/26, 1:16 PM Date Functions
+Important: Dates and times are converted to Coordinated Universal Time (UTC) in the Archer database. As a result,
+dates and times in calculations are returned in UTC.
+Return Type: Numeric
+Syntax: MONTH (date)
+In the above syntax, parameters in bold are required.
+The following table describes the MONTH function parameter.
+Parameter Description
+date The date value to be evaluated in determining the month of the year. This
+parameter should be formatted as a Date-field reference, for example, [field
+name].
+Example:
+The following table provides an example formula of the MONTH
+function.
+Formula Result
+MONTH([Logged]) 7
+where the value in the Logged field is 7/13/2010 2:45 PM.
+MONTHNAME Function
+The MONTHNAME function returns the name of the month for the supplied date value. The return value is the full
+name, not an abbreviation.
+Important: Dates and times are converted to Coordinated Universal Time (UTC) in the Archer database. As a result,
+dates and times in calculations are returned in UTC.
+Return Type: Numeric
+Syntax: MONTHNAME(date)
+In the above syntax, parameters in bold are required.
+The following table describes the MONTHNAME function parameter.
+Parameter Description
+date The date value to be evaluated in determining the month of the year. This
+parameter should be formatted as a Date-field reference, for example, [field
+name].
+Example:
+The following table provides an example formula of the
+MONTHNAME function.
+Formula Result
+MONTHNAME([Due Date]) July
+where the value in the Due Date field is 7/13/2010 2:45 PM.
+https://help.archerirm.cloud/platform_2024_11/en-us/content/platform/calcfunctions/date_functions.htm 8/14
+
+
+===== PAGE 9 | METHOD: OCR =====
+
+
+3/2/26, 1:16 PM Date Functions
+NOW Function
+The NOW function returns the current date/time. Each time a record is recalculated, the calculated field displays an
+updated date/time value. The full timestamp is stored for the calculated Date field even if the field is not configured to
+display time. If the Time Information option is later enabled for the field, the time will be displayed as it was originally
+computed.
+Internally, the NOW function returns a serial number that represents the number of whole and partial days that have
+elapsed since January 1, 1900. From the user perspective, the value returned by the NOW function displays differently
+depending on the type of field to which the value will be returned.
+Important: Dates and times are converted to Coordinated Universal Time (UTC) in the Archer database. As a result,
+dates and times in calculations are returned in UTC.
+Return Type: Varies based upon the type of field receiving the return value. See the examples below.
+Syntax: NOW()
+This function does not have any parameters.
+Examples:
+The following table provides example formulas of the NOW function. For these
+examples, assume that the current date and time is October 2, 2010 at 1:46 a.m.
+Field Type Formula Result
+Numeric NOW() 40453.073611111
+Date NOW() 10/02/2010 1:46 AM
+Text DATEFORMAT(NOW(),"M/d/yyyy h:mm tt") | 10/02/2010 1:46 AM
+QUARTER Function
+The QUARTER function returns an integer between | and 4, which represents the calendar quarter in which the
+specified date value falls.
+Important: Dates and times are converted to Coordinated Universal Time (UTC) in the Archer database. As a result,
+dates and times in calculations are returned in UTC.
+Return Type: Numeric
+Syntax: QUARTER(date)
+In the above syntax, parameters in bold are required.
+The following table describes the QUARTER function parameter.
+Parameter Description
+date The date value to be evaluated in determining the calendar quarter. This parameter
+should be formatted as a Date-field reference, for example, [field name].
+Example:
+The following table provides an example formula of the
+QUARTER function.
+https://help.archerirm.cloud/platform_2024_11/en-us/content/platform/calcfunctions/date_functions.htm 9/14
+
+
+===== PAGE 10 | METHOD: OCR =====
+
+
+3/2/26, 1:16 PM Date Functions
+Formula Result
+QUARTER ([Due Date]) 4
+where the value in the Due Date field is 12/15/2010 8:00 PM.
+SYSTEMTODAY Function
+The SYSTEMTODAY function returns the date value for the current date in the timezone configured for the particular
+instance in the Archer Control Panel. Each time the field is recalculated, the calculated field displays an updated date.
+Internally, the SYSTEMTODAY function returns a serial number that represents the number of whole days that have
+elapsed since January 1, 1900.
+The TODAY function returns the current day only in Coordinated Universal Time (UTC). The time component is not
+relevant and is set to 00:00. The SYSTEMTODAY function returns the current day only based on the instance timezone
+set in the Archer Control Panel.
+Return Type: Varies based upon the type of field receiving the return value. See the examples below.
+Syntax: SYSTEMTODAY()
+This function does not have any parameters.
+Examples:
+The following table provides example formulas of the TODAY function. For
+these examples, assume that the current date and time is October 2, 2010 at
+1:46 a.m.
+Field Type Formula Result
+Numeric SYSTEMTODAY() 40453
+Date SYSTEMTODAY() 10/02/2010
+Text DATEFORMAT(SYSTEMTODAY(),"M/d/yyyy") 10/02/2010
+TODAY Function
+The TODAY function returns the date value for the current date. Each time a record is recalculated, the calculated field
+will display an updated date.
+Internally, the TODAY function returns a serial number that represents the number of whole days that have elapsed since
+January 1, 1900. From the user perspective, the value returned by the TODAY function will display differently
+depending on the type of field to which the value will be returned.
+Important: Dates and times are converted to Coordinated Universal Time (UTC) in the Archer database. As a result,
+dates and times in calculations are returned in UTC.
+Return Type: Varies based upon the type of field receiving the return value. See the examples below.
+Syntax: TODAY()
+This function does not have any parameters.
+Examples:
+The following table provides example formulas of the
+TODAY function. For these examples, assume that the current date
+https://help.archerirm.cloud/platform_2024_11/en-us/content/platform/calcfunctions/date_functions.htm 10/14
+
+
+===== PAGE 11 | METHOD: OCR =====
+
+
+3/2/26, 1:16 PM Date Functions
+and time is October 2, 2010 at 1:46 a.m.
+Field Type Formula Result
+Numeric TODAY() 40453
+Date TODAY() 10/02/2010
+Text DATEFORMAT(TODAY(),"M/d/yyyy") 10/02/2010
+WEEKDAY Function
+The WEEKDAY function returns the day of the week for the supplied date value. The return value is the full name, not
+an abbreviation.
+Important: Dates and times are converted to Coordinated Universal Time (UTC) in the Archer database. As a result,
+dates and times in calculations are returned in UTC.
+Return Type: Text
+Syntax: WEEKDAY (date)
+In the above syntax, parameters in bold are required.
+The following table describes the WEEKDAY function parameter.
+Parameter Description
+date The date value to be evaluated in determining the day of the week. This parameter
+should be formatted as a Date-field reference, for example, [field name].
+Example:
+The following table provides an example formula of the
+WEEKDAY function.
+Formula Result
+WEEKDAY ([Due Date]) Wednesday
+where the value in the Due Date field is 12/15/2010 8:00 p.m.
+WEEKNUMBER Function
+The WEEKNUMBER function returns a number that indicates the week in which a given date falls for a calendar year
+beginning on January 1.
+Important: Dates and times are converted to Coordinated Universal Time (UTC) in the Archer database. As a result,
+dates and times in calculations are returned in UTC.
+Return Type: Numeric
+Syntax: WEEKNUMBER (date, week_start)
+In the above syntax, parameters in bold are required.
+The following table describes WEEKNUMBER function parameters.
+Parameter Description
+https://help.archerirm.cloud/platform_2024_11/en-us/content/platform/calcfunctions/date_functions.htm 11/14
+
+
+===== PAGE 12 | METHOD: OCR =====
+
+
+3/2/26, 1:16 PM Date Functions
+Parameter Description
+date The date value to be evaluated in determining the day of the week. This parameter
+should be formatted as a Date-field reference, for example, [field name].
+week_ start Accepts the keyword SUNDAY or MONDAY to specify whether weeks should be
+treated as beginning on Sunday or on Monday.
+If no value is passed for this parameter, SUNDAY will be assumed.
+Examples:
+The following table provides example formulas of
+WEEKNUMBER function.
+Formula Result
+WEEKNUMBER (Due Date]) 38
+where the value in the Due Date field is 9/14/2008 (a Sunday).
+WEEKNUMBER ([Due Date], SUNDAY) 38
+where the value in the Due Date field is 9/14/2008 (a Sunday).
+WEEKNUMBER ([Due Date], MONDAY) 37
+where the value in the Due Date field is 9/14/2008 (a Sunday).
+YEAR Function
+The YEAR function returns the year corresponding to a date.
+Important: Dates and times are converted to Coordinated Universal Time (UTC) in the Archer database. As a result,
+dates and times in calculations are returned in UTC.
+Return Type: Numeric
+Syntax: YEAR(date)
+In the above syntax, parameters in bold are required.
+The following table describes the YEAR function parameter.
+Parameter Description
+date The date of the year that you want to find. This parameter can be entered as a
+hard-coded date value, for example, "1/2/2010" or as a date-field reference, for
+example, [date field name].
+Example:
+The following table provides an example formula of the
+YEAR function.
+Formula Result
+YEAR([First Published]) 2010
+where the value in the First Published field is 11/26/2010.
+https://help.archerirm.cloud/platform_2024_11/en-us/content/platform/calcfunctions/date_functions.htm 12/14
+
+
+===== PAGE 13 | METHOD: OCR =====
+
+
+3/2/26, 1:16 PM
+Date Functions
+Date format descriptions
+The following table describes date elements.
+Date
+Element Return Example
+M Displays the month as a number without a leading zero (Example: 1)
+MM Displays the month as a number with a leading zero (Example: 01)
+MMMM Displays the month as a full month name (Example: January)
+d Displays the day as a number without a leading zero (Example: 5)
+dd Displays the day as a number with a leading zero (Example: 05)
+dddd Displays the day as a full name (Example: Monday)
+yy Displays the year as a 2-digit number (Example: 06)
+yyyy Displays the year as a 4-digit number (Example: 2006)
+h Displays the hour as a 1-digit or 2-digit number based on a 12-hour clock format
+(Example: 9)
+hh Displays the hour as a 2 digit number (with a leading a leading zero, if necessary)
+based on a 12-hour clock format (Example: 09)
+H Displays the hour as a 1-digit or 2-digit number based on a 24-hour clock format
+(Example: 13)
+HH Displays the hour as a 2-digit number based on a 24-hour clock format (Example:
+13)
+m Displays the minute as a number without leading zeros (Example: 5)
+mm Displays the minute as a number with leading zeros (Example: 05)
+t Displays the 1-letter AM/PM designator appropriate for the given time, regardless
+of whether the time is based on a 12-hour or 24-hour clock. (Example: 1:00 P for
+12-hour clock; 13:00 P for 24-hour clock)
+tt Displays the 2-letter AM/PM designator appropriate for the given time, regardless
+of whether the time is based on a 12-hour or 24-hour clock. (Example: 1:00 PM for
+12-hour clock; 13:00 PM for 24-hour clock)
+Archer
+ABOUT
+ADDRESS CUSTOMERS CONNECT WITH US
+ARCHER
+13200 Metcalf Ave Events Archer Academy in’ @
+Suite 300 Resources Archer Exchange
+https://help.archerirm.cloud/platform_2024_11/en-us/content/platform/calcfunctions/date_functions.htm 13/14
+
+
+===== PAGE 14 | METHOD: OCR =====
+
+
+3/2/26, 1:16 PM Date Functions
+ABOUT
+ADDRESS CUSTOMERS CONNECT WITH US
+ARCHER
+Overland Park, KS Services Support
+66213
+About Us Archer Community
+Archer is a leading provider of enterprise risk management solutions, which include third party risk management, IT risk
+management, operational risk management, and more. Contact us now to learn more about integrated risk management
+solutions from Archer.
+© 2024 Archer Technologies LLC. All rights
+Trademarks | Terms of | Privacy | Standard Form
+reserved.
+Use Policy Agreements
+https://help.archerirm.cloud/platform_2024_11/en-us/content/platform/calcfunctions/date_functions.htm
+14/14

@@ -1,0 +1,2494 @@
+
+
+===== PAGE 1 | METHOD: OCR =====
+
+
+3/2/26, 1:18 PM Statistics Functions
+You are here: Set Up & Maintenance > Building Applications, Questionnaires, and Solutions > Fields > Statistics Functions
+https://help.archerirm.cloud/platform_2024_11/en-us/content/platform/calcfunctions/statistics_functions.htm 1/60
+
+
+===== PAGE 2 | METHOD: OCR =====
+
+
+3/2/26, 1:18 PM Statistics Functions
+Statistics Functions
+The following statistics functions to return statistical information.
+On this page
+AVEDEV Function
+The AVEDEV function returns the average deviation of a set of values from their mean.
+Return Type: Numeric
+Syntax: AVEDEV(numberl1, number2.,...)
+In the above syntax, parameters in bold are required.
+The following table describes AVEDEV function parameters.
+Parameter Description
+number, Numbers for which you want to determine the average deviation. You can
+number2, and format these parameters as hard-coded numeric values, for example, 30,
+so on Numeric-field references, for example, [field name], or as another formula that
+results in a numeric value, such as SUM([field 1],[field 2]) where field | and
+field 2 are Numeric fields.
+Note: Ifa field contains no value (is empty), that value will be ignored and
+not included in the final computation of the calculation. Values of 0, however,
+are included in the calculation.
+Examples:
+The following table provides example formulas of the AVEDEV function.
+Formula Result
+AVEDEV{Risk], [Criticality], [Availability]) 2.666667
+where the value in the Risk field is 5, the value in the Criticality field is 7, and the
+value in the Availability field is 12.
+AVEDEV([Risk], [Criticality], 30, 10) 8.5
+where the value in the Risk field is 5 and the value in the Criticality field is 7.
+AVERAGE Function
+The AVERAGE function returns the average (arithmetic mean) value in a set of values.
+Return Type: Numeric
+Syntax: AVERAGE(numberl1, number2.,...)
+In the above syntax, parameters in bold are required.
+The following table describes AVERAGE function parameters.
+Parameter Description
+https://help.archerirm.cloud/platform_2024_11/en-us/content/platform/calcfunctions/statistics_functions.htm 2/60
+
+
+===== PAGE 3 | METHOD: OCR =====
+
+
+3/2/26, 1:18 PM Statistics Functions
+Parameter Description
+number!1, Numbers that you want to average. You can format these parameters as hard-
+number2, coded numeric values, for example, 30, Numeric-field references, for example,
+[field name], or as another formula that results in a numeric value, such as
+SUM([field 1],[field 2]) where field 1 and field 2 are Numeric fields.
+Examples:
+The following table provides example formulas of the AVERAGE function.
+Formula Result
+AVERAGE([Risk], [Criticality], [Availability]) 8
+where the value in the Risk field is 5, the value in the Criticality field is 7, and the
+value in the Availability field is 12.
+AVERAGE({Risk], [Criticality], 30) 14
+where the value in the Risk field is 5 and the value in the Criticality field is 7
+AVERAGEA Function
+The AVERAGEA function returns the average deviation of a set of values from their mean and includes text
+representation of numbers or logical values.
+Return Type: Numeric
+Syntax: AVERAGEA(number1, number2....)
+In the above syntax, parameters in bold are required.
+The following table describes AVERAGEA function parameters.
+Parameter Description
+number], Numbers for which you want to determine the average deviation. You can format
+number2, these parameters as hard-coded numeric values, for example, 30, Numeric-field
+references, for example, [field name], or as another formula that results in a
+numeric value, such as SUM([field 1],[field 2]) where field 1 and field 2 are
+Numeric fields.
+Note: Ifa field contains no value (is empty) that value will be ignored and not
+included in the final computation of the calculation. Values of 0, however, are
+included in the calculation.
+Note: Fields that contain the text "TRUE" will be evaluated as "1". Fields that
+contain the text "FALSE" will be evaluated as "0" (zero).
+Examples:
+The following table provides example formulas of the AVERAGEA function.
+Formula Result
+AVERAGEA[Risk], [Criticality], [Offshore Facilities]) 4.333333
+where the value in the Risk field is 5, the value in the Criticality field is 7, and the
+value in the Offshore Facilities field is "TRUE",
+https://help.archerirm.cloud/platform_2024_11/en-us/content/platform/calcfunctions/statistics_functions.htm 3/60
+
+
+===== PAGE 4 | METHOD: OCR =====
+
+
+3/2/26, 1:18 PM Statistics Functions
+Formula Result
+AVERAGEA [Risk], [Criticality], 30, [Offshore Facilities]) 10.5
+where the value in the Risk field is 5, the value in the Criticality field is 7, and the
+value in the Offshore Facilities field is "FALSE",
+BINOMDIST Function
+The BINOMDIST function returns the individual term binomial distribution probability. Use BINOMDIST in problems
+with a fixed number of tests or trials, when the outcomes of any trial are only success or failure, when trials are
+independent, and when the probability of success is constant throughout the experiment. For example, BINOMDIST can
+calculate the probability that 2 of the next 3 babies born are male.
+Return Type: Numeric
+Syntax: BINOMDIST(number_s,trials,probability_s,cumulative)
+In the above syntax, parameters in bold are required.
+The following table describes BINOMDIST function parameters.
+Parameter Description
+number_s The number of successes in trials. Truncated to an integer.
+Note: If non-numeric, if number_s < 0, or if number_s > trials, BINOMDIST
+returns an error.
+trials The number of independent trials. Truncated to an integer.
+| Note: If non-numeric, BINOMDIST returns an error.
+probability s | The probability of success on each trial.
+Note: If non-numeric, if probability_s <0, or if probability _s > 1, BINOMDIST
+returns an error.
+cumulative A logical value that determines the form of the function. If cumulative is TRUE,
+then BINOMDIST returns the cumulative distribution function, which is the
+probability that there are at most number_s successes; if FALSE, it returns the
+probability mass function, which is the probability that there are number_s
+successes.
+Example:
+The following table provides an example formula of the BINOMDIST function.
+Formula Result
+BINOMDIST([Successes], [Trials], [Probability], FALSE) 0.205078
+where the value in the Successes field is 6, the value in the Trials field is 10, and the
+value in the Probability field is 0.5.
+https://help.archerirm.cloud/platform_2024_11/en-us/content/platform/calcfunctions/statistics_functions.htm 4/60
+
+
+===== PAGE 5 | METHOD: OCR =====
+
+
+3/2/26, 1:18 PM Statistics Functions
+CHIDIST Function
+The CHIDIST function returns the 1-tailed probability of the chi-squared distribution. The y2 distribution is associated
+with a 2 test. Use the y2 test to compare observed and expected values. For example, a genetic experiment might
+hypothesize that the next generation of plants will exhibit a certain set of colors. By comparing the observed results with
+the expected ones, you can decide whether your original hypothesis is valid. CHIDIST is calculated as CHIDIST =
+P(X>x), where X is a y2 random variable.
+Return Type: Numeric
+Syntax: CHIDIST(x,degrees_freedom)
+In the above syntax, parameters in bold are required.
+The following table describes CHIDIST function parameters.
+Parameter Description
+x The value at which you want to evaluate the distribution.
+| Note: If nonnumeric or if x is negative, CHIDIST returns an error.
+degrees freedom The number of degrees of freedom.
+Note: If non-numeric, CHIDIST returns an error. If degrees_ freedom is not
+an integer, it is truncated. If degrees_freedom < | or degrees_freedom >
+10*10, CHIDIST returns an error.
+Example:
+The following table provides an
+example formula of the
+CHIDIST function.
+Formula Result
+CHIDIST(18.307, 10) 0.050001
+CHIINV Function
+The CHIINV function returns the inverse of the 1-tailed probability of the chi-squared distribution. If probability =
+CHIDIST(x,...), then CHIINV(probability,...) = x. Use this function to compare observed results with expected ones to
+decide whether your original hypothesis is valid.
+Note: Given a value for probability, CHIINV seeks that value x such that CHIDIST(x, degrees_freedom) =
+probability. Therefore, precision of CHIINV depends on precision of CHIDIST. CHIINV uses an iterative search
+technique. If the search has not converged after 100 iterations, the function returns the #N/A error value.
+Return Type: Numeric
+Syntax: CHIINV(probability,degrees_freedom)
+In the above syntax, parameters in bold are required.
+The following table describes CHIINV function parameters.
+Parameter Description
+https://help.archerirm.cloud/platform_2024_11/en-us/content/platform/calcfunctions/statistics_functions.htm 5/60
+
+
+===== PAGE 6 | METHOD: OCR =====
+
+
+3/2/26, 1:18 PM Statistics Functions
+Parameter Description
+probability A probability associated with the chi-squared distribution.
+Note: If nonnumeric, if probability < 0, or if probability > 1, CHIINV
+returns an error.
+degrees freedom The number of degrees of freedom.
+Note: If nonnumeric, if degrees_freedom < 1, or if degrees_freedom >
+10°10, CHIINV returns an error. If degrees_ freedom is not an integer, it is
+truncated.
+Example:
+The following table provides an
+example formula of the CHIINV
+function.
+Formula Result
+CHIINV(0.50001, 10) — 18.3069735
+CONFIDENCE Function
+The CONFIDENCE function returns a value that you can use to construct a confidence interval for a population mean.
+The confidence interval is a range of values. Your sample mean, x, is at the center of this range and the range is x +
+CONFIDENCE. For example, if x is the sample mean of delivery times for products ordered through the mail, x +
+CONFIDENCE is a range of population means. For any population mean, 10, in this range, the probability of obtaining
+a sample mean further from 0 than x is greater than alpha; for any population mean, 110, not in this range, the
+probability of obtaining a sample mean further from 0 than x is less than alpha. In other words, assume that we use x,
+standard_dev, and size to construct a 2-tailed test at significance level alpha of the hypothesis that the population mean is
+u0. Then we will not reject that hypothesis if 10 is in the confidence interval and will reject that hypothesis if 10 is not
+in the confidence interval. The confidence interval does not allow us to infer that there is probability 1 — alpha that our
+next package will take a delivery time that is in the confidence interval.
+Return Type: Numeric
+Syntax: CONFIDENCE(alpha,standard_dev,size)
+In the above syntax, parameters in bold are required.
+The following table describes CONFIDENCE function parameters.
+Parameter Description
+alpha The significance level used to compute the confidence level. The confidence
+level equals 100*(1 - alpha)%, or in other words, an alpha of 0.05 indicates a 95
+percent confidence level.
+Note: If non-numeric, if alpha < 0, or if alpha > 1, CONFIDENCE returns an
+error.
+standard dev The population standard deviation for the data range and is assumed to be known.
+| Note: If nonnumeric or if standard_dev < 0, CONFIDENCE returns an error.
+https://help.archerirm.cloud/platform_2024_11/en-us/content/platform/calcfunctions/statistics_functions.htm 6/60
+
+
+===== PAGE 7 | METHOD: OCR =====
+
+
+3/2/26, 1:18 PM Statistics Functions
+Parameter Description
+size The sample size.
+Note: If nonnumeric or if size < 1, CONFIDENCE returns an error. If size is
+not an integer, it is truncated.
+Example:
+The following table provides an example formula of the CONFIDENCE function.
+Formula Result
+CONFIDENCE([Significance], [Standard Deviation], [Sample Size]) 0.692952
+where the value in the Significance field is 0.05, the value in the Standard Deviation
+field is 2.5, and the value in the Sample Size field is 50.
+CORREL Function
+The CORREL function returns the correlation coefficient of 2 sets of fields. Use the correlation coefficient to determine
+the relationship between 2 properties. For example, you can examine the relationship between the inside temperature and
+outside temperature of a location.
+Return Type: Numeric
+Syntax: CORREL(values1,values2)
+In the above syntax, parameters in bold are required.
+The following table describes
+CORREL function parameters.
+Parameter Description
+values! A set of fields.
+values2 A second set of fields.
+Note: If a reference argument contains text, logical values or is empty, those values are ignored; however, the value
+zero is included. If values! and values2 have a different number of data points, CORREL returns an error. If either
+values! or values2 is empty, or if s (the standard deviation) of their values equals zero, CORREL returns an error.
+Example:
+The following table provides an example formula of the CORREL function.
+Formula Result
+CORREL(REF ([Facilities],[Inside Temperature]), REF([Facilities],[Outside 0.400075
+Temperature]))
+where Facilities is a cross-reference field, the values in the Inside Temperature field
+are 75, 72, and 77 and the values in the Outside Temperature field are 98, 88, and 91.
+https://help.archerirm.cloud/platform_2024_11/en-us/content/platform/calcfunctions/statistics_functions.htm 7/60
+
+
+===== PAGE 8 | METHOD: OCR =====
+
+
+3/2/26, 1:18 PM Statistics Functions
+COUNT Function
+The COUNT function counts the number of fields that contain numbers, and counts numbers within the list of
+arguments. Use the COUNT function to get the number of entries in a number field that is in a range of numbers.
+Note that:
+Arguments that are numbers, dates, or a text representation of numbers, for example, a number enclosed in
+quotation marks, such as "1", are counted.
+Logical values and text representations of numbers that you type directly into the list of arguments are counted.
+Arguments that are error values or text that cannot be translated into numbers are not counted.
+If an argument is a reference, only numbers in that reference are counted. Empty fields, logical values, text, or
+error values in the reference are not counted.
+To count logical values, text, or error values, use the COUNTA function.
+To count only numbers that meet certain criteria, use the COUNTIF function or the COUNTIES function.
+Return Type: Numeric
+Syntax: COUNT(valuel, value2, ...)
+In the above syntax, parameters in bold are required.
+The following table describes COUNT function parameters.
+Parameter Description
+valuel The first item, cell reference, or range within which you want to count numbers.
+value2, ... Up to 255 additional items, cell references, or ranges within which you want to
+count numbers.
+Examples:
+The following table provides example formulas of the COUNT function.
+Formula Result
+COUNT(Sales, 12/8/2008, , 19, 22.24, TRUE, Counts the number of fields that contain
+#DIV/0) numbers (3)
+COUNT(19, 22.24, TRUE, #DIV/0) Counts the number of fields that contain
+numbers (2)
+COUNTA Function
+The COUNTA function returns any | of the following values:
+The number of items currently selected in a multi-select Values List or Cross-Reference field
+The number of rows (entries) present in a Sub-Form field
+The number of non-null values for a field within a sub-form across all rows in the Sub-Form field
+The number of non-null values for a given field within a cross-referenced application across all rows
+(selections) in a Cross-Reference field
+https://help.archerirm.cloud/platform_2024_11/en-us/content/platform/calcfunctions/statistics_functions.htm
+8/60
+
+
+===== PAGE 9 | METHOD: OCR =====
+
+
+3/2/26, 1:18 PM Statistics Functions
+¢ The number of resources assigned in a Scheduler field configured to display the Schedule view. Any
+unassigned resources are not included in the number returned.
+| Note: The COUNTA function is not valid for a Scheduler field configured to display the Resource view.
+Although supported, referencing a field other than a Values List, Cross-Reference, Sub-Form, or Scheduler field with the
+COUNTA function is of little use because the return value will always be either | or 0. (If the field has a value, | is
+returned. If the field is empty, 0 is returned.) However, with Values List and Cross-Reference fields that are configured
+to allow multiple selections and with Sub-Form fields with multiple entries, the COUNTA function counts the number of
+selections or entries within those fields.
+Note: To confidently count the number of rows present in a Sub-Form field, the formula must reference the Sub-Form
+field itself rather than referencing a field within the sub-form. Likewise, to count the number of rows present in a
+Cross-Reference field, the formula must reference that Cross-Reference field and not a field in the related application.
+Return Type: Numeric
+Syntax: COUNTA (field_ref)
+In the above syntax, parameters in bold are required.
+The following table describes the COUNTA function parameter.
+Parameter Description
+field_ref A reference to a field in the application, for example,[Order Detail], a field in a
+child sub-form, for example, REF([Order Detail], [Back Order Date]), or a field in
+a cross-referenced application, for example, REF({Order Detail], [Vendor Name]).
+Examples:
+The following table provides example formulas of the COUNTA function.
+Formula Result
+COUNTA([Order Detail]) 12
+where Order Detail is a Sub-Form field in the application and the associated sub-form
+currently has 12 rows (entries).
+COUNTA([Order Detail]) 0
+where Order Detail is a Sub-Form field in the application and the associated sub-form
+currently has no (0) rows.
+COUNTA({Affected Departments]) 8
+where Affected Departments is a Values List field in the application and 8 items are
+currently selected in the list.
+COUNTA([Related Projects]) 3
+where Related Projects is a Cross-Reference field in the application and 3 records from
+the related application are currently selected in the field.
+COUNTA(REF([Order Detail], [Color])) 6
+where Order Detail is a Sub-Form field in the application, Color is a non-required field
+residing in the associated sub-form and Color is null in 3 out of the 9 sub-form rows
+(entries).
+https://help.archerirm.cloud/platform_2024_11/en-us/content/platform/calcfunctions/statistics_functions.htm 9/60
+
+
+===== PAGE 10 | METHOD: OCR =====
+
+
+3/2/26, 1:18 PM Statistics Functions
+Formula Result
+COUNTA(REF([Related Projects], [Project Manager])) 2
+where Related Projects is a Cross-Reference field in the application, Project Manager is
+a non-required field residing in the related application and Project Manager is null in 1
+of 3 Cross-Reference field rows.
+COUNTBLANK Function
+The COUNTBLANK function counts empty fields in a specified range of fields. Fields with formulas that return ""
+(empty text) are also counted. Fields with zero values are not counted.
+Return Type: Numeric
+Syntax: COUNTBLANK (field_ref)
+In the above syntax, parameters in bold are required.
+The following table describes the COUNTBLANK function
+parameter.
+Parameter Description
+field_ref The range from which you want to count the blank fields.
+Example:
+The following table provides an example formula of the COUNTBLANK function.
+Formula Result
+COUNTBLANK([Range]) 4
+where the values in the Range field are empty, 6, empty, 4, empty, =IF(1>0,"",""), 27,
+and 34.
+COUNTIF Function
+The COUNTIF function counts the number of records in a Sub-Form, Cross-Reference, Related Records, or Scheduler
+field that contain a specific value in a given field. For example, you can count the number of cross-referenced records
+that have the value of "Open" in the Status field.
+Return Type: Numeric
+Syntax: COUNTIF (field_ref, criterion)
+In the above syntax, parameters in bold are required.
+The following table describes COUNTIF function parameters.
+Parameter Description
+field_ref The reference to the field that is contained within a Sub-Form, Cross-Reference,
+Related Records, or Scheduler field.
+https://help.archerirm.cloud/platform_2024_11/en-us/content/platform/calcfunctions/statistics_functions.htm 10/60
+
+
+===== PAGE 11 | METHOD: OCR =====
+
+
+3/2/26, 1:18 PM Statistics Functions
+Parameter Description
+criterion The test that will be performed against the referenced child field to determine
+whether that field’s values will be included in the count. The criterion can involve
+Values List, User/Groups List, and Record Permissions fields as well as fields
+containing numeric, text, and date type values.
+¢ Values List Fields. If COUNTIF is being performed against a Values List
+field, the criterion value should be enclosed in VALUEOF or supplied as
+a quoted literal string, for example, "Dallas").
+¢ User/Groups List and Record Permissions Fields. If COUNTIF is
+being performed against a User/Groups List or Record Permissions field,
+the criterion value should be enclosed in USER or GROUP (as
+appropriate for the criterion).
+¢ Text, Date, or Numeric Fields. If COUNTIF is being performed against
+a Text, Date, or Numeric field, the criterion must be enclosed in quotes,
+for example, ">56", and the criterion can involve any of the supported
+comparison operators (=, <, >, <=, >=, <>).
+Note: The COUNTIF function always returns zero (0) matches if there
+is a space between the operator and the test value. For example, if the
+intent is to count the number of sub-form records where a given field
+contains a numeric value greater than 56, a space cannot appear in the
+formula between the ">" and the "56".
+If a function is used in the criterion, the function must be concatenated to the
+comparison operator. For example, the proper criterion syntax for specifying
+"greater than today" would be: ">"&TODAY().
+The criterion parameter supports the use of literal dates or a date value derived
+from the TODAY function. Ifa literal date string is specified, it must be wrapped
+ina DATETIMEVALUE function.
+Examples:
+The following table provides example formulas of the COUNTIF function.
+Formula Result
+COUNTIF(REF([Cases], [Status]), VALUEOF(REF([Cases], [Status]), "Open")) 15
+where the name of the Cross-Reference field is Cases, the name of the referenced
+Values List field in the related application is Status, and the number of cross-referenced
+records where the value "Open" is selected in the Status field is 15.
+COUNTIF(GETGROUPS(REF([Cases], [Business Owner])), GROUP(NAME, 27
+"Finance"))
+where the name of the Cross-Reference field is Cases, the name of the referenced
+Record Permissions field in the related application is Business Owner, and the number
+of cross-referenced records where the group named "Finance" is selected in the
+Business Owner field is 27.
+https://help.archerirm.cloud/platform_2024_11/en-us/content/platform/calcfunctions/statistics_functions.htm 11/60
+
+
+===== PAGE 12 | METHOD: OCR =====
+
+
+3/2/26, 1:18 PM Statistics Functions
+Formula Result
+COUNTIF(GETUSERS(REF([Cases], [Business Owner])), USER(NAME, "Lawson, 32
+Tracy"))
+where the name of the Cross-Reference field is Cases, the name of the referenced
+User/Groups List field in the related application is Business Owner, and the number of
+cross-referenced records where the user "Lawson, Tracy" is selected in the Business
+Owner field is 32.
+COUNTIF(REF({Items], [Price]), ">5.99") 4
+where the name of the parent Sub-Form field is Items, the name of the child field in the
+Sub-Form is Price, and there are 4 records in the sub form with a Price greater than
+5.99.
+COUNTIF(REF([Patches], [Patch Date]), TODAY()) 6
+where the name of the parent Cross-Reference field is Patches, the name of the field in
+the cross-referenced application is Patch Date, and there are 6 cross-referenced records
+where Patch Date equals today’s date.
+COUNTIF(REF([Patches], [Patch Date]), "<"&TODAY()) 8
+where the name of the parent Cross-Reference field is Patches, the name of the field in
+the cross-referenced application is Patch Date, and there are 8 cross-referenced records
+where Patch Date is less than today’s date. In this example, the criterion is being
+formed by concatenating the "less than" operator (<) to the TODAY function.
+COUNTIF(REF([Orders], [Order Date]), ">="&DATETIMEVALUE("7/23/2008")) 5
+where the name of the parent Sub-Form field is Orders, Order Date is a Date field
+residing in the sub-form, and there are 5 Order Date values greater than or equal to
+7/23/2008.
+COVAR Function
+The COVAR function returns covariance, the average of the products of deviations for each data point pair. Use
+covariance to determine the relationship between 2 data sets. For example, you can examine whether greater income
+accompanies greater levels of education.
+Return Type: Numeric
+Syntax: COVAR(values1, values2)
+In the above syntax, parameters in bold are required.
+The following table describes
+COVAR function parameters.
+Parameter Description
+values 1 The first set of integers.
+values2 The second set of integers.
+Note: The arguments must either be numbers or be names or references that contain numbers. If a reference argument
+contains text, logical values or empty fields, those values are ignored; however, fields with the value zero are
+included. If values! and values2 have different numbers of data points, COVAR returns an error. If either set is empty,
+COVAR returns an error.
+https://help.archerirm.cloud/platform_2024_11/en-us/content/platform/calcfunctions/statistics_functions.htm 12/60
+
+
+===== PAGE 13 | METHOD: OCR =====
+
+
+3/2/26, 1:18 PM Statistics Functions
+Example:
+The following table provides an example formula of the COVAR function.
+Formula Result
+COVAR(REF([Data Set],[Values1]), REF([Data Set], Covariance, the average of the
+[Values2])) products of deviations for each data
+where Data Set is a cross-reference field, the values in point pair given (5.2)
+Values! are 3, 2, 4, 5, and 6 and the values in Values2 are
+9, 7, 12, 15, and 17.
+CRITBINOM Function
+The CRITBINOM function returns the smallest value for which the cumulative binomial distribution is greater than or
+equal to a criterion value. Use this function for quality assurance applications. For example, use CRITBINOM to
+determine the greatest number of defective parts that are allowed to come off an assembly line run without rejecting the
+entire lot.
+Return Type: Numeric
+Syntax: CRITBINOM(trials,probability_s,alpha)
+In the above syntax, parameters in bold are required.
+The following table describes CRITBINOM function parameters.
+Parameter Description
+trials The number of Bernoulli trials.
+Note: If any argument is non-numeric or if trials < 0, CRITBINOM returns an
+error. If trials is not an integer, it is truncated.
+probability s | The probability of a success on each trial.
+Note: If any argument is non-numeric, if probability_s is < 0, or if probability_s
+> 1, CRITBINOM returns an error.
+alpha The criterion value.
+Note: If any argument is nonnumeric, if alpha < 0, or if alpha > 1,
+CRITBINOM returns an error.
+Example:
+The following table provides an example formula of the CRITBINOM function.
+Formula Result
+CRITBINOM([Trials],[Probability of Success], Smallest value for which the
+[Criterion]) cumulative binomial distribution is
+where the value in the Trials field is 6, the value in the greater than or equal to a criterion value
+Probability of Success field is 0.5, and the value inthe (4).
+Criterion field is 0.75.
+https://help.archerirm.cloud/platform_2024_11/en-us/content/platform/calcfunctions/statistics_functions.htm 13/60
+
+
+===== PAGE 14 | METHOD: OCR =====
+
+
+3/2/26, 1:18 PM Statistics Functions
+DEVSQ Function
+The DEVSQ function returns the sum of squares of deviations of data points from their sample mean.
+Return Type: Numeric
+Syntax: DEVSQ(numberl1, number?,...)
+In the above syntax, parameters in bold are required.
+The following table describes DEVSQ function parameters.
+Parameter Description
+number], 1 to 255 arguments for which you want to calculate the sum of squared
+number2.... deviations. You can also use a reference to a set of fields instead of arguments
+separated by commas. Arguments can either be numbers or names, or references
+that contain numbers. Logical values and text representations of numbers that you
+type directly into the list of arguments are counted. If a reference argument
+contains text, logical values, or empty cells, those values are ignored; however,
+fields with the value zero are included. Arguments that are error values or text
+that cannot be translated into numbers cause errors.
+Example:
+The following table provides an example formula of the DEVSQ function.
+Formula Result
+DEVSQ(REF([Data Set],[ Values 1])) Sum of squares of deviations of data
+where Data Set is a cross-reference field and the values given from their sample mean (48).
+in the Values! field are 4, 5, 8, 7, 11, 4, and 3.
+EXPONDIST Function
+The EXPONDIST function returns the exponential distribution. Use EXPONDIST to model the time between events,
+such as how long an automated bank teller takes to deliver cash. For example, you can use EXPONDIST to determine
+the probability that the process takes at most | minute.
+Return Type: Numeric
+Syntax: EXPONDIST(x,lambda,cumulative)
+In the above syntax, parameters in bold are required.
+The following table describes EXPONDIST function parameters.
+Parameter Description
+x The value of the function.
+| Note: If x or lambda is nonnumeric, or if x < 0, EXPONDIST returns an error.
+lambda The parameter value.
+Note: If x or lambda is nonnumeric or if lambda < 0, EXPONDIST returns an
+error.
+https://help.archerirm.cloud/platform_2024_11/en-us/content/platform/calcfunctions/statistics_functions.htm
+14/60
+
+
+===== PAGE 15 | METHOD: OCR =====
+
+
+3/2/26, 1:18 PM Statistics Functions
+Parameter Description
+cumulative A logical value that indicates which form of the exponential function to provide. If
+cumulative is TRUE, EXPONDIST returns the cumulative distribution function; if
+FALSE, it returns the probability density function.
+Examples:
+The following table provides example formulas of the EXPONDIST function.
+Formula Result
+EXPONDIST([Function Value],[Parameter Value], TRUE) Cumulative exponential
+where the value in the Function Value field is 0.2 and the distribution function (0.864665)
+value in the Parameter Value field is 10.
+EXPONDIST([Function Value],[Parameter Value],FALSE) Probability exponential
+where the value in the Function Value field is 0.2 and the distribution function (1.353353)
+value in the Parameter Value field is 10.
+FDIST Function
+The FDIST function returns the F probability distribution. You can use this function to determine whether 2 data sets
+have different degrees of diversity. For example, you can examine the test scores of men and women entering high
+school and determine if the variability in the females is different from that found in the males. FDIST is calculated as
+FDIST=P( F>x ), where F is a random variable that has an F distribution with degrees _freedom1 and degrees_freedom2
+degrees of freedom.
+Return Type: Numeric
+Syntax: FDIST(x,degrees_freedom1,degrees_freedom2)
+In the above syntax, parameters in bold are required.
+The following table describes FDIST function parameters.
+Parameter Description
+x The value at which to evaluate the function.
+| Note: If x is negative, FDIST returns an error.
+degrees freedom! The numerator degrees of freedom.
+Note: If degrees_freedom1 or degrees_freedom2 is not an integer, it is
+truncated. If degrees_freedom1 < 1, if degrees_freedom1 > 10%10, if
+degrees_freedom2 < 1, or if degrees_freedom2 = 1010, FDIST returns an
+error.
+degrees freedom2 The denominator degrees of freedom.
+Note: If degrees_freedom1 or degrees_freedom2 is not an integer, it is
+truncated. If degrees_freedom1 < 1, if degrees freedom! > 10%10, if
+degrees_freedom2 < 1, or if degrees_freedom2 > 10*10, FDIST returns an
+error.
+https://help.archerirm.cloud/platform_2024_11/en-us/content/platform/calcfunctions/statistics_functions.htm 15/60
+
+
+===== PAGE 16 | METHOD: OCR =====
+
+
+3/2/26, 1:18 PM Statistics Functions
+Example:
+The following table provides an example formula of the FDIST function.
+Formula Result
+FDIST(15.20686486,[Numerator Degrees of Freedom], F probability distribution
+[Denominator Degrees of Freedom]) for the terms (0.01)
+where the value in the Numerator Degrees of Freedom field is 6 and
+the value in the Denominator Degrees of Freedom field is 4.
+FINV Function
+The FINV function returns inverse of the F probability distribution. If p = FDIST(x,...), then FINV(p,...) = x.
+The F distribution can be used in an F-test that compares the degree of variability in 2 data sets. For example, you can
+analyze income distributions in the United States and Canada to determine whether the 2 countries have a similar degree
+of income diversity.
+FINV can be used to return critical values from the F distribution. For example, the output of an ANOVA calculation
+often includes data for the F statistic, F probability, and F critical value at the 0.05 significance level. To return the
+critical value of F, use the significance level as the probability argument to FINV.
+Given a value for probability, FINV seeks that value x such that FDIST(x, degrees_freedom1, degrees_freedom2) =
+probability. Thus, precision of FINV depends on precision of FDIST. FINV uses an iterative search technique. If the
+search has not converged after 100 iterations, the function returns the #N/A error value.
+Return Type: Numeric
+Syntax: FINV(probability,degrees_freedom1,degrees_freedom2)
+In the above syntax, parameters in bold are required.
+The following table describes FINV function parameters.
+Parameter Description
+probability A probability associated with the F cumulative distribution.
+| Note: If probability < 0 or probability > 1, FINV returns an error.
+degrees freedom! The numerator degrees of freedom.
+Note: If degrees_freedom! < | or degrees_freedom! > 10°10, FINV
+returns an error. If degrees_freedom1 or degrees_freedom2 is not an
+integer, it is truncated.
+degrees _freedom2 The denominator degrees of freedom.
+Note: If degrees_freedom2 < | or degrees_freedom2 > 10°10, FINV
+returns an error. If degrees_freedom1 or degrees_freedom2 is not an
+integer, it is truncated.
+Example:
+The following table provides an example formula of the FINV function.
+Formula Result
+https://help.archerirm.cloud/platform_2024_11/en-us/content/platform/calcfunctions/statistics_functions.htm 16/60
+
+
+===== PAGE 17 | METHOD: OCR =====
+
+
+3/2/26, 1:18 PM Statistics Functions
+Formula Result
+FINV([Probability], Numerator Degrees of Freedom], Inverse of the F probability
+[Denominator Degrees of Freedom]) distribution for the terms
+where the value in the Probability field is 0.01, the value in the (15.20686486)
+Numerator Degrees of Freedom field is 6, and the value in the
+Denominator Degrees of Freedom field is 4.
+FISHER Function
+The FISHER function returns the Fisher transformation at x. This transformation produces a function that is normally
+distributed rather than skewed. Use this function to perform hypothesis testing on the correlation coefficient.
+Return Type: Numeric
+Syntax: FISHER(x)
+In the above syntax, parameters in bold are required.
+The following table describes the FISHER function parameter.
+Parameter Description
+x A numeric value for which you want the transformation.
+| Note: If x is nonnumeric, if x <-1, or if x => 1, FISHER returns an error.
+Example:
+The following table provides an example formula of the
+FISHER function.
+Formula Result
+FISHER(0.75) | Fisher transformation at 0.75 (0.972955)
+FISHERINV Function
+The FISHERINV function returns the inverse of the Fisher transformation. Use this transformation when analyzing
+correlations between ranges or sets of fields. If y = FISHER(x), then FISHERINV(y) = x.
+Return Type: Numeric
+Syntax: FISHERINV(y)
+In the above syntax, parameters in bold are required.
+The following table describes the FISHERINV function parameter.
+Parameter Description
+y The value for which you want to perform the inverse of the transformation.
+| Note: If y is nonnumeric, FISHERINV returns an error.
+Example:
+https://help.archerirm.cloud/platform_2024_11/en-us/content/platform/calcfunctions/statistics_functions.htm 17/60
+
+
+===== PAGE 18 | METHOD: OCR =====
+
+
+3/2/26, 1:18 PM Statistics Functions
+The following table provides an example formula of the
+FISHERINV function.
+Formula Result
+FISHERINV(0.972955) | Fisher transformation at 0.972955 (0.75)
+FORECAST Function
+The FORECAST function calculates, or predicts, a future value using existing values. The predicted value is a y-value
+for a given x-value. The known values are existing x-values and y-values, and the new value is predicted using linear
+regression. You can use this function to predict future sales, inventory requirements, or consumer trends.
+Return Type: Numeric
+Syntax: FORECAST(x,known_y's,known_x's)
+In the above syntax, parameters in bold are required.
+The following table describes FORECAST function parameters.
+Parameter Description
+x The data point for which you want to predict a value.
+| Note: If x is nonnumeric, FORECAST returns an error.
+known_y's The dependent set of data.
+Note: If known_y's and known_x's are empty or contain a different number of
+data points, FORECAST returns an error.
+known_x's The independent set of data.
+Note: If the variance of known_x's equals zero, FORECAST returns an error. If
+known_y's and known_x's are empty or contain a different number of data
+points, FORECAST returns an error.
+Example:
+The following table provides an example formula of the FORECAST function.
+Formula Result
+FORECAST(30, REF([Data Set],[Known Y]), REF([{Data Set], Predicts a value for y
+[Known X])) given an x value of 30
+where Data Set is a cross-reference field, the values in the Known (10.60725)
+Y field are 6, 7, 9, 15, and 21 and the values in the Known X field
+are 20, 28, 31, 38, and 40.
+GAMMADIST Function
+The GAMMADIST function returns the gamma distribution. You can use this function to study variables that may have
+a skewed distribution. The gamma distribution is commonly used in queuing analysis.
+Return Type: Numeric
+https://help.archerirm.cloud/platform_2024_11/en-us/content/platform/calcfunctions/statistics_functions.htm 18/60
+
+
+===== PAGE 19 | METHOD: OCR =====
+
+
+3/2/26, 1:18 PM Statistics Functions
+Syntax: GAMMADIST(x,alpha,beta,cumulative)
+In the above syntax, parameters in bold are required.
+The following table describes GAMMADIST function parameters.
+Parameter Description
+x The value at which you want to evaluate the distribution.
+| Note: If x < 0 or if nonnumeric, GAMMADIST returns an error.
+alpha A parameter to the distribution.
+Note: If nonnumeric, if alpha < 0 or if beta < 0, GAMMADIST returns an error.
+When alpha is a positive integer, GAMMADIST is also known as the Erlang
+distribution.
+beta A parameter to the distribution. If beta = 1, GAMMADIST returns the standard
+gamma distribution.
+Note: If alpha < 0 or if beta < 0 or if nonnumeric, GAMMADIST returns an
+error.
+cumulative A logical value that determines the form of the function. If cumulative is TRUE,
+GAMMADIST returns the cumulative distribution function; if FALSE, it returns
+the probability density function.
+Note: For a positive integer n, when alpha = n/2, beta = 2, and cumulative =
+TRUE, GAMMADIST returns (1 - CHIDIST(x)) with n degrees of freedom.
+Examples:
+The following table provides example formulas of the GAMMADIST function.
+Formula Result
+GAMMADIST([Value to Evaluate Distribution],[Alpha], Probability gamma
+[Beta],FALSE) distribution with the terms
+where the value in the Value to Evaluate Distribution field is given (.03263913)
+10.00001131, the value in the Alpha field is 9, and the value in
+the Beta field is 2.
+GAMMADIST([Value to Evaluate Distribution],[Alpha], Cumulative gamma
+[Beta], TRUE) distribution with the terms
+where the value in the Value to Evaluate Distribution field is given (0.068094)
+10.00001131, the value in the Alpha field is 9, and the value in
+the Beta field is 2.
+GAMMAINV Function
+The GAMMAINV function returns the gamma cumulative distribution. If p= GAMMADIST(x.,...), then
+GAMMAINV(p....) = x.
+Return Type: Numeric
+Syntax: GAMMAINV(probability,alpha,beta)
+https://help.archerirm.cloud/platform_2024_11/en-us/content/platform/calcfunctions/statistics_functions.htm
+19/60
+
+
+===== PAGE 20 | METHOD: OCR =====
+
+
+3/2/26, 1:18 PM Statistics Functions
+In the above syntax, parameters in bold are required.
+The following table describes GAMMAINV function parameters.
+Parameter Description
+probability The probability associated with the gamma distribution.
+| Note: If probability < 0 or probability > 1, GAMMAINYV returns an error.
+alpha A parameter to the distribution.
+| Note: If alpha < 0 or if beta < 0, GAMMAINV returns an error.
+beta A parameter to the distribution. If beta = 1, GAMMAINV returns the standard
+gamma distribution.
+| Note: If alpha < 0 or if beta < 0, GAMMAINYV returns an error.
+| Note: If any argument is text, GAMMAINV returns the #VALUE! error value.
+Given a value for probability, GAMMAINYV seeks that value x such that GAMMADIST(x, alpha, beta, TRUE) =
+probability. Therefore, precision of GAMMAINV depends on precision of GAMMADIST. GAMMAINV uses an
+iterative search technique. If the search has not converged after 100 iterations, the function returns an error.
+Example:
+The following table provides an example formula of the GAMMAINV function.
+Formula Result
+GAMMAINV([Probability],[Alpha],[Beta] Inverse of the gamma cumulative
+where the value in the Probability field is 0.068094, the distribution for the terms given
+value in the Alpha field is 9, and the value in the Beta (10.00001131)
+field is 2.
+GAMMALN Function
+The GAMMALN function returns the natural logarithm of the gamma function, I(x).
+Return Type: Numeric
+Syntax: GAMMALN(x)
+In the above syntax, parameters in bold are required.
+The following table describes the GAMMALN function parameter.
+Parameter Description
+x The value for which you want to calculate GAMMALN.
+Note: If x is nonnumeric or if x < 0, GAMMALN returns an error. The number e
+raised to the GAMMALN(i) power, where i is an integer, returns the same result
+as (i- 1)!.
+Example:
+https://help.archerirm.cloud/platform_2024_11/en-us/content/platform/calcfunctions/statistics_functions.htm 20/60
+
+
+===== PAGE 21 | METHOD: OCR =====
+
+
+3/2/26, 1:18 PM Statistics Functions
+The following table provides an example formula of the
+GAMMALN function.
+Formula Result
+GAMMALN(4) Natural logarithm of the gamma function at 4 (1.791759)
+GEOMEAN Function
+The GEOMEAN function returns the geometric mean of a set of positive data. For example, you can use GEOMEAN to
+calculate average growth rate given compound interest with variable rates.
+Return Type: Numeric
+Syntax: GEOMEAN(number1,number2....)
+In the above syntax, parameters in bold are required.
+The following table describes GEOMEAN function parameters.
+Parameter Description
+number1, 1 to 255 arguments for which you want to calculate the mean.
+number2.,... .
+; Note: Arguments can be numbers, names, or references that contain numbers.
+Logical values and text representations of numbers that you type directly into
+the list of arguments are counted. If a reference argument contains text, logical
+values, or empty fields, those values are ignored; however, fields with the value
+zero are included. Arguments that are error values or text that cannot be
+translated into numbers cause errors. If any data point < 0, GEOMEAN returns
+an error.
+Example:
+The following table provides an example formula of the GEOMEAN function.
+Formula Result
+GEOMEAN(REF([Data Set],[Values]) Geometric mean of the data
+where Data Set is a cross-reference field and the values in the set given (5.476987)
+Values field are 4, 5, 8, 7, 11, 4, and 3.
+HARMEAN Function
+The HARMEAN function returns the harmonic mean of a data set. The harmonic mean is the reciprocal of the arithmetic
+mean of reciprocals.
+Return Type: Numeric
+Syntax: HARMEAN(numberl1, number2....)
+In the above syntax, parameters in bold are required.
+The following table describes HARMEAN function parameters.
+Parameter Description
+https://help.archerirm.cloud/platform_2024_11/en-us/content/platform/calcfunctions/statistics_functions.htm 21/60
+
+
+===== PAGE 22 | METHOD: OCR =====
+
+
+3/2/26, 1:18 PM Statistics Functions
+Parameter Description
+number], 1 to 255 arguments for which you want to calculate the mean.
+number2.... . . . fae
+Note: The harmonic mean is always less than the geometric mean, which is
+always less than the arithmetic mean. Arguments can either be numbers, names,
+or references that contain numbers. Logical values and text representations of
+numbers that you type directly into the list of arguments are counted. Ifa
+reference argument contains text, logical values, or empty fields, those values
+are ignored; however, fields with the value zero are included. Arguments that
+are error values or text that cannot be translated into numbers cause errors. If
+any data point < 0, HARMEAN returns an error.
+Example:
+The following table provides an example formula of the HARMEAN function.
+Formula Result
+HARMEAN(REF([Data Set],[Values]) Harmonic mean of the data set
+where Data Set is a cross-reference field and the values in the given (5.028376)
+Values field are 4, 5, 8, 7, 11, 4, and 3.
+HYPGEOMDIST Function
+The HYPGEOMDIST function returns the hypergeometric distribution. HYPGEOMDIST returns the probability of a
+given number of sample successes, given the sample size, population successes, and population size. Use
+HYPGEOMDIST for problems with a finite population, where each observation is either a success or a failure, and
+where each subset of a given size is chosen with equal likelihood.
+Return Type: Numeric
+Syntax: HYPGEOMDIST(sample_s,number_sample,population_s,number_population)
+In the above syntax, parameters in bold are required.
+The following table describes HYPGEOMDIST function parameters.
+Parameter Description
+sample_s The number of successes in the sample.
+Note: If sample_s <0 or sample _s is greater than the lesser of
+number_sample or population_s, HYPGEOMDIST returns an error. If
+sample_s is less than the larger of 0 or (number_sample -
+number_population + population_s), HY PGEOMDIST returns an error.
+number_sample The size of the sample.
+Note: If number_sample < 0 or number_sample > number_population,
+HYPGEOMDIST returns an error.
+population_s The number of successes in the population.
+Note: If population_s < 0 or population_s > number_population,
+HYPGEOMDIST returns an error.
+https://help.archerirm.cloud/platform_2024_11/en-us/content/platform/calcfunctions/statistics_functions.htm 22/60
+
+
+===== PAGE 23 | METHOD: OCR =====
+
+
+3/2/26, 1:18 PM Statistics Functions
+Parameter Description
+number_population The population size.
+| Note: If number_population < 0, HYPGEOMDIST returns an error.
+| Note: All arguments are truncated to integers. If any argument is nonnumeric, HY PGEOMDIST returns an error.
+Example:
+The following table provides an example formula of the HY PGEOMDIST function.
+Formula Result
+HYPGEOMDIST([Number of Caramels in Sample],[Sample Size], Hypergeometric
+[Total Number of Caramels],[Total Chocolates]) distribution for
+where a sampler of chocolates contains 20 pieces. Eight pieces are sample and
+caramels, and the remaining 12 are nuts. If a person selects 4 pieces at population given
+random, the HYPGEOMDIST function returns the probability that (0.363261)
+exactly | piece is a caramel. The value in the Number of Caramels in
+Sample field is 1, the value in the Sample Size field is 4, the value in the
+Total Number of Caramels field is 8, and the value in the Total
+Chocolates field is 20.
+INTERCEPT Function
+The INTERCEPT function calculates the point at which a line will intersect the y-axis by using existing x-values and y-
+values. The intercept point is based on a best-fit regression line plotted through the known x-values and known y-values.
+Use the INTERCEPT function when you want to determine the value of the dependent variable when the independent
+variable is 0 (zero). For example, you can use the INTERCEPT function to predict a metal's electrical resistance at 0° C
+when your data points were taken at room temperature and higher.
+Return Type: Numeric
+Syntax: INTERCEPT(known_y's,known_x's)
+In the above syntax, parameters in bold are required.
+The following table describes INTERCEPT function parameters.
+Parameter Description
+known_y's The dependent set of observations or data.
+Note: If known_y's and known_x's contain a different number of data points or
+contain no data points, INTERCEPT returns an error.
+known_x's The independent set of observations or data.
+Note: If known_y's and known_x's contain a different number of data points or
+contain no data points, INTERCEPT returns an error.
+Note: The arguments must be either numbers, names, or references that contain numbers. If a reference argument
+contains text, logical values, or empty fields, those values are ignored; however, fields with the value zero are
+included.
+https://help.archerirm.cloud/platform_2024_11/en-us/content/platform/calcfunctions/statistics_functions.htm 23/60
+
+
+===== PAGE 24 | METHOD: OCR =====
+
+
+3/2/26, 1:18 PM Statistics Functions
+The underlying algorithm used in the INTERCEPT and SLOPE functions is different than the underlying algorithm used
+in the LINEST function. The difference between these algorithms can lead to different results when data is undetermined
+and collinear. For example, if the data points of the known_y's argument are 0 and the data points of the known_x's
+argument are |:
+e INTERCEPT and SLOPE return an error. The INTERCEPT and SLOPE algorithm is designed to look for |
+and only | answer, and in this case there can be more than | answer.
+¢ LINEST returns a value of 0. The LINEST algorithm is designed to return reasonable results for collinear data,
+and in this case at least 1 answer can be found.
+Example:
+The following table provides an example formula of the INTERCEPT function.
+Formula Result
+INTERCEPT(REF([Data Set],[Y Axis]),REF([Data Set], Point at which a line will intersect
+[X Axis])) the y-axis by using the x-values and
+where Data Set is a cross-reference field, the values inthe | y-values given (0.0483871)
+Y Axis field are 2, 3, 9, 1, and 8, and the values in the X
+Axis field are 6, 5, 11, 7, and 5.
+KURT Function
+The KURT function returns the kurtosis of a data set. Kurtosis characterizes the relative peakedness or flatness of a
+distribution compared with the normal distribution. Positive kurtosis indicates a relatively peaked distribution. Negative
+kurtosis indicates a relatively flat distribution.
+Return Type: Numeric
+Syntax: KURT(numberl1,number?....)
+In the above syntax, parameters in bold are required.
+The following table describes KURT function parameters.
+Parameter Description
+number], 1 to 255 arguments for which you want to calculate kurtosis. Arguments can
+number2,... either be numbers, names, or references that contain numbers. Logical values and
+text representations of numbers that you type directly into the list of arguments
+are counted. If a reference argument contains text, logical values, or empty cells,
+those values are ignored; however, fields with the value zero are included.
+Arguments that are error values or text that cannot be translated into numbers
+cause errors.
+Note: If there are fewer than 4 data points, or if the standard deviation of the
+sample equals zero, KURT returns an error.
+Example:
+The following table provides an example formula of the KURT function.
+Formula Result
+https://help.archerirm.cloud/platform_2024_11/en-us/content/platform/calcfunctions/statistics_functions.htm 24/60
+
+
+===== PAGE 25 | METHOD: OCR =====
+
+
+3/2/26, 1:18 PM Statistics Functions
+Formula Result
+KURT(REF([Data Set],[Values])) Kurtosis of the data set
+where Data Set is a cross-reference field and the values in the Values (-0.1518)
+field are 3, 4, 5, 2, 3, 4, 5, 6, 4, and 7.
+LARGE Function
+The LARGE function returns the k-th largest value in a data set. You can use this function to select a value based on its
+relative standing. For example, you can use LARGE to return the highest, runner-up, or third-place score.
+Return Type: Numeric
+Syntax: LARGE(values,k)
+In the above syntax, parameters in bold are required.
+The following table describes LARGE function parameters.
+Parameter Description
+values The set of fields for which you want to determine the k-th largest value.
+| Note: If the set of fields is empty, LARGE returns an error.
+k The position (from the largest) in the set of data to return.
+Note: If k <0 or if k is greater than the number of data points, LARGE returns
+an error.
+Note: If n is the number of data points in a range, then LARGE(values, 1) returns the largest value, and
+LARGE(values,n) returns the smallest value.
+Examples:
+The following table provides example formulas of the LARGE function.
+Formula Result
+LARGE(REF([Data Set],[Values]),3) 3rd largest number in the
+where Data Set is a cross-reference field and the values in the numbers given (5)
+Values field are 3, 5, 3,5, 4, 4, 2, 4, 6, and 7.
+LARGE(REF([Data Set],[Values]),7) 7th largest number in the
+where Data Set is a cross-reference field and the values in the numbers given (4)
+Values field are 3, 5, 3, 5, 4, 4, 2, 4, 6, and 7.
+LOGINV Function
+The LOGINV function returns the inverse of the lognormal cumulative distribution function of x, where In(x) is
+normally distributed with parameters mean and standard_dev. If p= LOGNORMDIST(x.,...) then LOGINV(p.,...) = x.
+Use the lognormal distribution to analyze logarithmically transformed data.
+Return Type: Numeric
+Syntax: LOGINV(probability,mean,standard_dev)
+https://help.archerirm.cloud/platform_2024_11/en-us/content/platform/calcfunctions/statistics_functions.htm 25/60
+
+
+===== PAGE 26 | METHOD: OCR =====
+
+
+3/2/26, 1:18 PM Statistics Functions
+In the above syntax, parameters in bold are required.
+The following table describes LOGINV function parameters.
+Parameter Description
+probability A probability associated with the lognormal distribution.
+Note: If probability < 0 or probability > 1 or if any argument is nonnumeric,
+LOGINV returns an error.
+mean The mean of In(x).
+| Note: If any argument is nonnumeric, LOGINV returns an error.
+standard dev The standard deviation of In(x).
+Note: If standard_dev <= 0 or if any argument is nonnumeric, LOGINV returns
+an error.
+Example:
+The following table provides an example formula of the LOGINV function.
+Formula Result
+LOGINV(0.039084,3.5,1.2) | Inverse of the lognormal cumulative distribution function for the
+terms given (4.000014)
+LOGNORMDIST Function
+The LOGNORMDIST function returns the cumulative lognormal distribution of x, where In(x) is normally distributed
+with parameters mean and standard_dev. Use this function to analyze data that has been logarithmically transformed.
+Return Type: Numeric
+Syntax: LOGNORMDIST(x,mean,standard_dev)
+In the above syntax, parameters in bold are required.
+The following table describes LOGNORMDIST function parameters.
+Parameter Description
+x The value at which to evaluate the function.
+Note: If x < 0, if standard_dev < 0, or if any argument is nonnumeric,
+LOGNORMDIST returns an error.
+mean The mean of In(x).
+| Note: If any argument is nonnumeric, LOGNORMDIST returns an error.
+standard _dev The standard deviation of In(x).
+Note: If x < 0, if standard_dev < 0 or if any argument is nonnumeric,
+LOGNORMDIST returns an error.
+https://help.archerirm.cloud/platform_2024_11/en-us/content/platform/calcfunctions/statistics_functions.htm 26/60
+
+
+===== PAGE 27 | METHOD: OCR =====
+
+
+3/2/26, 1:18 PM Statistics Functions
+Example:
+The following table provides an example formula of the LOGNORMDIST function.
+Formula Result
+LOGNORMDIST(4,3.5,1.2) | Cumulative lognormal distribution at 4 with the terms given
+(0.039084)
+MAX Function
+The MAX function returns the largest value in a set of values.
+Return Type: Numeric
+Syntax: MAX(valuel, value?2....)
+In the above syntax, parameters in bold are required.
+The following table describes MAX function parameters.
+Parameter Description
+valuel, Values for which you want to find a maximum value. Only Numeric and Date
+value2, fields can be evaluated.
+Note: When evaluating a Date field, MAX will return a serial number that
+represents the largest date (furthest from January 1, 1900); the function will not
+return a date string.
+Examples:
+The following table provides example formulas of the MAX function.
+Formula Result
+MAX({Risk], [Criticality], [Availability]) 12
+where the value in the Risk field is 5, the value in the Criticality field is 7, and the
+value in the Availability field is 12.
+MAX(REF([Orders], [Price])) 746.99
+where the greatest value in the Price field across all the rows in the Orders Sub-Form
+field is 746.99.
+MAXA Function
+The MAXA function returns the largest value in a list of arguments. Unlike the MAX function, the MAXA function is
+not restricted to working with only Date and Numeric fields.
+Return Type: Numeric
+Syntax: MAXA(valuel, value2....)
+In the above syntax, parameters in bold are required.
+The following table describes MAXA function parameters.
+Parameter Description
+https://help.archerirm.cloud/platform_2024_11/en-us/content/platform/calcfunctions/statistics_functions.htm
+27/60
+
+
+===== PAGE 28 | METHOD: OCR =====
+
+
+3/2/26, 1:18 PM
+Parameter
+valuel,
+value2....
+Example:
+Statistics Functions
+Description
+1 to 255 values for which you want to find the largest value. Note that:
+Arguments can be the following: numbers; names or references that
+contain numbers; text representations of numbers; or logical values,
+such as TRUE and FALSE, in a reference.
+Logical values and text representations of numbers that you type
+directly into the list of arguments are counted.
+If an argument is a reference, only values in that reference are used.
+Empty fields and text values in the reference are ignored.
+Arguments that are error values or text that cannot be translated into
+numbers cause errors.
+Arguments that contain TRUE evaluate as 1; arguments that contain
+text or FALSE evaluate as 0 (zero).
+If the arguments contain no values, MAXA returns 0 (zero).
+If you do not want to include logical values and text representations of
+numbers in a reference as part of the calculation, use the MAX
+function.
+The following table provides an example formula of the MAXA function.
+Formula
+MAXA(REF([Data Set],[Values]))
+Result
+Largest of the numbers given.
+where Data Set is a cross-reference field and the values in the | TRUE evaluates to 1 (1)
+Values field are 0, 0.2, 0.5, 0.4 and TRUE.
+MEDIAN Function
+The MEDIAN function returns the median of the given numbers. The median is the number in the middle of a set of
+numbers.
+Return Type: Numeric
+Syntax: MEDIAN(number1, number?2.,...)
+In the above syntax, parameters in bold are required.
+The following table describes MEDIAN function parameters.
+Parameter
+Description
+https://help.archerirm.cloud/platform_2024_11/en-us/content/platform/calcfunctions/statistics_functions.htm
+28/60
+
+
+===== PAGE 29 | METHOD: OCR =====
+
+
+3/2/26, 1:18 PM
+Statistics Functions
+Parameter Description
+number1, 1 to 255 numbers for which you want the median. Note that:
+number2....
+If there is an even number of numbers in the set, MEDIAN calculates
+the average of the 2 numbers in the middle. See the second formula in
+the example.
+Arguments can be numbers, names or references that contain numbers.
+Logical values and text representations of numbers that you type
+directly into the list of arguments are counted.
+If a reference argument contains text, logical values, or empty fields,
+those values are ignored; however, fields with the value zero are
+included.
+Arguments that are error values or text that cannot be translated into
+numbers cause errors.
+The MEDIAN function measures central tendency, which is the location of the
+center of a group of numbers in a statistical distribution. The 3 most common
+measures of central tendency are:
+Average. The arithmetic mean, and is calculated by adding a group of
+numbers and then dividing by the count of those numbers. For
+example, the average of 2, 3, 3, 5, 7, and 10 is 30 divided by 6, which
+is 5.
+Median. The middle number of a group of numbers; that is, half the
+numbers have values that are greater than the median, and half the
+numbers have values that are less than the median. For example, the
+median of 2, 3, 3, 5, 7, and 10 is 4.
+Mode. The most frequently occurring number in a group of numbers.
+For example, the mode of 2, 3, 3, 5, 7, and 10 is 3.
+For a symmetrical distribution of a group of numbers, these 3 measures of
+central tendency are all the same. For a skewed distribution of a group of
+numbers, they can be different.
+Examples:
+The following table provides example formulas of the MEDIAN function.
+Formula
+Result
+MEDIAN(REF([Data Set],[Values])) Median of the 5 numbers in the list
+where Data Set is a cross-reference field and the values in given (3)
+the Values field are 1, 2, 3, 4, and 5.
+MEDIAN(REF([Data Set],[Values]))
+Median of all the numbers given, or
+where Data Set is a cross-reference field and the values in the average of 3 and 4 (3.5)
+the Values field are 1, 2, 3, 4, 5, and 6.
+MIN Function
+The MIN function returns the smallest value in a set of values.
+https://help.archerirm.cloud/platform_2024_11/en-us/content/platform/calcfunctions/statistics_functions.htm
+29/60
+
+
+===== PAGE 30 | METHOD: OCR =====
+
+
+3/2/26, 1:18 PM Statistics Functions
+Return Type: Numeric
+Syntax: MIN(valuel, value?2....)
+In the above syntax, parameters in bold are required.
+The following table describes MIN function parameters.
+Parameter Description
+valuel, Values for which you want to find a minimum value. Only Numeric and Date
+value2, fields can be evaluated.
+Note: When evaluating a Date field, MIN will return a serial number that
+represents the smallest date (closest to January 1, 1900); the function will not
+return a date string.
+Examples:
+The following table provides example formulas of the MIN function.
+Formula Result
+MIN([Risk], [Criticality], [Availability]) 5
+where the value in the Risk field is 5, the value in the Criticality field is 7, and the
+value in the Availability field is 12.
+MIN(REF([Orders], [Price])) 10.62
+where the smallest value in the Price field across all the rows in the Orders Sub-Form
+field is 10.62.
+MINA Function
+The MINA function returns the smallest value in the list of arguments.
+Return Type: Numeric
+Syntax: MINA(valuel, value2....)
+In the above syntax, parameters in bold are required.
+The following table describes MINA function parameters.
+Parameter Description
+https://help.archerirm.cloud/platform_2024_11/en-us/content/platform/calcfunctions/statistics_functions.htm 30/60
+
+
+===== PAGE 31 | METHOD: OCR =====
+
+
+3/2/26, 1:18 PM Statistics Functions
+Parameter Description
+valuel, 1 to 255 values for which you want to find the smallest value. Note that:
+value2.... .
+° e Arguments can be numbers; names or references that contain numbers;
+text representations of numbers; or logical values, such as TRUE and
+FALSE, in a reference.
+¢ Ifan argument is a reference, only values in that reference are used.
+Empty fields and text values in the reference are ignored.
+e Arguments that contain TRUE evaluate as 1; arguments that contain
+text or FALSE evaluate as 0 (zero).
+e Arguments that are error values or text that cannot be translated into
+numbers cause errors.
+¢ Ifthe arguments contain no values, MINA returns 0.
+¢ Ifyou do not want to include logical values and text representations of
+numbers in a reference as part of the calculation, use the MIN function.
+Example:
+The following table provides an example formula of the MINA function.
+Formula Result
+MINA(REF([Data Set],[Values])) Smallest of the numbers given.
+where Data Set is a cross-reference field and the values in the | FALSE evaluates to 0 (0)
+Values field are FALSE, 0.2, 0.5, 0.4, and 0.8.
+MODE Function
+The MODE function returns the most frequently occurring, or repetitive, value in a set of data.
+Return Type: Numeric
+Syntax: MODE(number1,number2....)
+In the above syntax, parameters in bold are required.
+The following table describes MODE function parameters.
+Parameter Description
+https://help.archerirm.cloud/platform_2024_11/en-us/content/platform/calcfunctions/statistics_functions.htm 31/60
+
+
+===== PAGE 32 | METHOD: OCR =====
+
+
+3/2/26, 1:18 PM Statistics Functions
+https://help.archerirm.cloud/platform_2024_11/en-us/content/platform/calcfunctions/statistics_functions.htm
+Parameter Description
+number!1, 1 to 255 arguments for which you want to calculate the mode.
+number2,... Arguments can be numbers, names, or references that contain numbers.
+If a reference argument contains text, logical values, or empty fields, those
+values are ignored; however, fields with the value zero are included.
+Arguments that are error values or text that cannot be translated into numbers
+cause errors.
+If the data set contains no duplicate data points, MODE returns an error.
+The MODE function measures central tendency, which is the location of the
+center of a group of numbers in a statistical distribution. The 3 most common
+measures of central tendency are:
+e Average. The arithmetic mean, and is calculated by adding a group of
+numbers and then dividing by the count of those numbers. For
+example, the average of 2, 3, 3, 5, 7, and 10 is 30 divided by 6, which
+is 5.
+¢ Median. The middle number of a group of numbers; that is, half the
+numbers have values that are greater than the median, and half the
+numbers have values that are less than the median. For example, the
+median of 2, 3, 3, 5, 7, and 10 is 4.
+¢ Mode. The most frequently occurring number in a group of numbers.
+For example, the mode of 2, 3, 3, 5, 7, and 10 is 3.
+For a symmetrical distribution of a group of numbers, these 3 measures of
+central tendency are all the same. For a skewed distribution of a group of
+numbers, they can be different.
+Example:
+The following table provides an example formula of the MODE function.
+Formula Result
+MODE(REF([Data Set],[Values])) Mode, or most frequently
+where Data Set is a cross-reference field and the values in the | occurring number given (4)
+Values field are 5.6, 4, 4, 3, 2, and 4.
+NEGBINOMDIST Function
+The NEGBINOMDIST function returns the negative binomial distribution. NEGBINOMDIST returns the probability
+that there will be number_f failures before the number_s-th success, when the constant probability of a success is
+probability_s. This function is similar to the binomial distribution, except that the number of successes is fixed, and the
+number of trials is variable. Like the binomial, trials are assumed to be independent.
+For example, you need to find 10 people with excellent reflexes, and you know the probability that a candidate has these
+qualifications is 0.3. NEGBINOMDIST calculates the probability that you will interview a certain number of
+unqualified candidates before finding all 10 qualified candidates.
+Return Type: Numeric
+Syntax: NEGBINOMDIST(number_f,number_s,probability_s)
+In the above syntax, parameters in bold are required.
+32/60
+
+
+===== PAGE 33 | METHOD: OCR =====
+
+
+3/2/26, 1:18 PM Statistics Functions
+The following table describes NEGBINOMDIST function parameters.
+Parameter Description
+number _f The number of failures.
+Note: If number_f <0 or number_s < 1, NEGBINOMDIST returns an error.
+Number _f and number _s are truncated to integers. If any argument is
+nonnumeric, NEGBINOMDIST returns an error.
+number_s The threshold number of successes.
+Note: Number_f and number _s are truncated to integers. If any argument is
+nonnumeric, NEGBINOMDIST returns an error.
+probability s | The probability of a success.
+Note: If probability_s < 0, if probability > 1, or if any argument is nonnumeric,
+NEGBINOMDIST returns an error.
+Example:
+The following table provides an example formula of the NEGBINOMDIST function.
+Formula Result
+NEGBINOMDIST(10,5,0.25) | Negative binomial distribution for the terms given (0.055049)
+NORMDIST Function
+The NORMDIST function returns the normal distribution for the specified mean and standard deviation. This function
+has a very wide range of applications in statistics, including hypothesis testing.
+Return Type: Numeric
+Syntax: NORMDIST(x,mean,standard_dev,cumulative)
+In the above syntax, parameters in bold are required.
+The following table describes NORMDIST function parameters.
+Parameter Description
+x The value for which you want the distribution.
+mean The arithmetic mean of the distribution.
+Note: If mean = 0, standard_dev = 1, and cumulative = TRUE, NORMDIST
+returns the standard normal distribution, NORMSDIST. If mean or
+standard_dev is nonnumeric, NORMDIST returns an error.
+standard_dev The standard deviation of the distribution.
+Note: If standard_dev < 0, NORMDIST returns an error. If mean = 0,
+standard_dev = 1, and cumulative = TRUE, NORMDIST returns the standard
+normal distribution, NORMSDIST. If mean or standard_dev is nonnumeric,
+NORMDIST returns an error.
+https://help.archerirm.cloud/platform_2024_11/en-us/content/platform/calcfunctions/statistics_functions.htm 33/60
+
+
+===== PAGE 34 | METHOD: OCR =====
+
+
+3/2/26, 1:18 PM Statistics Functions
+Parameter Description
+cumulative A logical value that determines the form of the function. If cumulative is TRUE,
+NORMDIST returns the cumulative distribution function; if FALSE, it returns the
+probability mass function.
+Note: When cumulative = TRUE, the formula is the integral from negative
+infinity to x of the given formula. If mean = 0, standard_dev = 1, and
+cumulative = TRUE, NORMDIST returns the standard normal distribution,
+NORMSDIST.
+Examples:
+The following table provides example formulas of the NORMDIST function.
+Formula Result
+NORMDIST(42,40, 1.5, TRUE) Cumulative distribution function for the terms given
+(0.908789)
+NORMDIST(42,40,1.5,FALSE) Probability mass function for the terms given (0.10934005)
+NORMINV Function
+The NORMINYV function returns the inverse of the normal cumulative distribution for the specified mean and standard
+deviation.
+Given a value for probability, NORMINV seeks that value x such that NORMDIST(x, mean, standard_dev, TRUE) =
+probability. Thus, precision of NORMINV depends on precision of NORMDIST. NORMINYV uses an iterative search
+technique. If the search has not converged after 100 iterations, the function returns the #N/A error value.
+Return Type: Numeric
+Syntax: NORMINV(probability,mean,standard_dev)
+In the above syntax, parameters in bold are required.
+The following table describes NORMINV function parameters.
+Parameter Description
+probability A probability corresponding to the normal distribution.
+Note: If probability < 0 or if probability > 1, NORMINV returns the #NUM!
+error value. If any argument is nonnumeric, NORMINYV returns the #VALUE!
+error value.
+mean The arithmetic mean of the distribution.
+Note: If mean = 0 and standard_dev = 1, NORMINV uses the standard normal
+distribution. If any argument is nonnumeric, NORMINV returns the #VALUE!
+error value.
+https://help.archerirm.cloud/platform_2024_11/en-us/content/platform/calcfunctions/statistics_functions.htm 34/60
+
+
+===== PAGE 35 | METHOD: OCR =====
+
+
+3/2/26, 1:18 PM Statistics Functions
+Parameter Description
+standard dev The standard deviation of the distribution.
+Note: If mean = 0 and standard_dev = 1, NORMINV uses the standard normal
+distribution. If any argument is nonnumeric, NORMINV returns the #VALUE!
+error value.
+Example:
+The following table provides an example formula of the NORMINV function.
+Formula Result
+NORMINV(0.908789,40,1.5) Inverse of the normal cumulative distribution for the terms given
+(42)
+PEARSON Function
+The PEARSON function returns the Pearson product moment correlation coefficient, r, a dimensionless index that
+ranges from -1.0 to 1.0 inclusive and reflects the extent of a linear relationship between 2 data sets.
+Return Type: Numeric
+Syntax: PEARSON(values1,values2)
+In the above syntax, parameters in bold are required.
+The following table describes PEARSON function parameters.
+Parameter Description
+values 1 A set of independent values.
+Note: The arguments must be numbers, names or references that contain
+numbers. If a reference argument contains text, logical values, or empty fields,
+those values are ignored; however, fields with the value zero are included. If
+values! and values2 are empty or have a different number of data points,
+PEARSON returns an error.
+values2 A set of dependent values.
+Note: The arguments must be numbers, names or references that contain
+numbers. If a reference argument contains text, logical values, or empty fields,
+those values are ignored; however, fields with the value zero are included. If
+values! and values2 are empty or have a different number of data points,
+PEARSON returns an error.
+Example:
+The following table provides an example formula of the PEARSON function.
+Formula Result
+https://help.archerirm.cloud/platform_2024_11/en-us/content/platform/calcfunctions/statistics_functions.htm 35/60
+
+
+===== PAGE 36 | METHOD: OCR =====
+
+
+3/2/26, 1:18 PM Statistics Functions
+Formula Result
+PEARSON( REF([Data Set],[Independent Values]), Pearson product moment
+REF([Data Set],[Dependent Values])) correlation coefficient for the
+where Data Set is a cross-reference field, the values in the data sets given (0.699379)
+Independent Values field are 9, 7, 5, 3, and | and the values in
+the Dependent Values field are 10, 6, 1, 5, and 3.
+PERCENTILE Function
+The PERCENTILE function returns the k-th percentile of values in a range. You can use this function to establish a
+threshold of acceptance. For example, you can decide to examine candidates who score above the 90th percentile.
+Return Type: Numeric
+Syntax: PERCENTILE(values,k)
+In the above syntax, parameters in bold are required.
+The following table describes PERCENTILE function parameters.
+Parameter Description
+values The set of fields that defines relative standing.
+Note: If the set is empty or contains more than 8,191 data points, PERCENTILE
+returns an error.
+k The percentile value in the range 0..1, inclusive.
+Note: If k is nonnumeric, if k is < 0 or if k > 1, PERCENTILE returns an error. If
+k is not a multiple of 1/(n - 1), PERCENTILE interpolates to determine the value
+at the k-th percentile.
+Example:
+The following table provides an example formula of the PERCENTILE function.
+Formula Result
+PERCENTILE(REF([Data Set],[Values]),0.3) 30th percentile of the list
+where Data Set is a cross-reference field and the values in the given (1.9)
+Values field are 1, 3, 2, and 4.
+PERCENTRANK Function
+The PERCENTRANK function returns the rank of a value in a data set as a percentage of the data set. This function can
+be used to evaluate the relative standing of a value within a data set. For example, you can use PERCENTRANK to
+evaluate the standing of an aptitude test score among all scores for the test.
+Return Type: Numeric
+Syntax: PERCENTRANK(values,x,significance)
+In the above syntax, parameters in bold are required.
+The following table describes PERCENTRANK function parameters.
+https://help.archerirm.cloud/platform_2024_11/en-us/content/platform/calcfunctions/statistics_functions.htm 36/60
+
+
+===== PAGE 37 | METHOD: OCR =====
+
+
+3/2/26, 1:18 PM Statistics Functions
+Parameter Description
+values The reference to a set of fields with numeric values that defines relative standing.
+| Note: If the set is empty, PERCENTRANK returns an error.
+x The value for which you want to know the rank.
+Note: If x does not match 1 of the values in the field, PERCENTRANK
+interpolates to return the correct percentage rank.
+significance An optional value that identifies the number of significant digits for the returned
+percentage value. If omitted, PERCENTRANK uses 3 digits (0.xxx).
+| Note: If significance < 1, PERCENTRANK returns an error.
+Examples:
+The following table provides example formulas of the PERCENTRANK function.
+Formula Result
+PERCENTRANK(REF ([Data Set],[Values]),2) Percent rank of 2 in the list given (0.333,
+where Data Set is a cross-reference field and the because 3 values in the set are smaller than 2,
+values in the Values field are 13, 12, 11, 8, 4, 3, and 6 are larger than 2; 3/(3+6)=0.333)
+2,1, 1, and 1.
+PERCENTRANK(REF ([Data Set],[Values]),4) Percent rank of 4 in the list given (0.555)
+where Data Set is a cross-reference field and the
+values in the Values field are 13, 12, 11, 8, 4, 3,
+2,1, 1, and 1.
+PERCENTRANK(REF ([Data Set],[Values]),8)
+where Data Set is a cross-reference field and the
+values in the Values field are 13, 12, 11, 8, 4, 3,
+2,1, 1, and 1.
+Percent rank of 8 in the list given (0.666)
+PERCENTRANK(REF([Data Set],[Values]),5)
+where Data Set is a cross-reference field and the
+values in the Values field are 13, 12, 11, 8, 4, 3,
+Percent rank of 5 in the list given (0.583, 1-
+quarter of the way between the
+PERCENTRANK of 4 and the
+2, 1, 1, and 1. PERCENTRANK of 8)
+PERMUT Function
+The PERMUT function returns the number of permutations for a given number of objects that can be selected from
+number objects. A permutation is any set or subset of objects or events where internal order is significant. Permutations
+are different from combinations, for which the internal order is not significant. Use this function for lottery-style
+probability calculations.
+Return Type: Numeric
+Syntax: PERMUT(number,number_chosen)
+In the above syntax, parameters in bold are required.
+The following table describes PERMUT function parameters.
+https://help.archerirm.cloud/platform_2024_11/en-us/content/platform/calcfunctions/statistics_functions.htm 37/60
+
+
+===== PAGE 38 | METHOD: OCR =====
+
+
+3/2/26, 1:18 PM Statistics Functions
+Parameter Description
+number An integer that describes the number of objects.
+Note: Both arguments are truncated to integers. If number or number_chosen
+is nonnumeric, if number < 0 or if number_chosen < 0, or if number <
+number_chosen, PERMUT returns an error.
+number chosen An integer that describes the number of objects in each permutation.
+Note: Both arguments are truncated to integers. If number or number_chosen
+is nonnumeric, if number < 0 or if number_chosen < 0 or if number <
+number_chosen, PERMUT returns an error.
+Example:
+You want to calculate the odds of selecting a winning lottery number. Each lottery number contains 3 numbers, each of
+which can be between 0 (zero) and 99, inclusive.
+The following table provides an example formula of the PERMUT
+function. The function calculates the number of possible
+permutations.
+Formula Result
+PERMUT(100,3) | Permutations possible for the terms given (970200)
+POISSON Function
+The POISSON function returns the Poisson distribution. A common application of the Poisson distribution is predicting
+the number of events over a specific time, such as the number of cars arriving at a toll plaza in | minute.
+Return Type: Numeric
+Syntax: POISSON(x,mean,cumulative)
+In the above syntax, parameters in bold are required.
+The following table describes POISSON function parameters.
+Parameter Description
+x The number of events.
+Note: If x is not an integer, it is truncated. If x or mean is non-numeric, or if x <
+0, POISSON returns an error.
+mean The expected numeric value.
+| Note: If mean < 0, POISSON returns an error.
+cumulative A logical value that determines the form of the probability distribution returned. If
+cumulative is TRUE, POISSON returns the cumulative Poisson probability that
+the number of random events occurring will be between zero and x inclusive; if
+FALSE, it returns the Poisson probability mass function that the number of events
+occurring will be exactly x.
+https://help.archerirm.cloud/platform_2024_11/en-us/content/platform/calcfunctions/statistics_functions.htm 38/60
+
+
+===== PAGE 39 | METHOD: OCR =====
+
+
+3/2/26, 1:18 PM Statistics Functions
+Examples:
+The following table provides example formulas of the POISSON function.
+Formula Result
+POISSON(2,5,TRUE) | Cumulative Poisson probability with the terms given (0.124652)
+POISSON(2,5,FALSE) Poisson probability mass function with the terms given (0.084224)
+PROB Function
+The PROB function returns the probability that values in a range are between 2 limits. If upper_limit is not supplied,
+returns the probability that values in x_range are equal to lower_limit.
+Return Type: Numeric
+Syntax: PROB(x_range,prob_range,lower_limit,upper_limit)
+In the above syntax, parameters in bold are required.
+The following table describes PROB function parameters.
+Parameter Description
+x_range The range of numeric values of x with which there are associated probabilities.
+Note: If x_range and prob_range contain a different number of data points,
+PROB returns an error.
+prob_range A set of probabilities associated with values in x_range.
+Note: If any value in prob_range < 0 or if any value in prob_range > 1, PROB
+returns an error. If the sum of the values in prob_range is not equal to 1, PROB
+returns an error. If x_range and prob_range contain a different number of data
+points, PROB returns an error.
+lower_limit | The lower bound on the value for which you want a probability.
+upper_limit The optional upper bound on the value for which you want a probability.
+Note: If upper_limit is omitted, PROB returns the probability of being equal to
+lower_limit.
+Examples:
+The following table provides example formulas of the PROB function.
+Formula Result
+PROB([X Range],[Set of Probabilities],[Lower Limit]) Probability that x is
+where the values in the X Range field are 0, 1, 2, and 3, the values in the 2 (0.1)
+Set of Probabilities field are 0.2, 0.3, 0.1, and 0.4, and the value in the
+Lower Limit field is 2.
+https://help.archerirm.cloud/platform_2024_11/en-us/content/platform/calcfunctions/statistics_functions.htm 39/60
+
+
+===== PAGE 40 | METHOD: OCR =====
+
+
+3/2/26, 1:18 PM Statistics Functions
+Formula Result
+PROB([X Range], [Set of Probabilities],[Lower Limit],[Upper Limit]) Probability that x is
+where the values in the X Range field are 0, 1, 2, and 3, the values in the between | and 3
+Set of Probabilities field are 0.2, 0.3, 0.1, and 0.4, the value in the Lower (0.8)
+Limit field is 1, and the value in the Upper Limit field is 3.
+QUARTILE Function
+The QUARTILE function returns the quartile of a data set. Quartiles often are used in sales and survey data to divide
+populations into groups. For example, you can use QUARTILE to find the top 25 percent of incomes in a population.
+Return Type: Numeric
+Syntax: QUARTILE(range,quart)
+In the above syntax, parameters in bold are required.
+The following table describes QUARTILE function parameters.
+Parameter Description
+range The reference to a range of numeric values for which you want the quartile value.
+| Note: If this parameter is empty, QUARTILE returns an error.
+quart Indicates which value to return.
+e If quart equals 0, QUARTILE returns Minimum value.
+¢ If quart equals 1, QUARTILE returns First quartile (25th percentile).
+e If quart equals 2, QUARTILE returns Median value (50th percentile).
+¢ If quart equals 3, QUARTILE returns Third quartile (75th percentile).
+e If quart equals 4, QUARTILE returns Maximum value.
+Note: If quart is not an integer, it is truncated. If quart < 0 or if quart > 4,
+QUARTILE returns an error. MIN, MEDIAN, and MAX return the same value
+as QUARTILE when quart is equal to 0 (zero), 2, and 4, respectively.
+Example:
+The following table provides an example formula of the QUARTILE function.
+Formula Result
+QUARTILE( REF( [Data Set], [Values]), 1) First quartile (25th percentile) of
+where Data Set is a cross-reference field and the values in the __ the data given (3.5)
+Values field are 1, 2, 4, 7, 8, 9, 10 and 12.
+RANK Function
+The RANK function returns the rank of a number in a list of numbers. The rank of a number is its size relative to other
+values in a list. (If you were to sort the list, the rank of the number would be its position.)
+https://help.archerirm.cloud/platform_2024_11/en-us/content/platform/calcfunctions/statistics_functions.htm
+40/60
+
+
+===== PAGE 41 | METHOD: OCR =====
+
+
+3/2/26, 1:18 PM Statistics Functions
+RANK gives duplicate numbers the same rank. However, the presence of duplicate numbers affects the ranks of
+subsequent numbers. For example, in a list of integers sorted in ascending order, if the number 10 appears twice and has
+a rank of 5, then 11 would have a rank of 7 (no number would have a rank of 6).
+For some purposes, you might want to use a definition of rank that takes ties into account. In the previous example, you
+would want a revised rank of 5.5 for the number 10. This can be done by adding the following correction factor to the
+value returned by RANK. This correction factor is appropriate both for the case where rank is computed in descending
+order (order = 0 or omitted) or ascending order (order = nonzero value).
+Correction factor for tied ranks = [COUNT(ref) + 1 - RANK(number, ref, 0) - RANK(number, ref, 1)] / 2.
+Return Type: Numeric
+Syntax: RANK(number,values,order)
+In the above syntax, parameters in bold are required.
+The following table describes RANK function parameters.
+Parameter Description
+number The number whose rank you want to find.
+values A reference to a list of numbers. Nonnumeric values are ignored.
+order A number specifying how to rank number.
+¢ If order is 0 (zero) or omitted, Archer ranks number as if values were a
+list sorted in descending order.
+¢ Iforder is any non-zero value, Archer ranks number as if values were a
+list sorted in ascending order.
+Examples:
+The following table provides example formulas of the RANK function.
+Formula Result
+RANK(3.5,REF([Data Set], Rank of 3.5 in the list given (3)
+[Values]),1) The correction factor is (5 + 1 — 2 —3)/2 =0.5 and the
+where Data Set is a cross-reference revised rank that takes ties into account is 3 + 0.5 = 3.5.
+field and the values in the Values field If number occurs only once in ref, the correction factor
+are 7, 3.5, 3.5, 1, and 2. will be 0, since RANK would not have to be adjusted
+for a tie.
+RANK(7,REF([Data Set],[Values]),1) | Rank of 7 in the list given (5)
+where Data Set is a cross-reference
+field and the values in the Values field
+are 7, 3.5, 3.5, 1, and 2.
+RSQ Function
+The RSQ function returns the square of the Pearson product moment correlation coefficient through data points in
+known_y's and known_x's. For more information, see the PEARSON function. The r-squared value can be interpreted as
+the proportion of the variance in y attributable to the variance in x. Note that:
+e Arguments can either be numbers, names, or references that contain numbers.
+https://help.archerirm.cloud/platform_2024_11/en-us/content/platform/calcfunctions/statistics_functions.htm 41/60
+
+
+===== PAGE 42 | METHOD: OCR =====
+
+
+3/2/26, 1:18 PM Statistics Functions
+¢ Logical values and text representations of numbers that you type directly into the list of arguments are counted.
+e Ifareference argument contains text, logical values, or empty fields, those values are ignored; however, fields
+with the value zero are included.
+e Arguments that are error values or text that cannot be translated into numbers cause errors.
+Return Type: Numeric
+Syntax: RSQ(known_y's,known_x's)
+In the above syntax, parameters in bold are required.
+The following table describes RSQ
+function parameters.
+Parameter Description
+known_y's A set of data points.
+known_x's A set of data points.
+Note: If known_y's and known_x's are empty or have a different number of data points, RSQ returns an error. If
+known_y's and known_x's contain only | data point, RSQ returns an error.
+Example:
+The following table provides an example formula of the RSQ function.
+Formula Result
+RSQ(REF([Data Set],[Known Y]),REF([Data Set], Square of the Pearson product
+[Known X])) moment correlation coefficient
+where Data Set is a cross-reference field, the values inthe | through data points given (0.05795)
+Known Y field are 2, 3, 9, 1, 8, 7, and 5, and the values in
+the Known X field are 6, 5, 11, 7, 5, 4, and 4.
+SKEW Function
+The SKEW function returns the skewness of a distribution. Skewness characterizes the degree of asymmetry of a
+distribution around its mean. Positive skewness indicates a distribution with an asymmetric tail extending toward more
+positive values. Negative skewness indicates a distribution with an asymmetric tail extending toward more negative
+values.
+Return Type: Numeric
+Syntax: SKEW(numberl1,number2.,...)
+In the above syntax, parameters in bold are required.
+The following table describes SKEW function parameters.
+Parameter Description
+https://help.archerirm.cloud/platform_2024_11/en-us/content/platform/calcfunctions/statistics_functions.htm 42/60
+
+
+===== PAGE 43 | METHOD: OCR =====
+
+
+3/2/26, 1:18 PM Statistics Functions
+Parameter Description
+number!1, 1 to 255 arguments for which you want to calculate skewness.
+number2.,... .
+> Note: Arguments can be numbers, names, or references that contain numbers.
+Logical values and text representations of numbers that you type directly into
+the list of arguments are counted. If a reference argument contains text, logical
+values, or empty fields, those values are ignored; however, fields with the value
+zero are included. Arguments that are error values or text that cannot be
+translated into numbers cause errors. If there are fewer than 3 data points, or the
+sample standard deviation is zero, SKEW returns an error.
+Example:
+The following table provides an example formula of the SKEW function.
+Formula Result
+SKEW(REF([Data Set],[Values])) Skewness of a distribution of the
+where Data Set is a cross-reference field and the values in data set given (0.359543)
+the Values field are 3, 4, 5, 2, 3, 4,5, 6, 4, and 7.
+SLOPE Function
+The SLOPE function returns the slope of the linear regression line through data points in known_y's and known_x's. The
+slope is the vertical distance divided by the horizontal distance between any 2 points on the line, which is the rate of
+change along the regression line.
+The underlying algorithm used in the SLOPE and INTERCEPT functions is different than the underlying algorithm used
+in the LINEST function. The difference between these algorithms can lead to different results when data is undetermined
+and collinear. For example, if the data points of the known_y's argument are 0 and the data points of the known_x's
+argument are 1, then:
+e SLOPE and INTERCEPT return errors. The SLOPE and INTERCEPT algorithm is designed to look for 1 and
+only | answer, and in this case there can be more than 1 answer.
+e LINEST returns a value of 0. The LINEST algorithm is designed to return reasonable results for collinear data,
+and in this case at least 1 answer can be found.
+Return Type: Numeric
+Syntax: SLOPE(known_y's,known_x's)
+In the above syntax, parameters in bold are required.
+The following table describes SLOPE function
+parameters.
+Parameter Description
+known_y's A set of numeric dependent data points.
+known_x's The set of independent data points.
+Note: The arguments must be numbers, names, or references that contain numbers. If a reference argument contains
+text, logical values, or empty fields, those values are ignored; however, fields with the value zero are included. If
+known_y's and known_x's are empty or have a different number of data points, SLOPE returns an error.
+https://help.archerirm.cloud/platform_2024_11/en-us/content/platform/calcfunctions/statistics_functions.htm 43/60
+
+
+===== PAGE 44 | METHOD: OCR =====
+
+
+3/2/26, 1:18 PM Statistics Functions
+Example:
+The following table provides an example formula of the SLOPE function.
+Formula Result
+SLOPE(REF([Data Set],[ Known Y]),REF([Data Set],[Known Slope of the linear regression
+X])) line through the data points
+where Data Set is a cross-reference field, the values in the given (0.305556)
+Known Y field are 2, 3, 9, 1, 8, 7, and 5, and the values in the
+Known X field are 6, 5, 11, 7, 5, 4, and 4.
+SMALL Function
+The SMALL function returns the k-th smallest value in a data set. Use this function to return values with a particular
+relative standing in a data set. If n is the number of data points in the values field, SMALL(values,1) equals the smallest
+value and SMALL(values,n) equals the largest value.
+Return Type: Numeric
+Syntax: SMALL(values,k)
+In the above syntax, parameters in bold are required.
+The following table describes SMALL function parameters.
+Parameter Description
+values A set of numeric data for which you want to determine the k-th smallest value.
+| Note: If the set is empty, SMALL returns an error.
+k The position (from the smallest) in the set of fields to return.
+| Note: Ifk < 0 or if k exceeds the number of data points, SMALL returns an error.
+Examples:
+The following table provides example formulas of the SMALL function.
+Formula Result
+SMALL(REF([Data Set],[Values]),4) 4th smallest number in the
+where Data Set is a cross-reference field and the values in the set of fields (4)
+Values field are 3, 4, 5, 2, 3, 4, 6, 4, and 7.
+SMALL(REF([Data Set],[Values]),2) 2nd smallest number in the
+where Data Set is a cross-reference field and the values in the set of fields (3)
+Values field are 1, 4, 8, 3, 7, 12, 54, 8, and 23.
+STANDARDIZE Function
+The STANDARDIZE function returns a normalized value from a distribution characterized by mean and standard_dev.
+Return Type: Numeric
+Syntax: STANDARDIZE(x,mean,standard_dev)
+https://help.archerirm.cloud/platform_2024_11/en-us/content/platform/calcfunctions/statistics_functions.htm 44/60
+
+
+===== PAGE 45 | METHOD: OCR =====
+
+
+3/2/26, 1:18 PM Statistics Functions
+In the above syntax, parameters in bold are required.
+The following table describes STANDARDIZE function
+parameters.
+Parameter Description
+x The value that you want to normalize.
+mean The arithmetic mean of the distribution.
+standard_dev The standard deviation of the distribution.
+Example:
+The following table provides an example formula of the
+STANDARDIZE function.
+Formula Result
+STANDARDIZE(42,40,1.5) | Normalized value of 42 for the terms given (1.333333)
+STDEV Function
+The STDEV function estimates standard deviation based on a sample. The standard deviation is a measure of how
+widely values are dispersed from the average value (the mean).
+STDEV assumes that its arguments are a sample of the population. If your data represents the entire population, compute
+the standard deviation using STDEVP.
+The standard deviation is calculated using the "n-1" method. To include logical values and text representations of
+numbers in a reference as part of the calculation, use the STDEVA function.
+Return Type: Numeric
+Syntax: STDEV(number1,number2....)
+In the above syntax, parameters in bold are required.
+The following table describes STDEV function parameters.
+Parameter Description
+number!1, 1 to 255 number arguments corresponding to a sample of a population. You can
+number2.... also use a reference to a set of fields instead of arguments separated by commas.
+Note: Arguments can be numbers, names, or references that contain numbers.
+Logical values and text representations of numbers that you type directly into
+the list of arguments are counted. If an argument is a reference, only numbers in
+that reference are counted. Empty fields, logical values, text, or error values in
+the reference are ignored. Arguments that are error values or text that cannot be
+translated into numbers cause errors.
+Example:
+10 tools stamped from the same machine during a production run are collected as a random sample and measured for
+breaking strength.
+The following table provides an example formula of the STDEV function.
+https://help.archerirm.cloud/platform_2024_11/en-us/content/platform/calcfunctions/statistics_functions.htm 45/60
+
+
+===== PAGE 46 | METHOD: OCR =====
+
+
+3/2/26, 1:18 PM Statistics Functions
+Formula Result
+STDEV(REF([Data Set],[Breaking Strength])) Standard deviation of
+where Data Set is a cross-reference field and the values in the breaking strength
+Breaking Strength field are 1345, 1301, 1368, 1322, 1310, 1370, (27.46391572)
+1318, 1350, 1303, and 1299.
+STDEVA Function
+The STDEVA function estimates standard deviation based on a sample. The standard deviation is a measure of how
+widely values are dispersed from the average value (the mean). The standard deviation is calculated using the "n-1"
+method.
+STDEVA assumes that its arguments are a sample of the population. If your data represents the entire population, you
+must compute the standard deviation using STDEVPA.
+If you do not want to include logical values and text representations of numbers in a reference as part of the calculation,
+use the STDEV function.
+Return Type: Numeric
+Syntax: STDEVA(valuel,value?....)
+In the above syntax, parameters in bold are required.
+The following table describes STDEVA function parameters.
+Parameter Description
+valuel, 1 to 255 values corresponding to a sample of a population. You can also use a
+value2.... reference to a set of fields instead of arguments separated by commas.
+Note: Arguments can be the following: numbers; names, or references that
+contain numbers; text representations of numbers; or logical values, such as
+TRUE and FALSE, in a reference. Arguments that contain TRUE evaluate as 1;
+arguments that contain text or FALSE evaluate as 0 (zero). If an argument is a
+reference, only values in that reference are used. Empty cells and text values in
+the reference are ignored. Arguments that are error values or text that cannot be
+translated into numbers cause errors.
+Example:
+10 tools stamped from the same machine during a production run are collected as a random sample and measured for
+breaking strength.
+The following table provides an example formula of the STDEVA function.
+Formula Result
+STDEVA(REF([Data Set],[Breaking Strength])) Standard deviation of breaking
+where Data Set is a cross-reference field and the values in the strength for all the tools
+Breaking Strength field are 1345, 1301, 1368, 1322, 1310, (27.46391572)
+1370, 1318, 1350, 1303, and 1299.
+https://help.archerirm.cloud/platform_2024_11/en-us/content/platform/calcfunctions/statistics_functions.htm 46/60
+
+
+===== PAGE 47 | METHOD: OCR =====
+
+
+3/2/26, 1:18 PM Statistics Functions
+STDEVP Function
+The STDEVP function calculates standard deviation based on the entire population given as arguments. The standard
+deviation is a measure of how widely values are dispersed from the average value (the mean).
+STDEVP assumes that its arguments are the entire population. If your data represents a sample of the population,
+compute the standard deviation using STDEV.
+For large sample sizes, STDEV and STDEVP return approximately equal values.
+The standard deviation is calculated using the "n" method.
+To include logical values and text representations of numbers in a reference as part of the calculation, use the STDEVPA
+function.
+Return Type: Numeric
+Syntax: STDEVP(number1,number2.,...)
+In the above syntax, parameters in bold are required.
+The following table describes STDEVP function parameters.
+Parameter Description
+number], 1 to 255 number arguments corresponding to a population. You can also use a
+number2,... reference to a set of fields instead of arguments separated by commas.
+Note: Arguments can be numbers, names, or references that contain numbers.
+Logical values, and text representations of numbers that you type directly into
+the list of arguments are counted. If an argument is a reference, only numbers in
+that reference are counted. Empty fields, logical values, text, or error values in
+the reference are ignored. Arguments that are error values or text that cannot be
+translated into numbers cause errors.
+Example:
+10 tools stamped from the same machine during a production run are collected as a random sample and measured for
+breaking strength.
+The following table provides an example formula of the STDEVP function.
+Formula Result
+STDEVP(REF([Data Set],[Breaking Strength])) Standard deviation of breaking
+where Data Set is a cross-reference field and the values in Strength, assuming only 10 tools are
+the Breaking Strength field are 1345, 1301, 1368, 1322, produced (26.05455814)
+1310, 1370, 1318, 1350, 1303, and 1299.
+STDEVPA Function
+The STDEVP function calculates standard deviation based on the entire population given as arguments. The standard
+deviation is a measure of how widely values are dispersed from the average value (the mean).
+STDEVP assumes that its arguments are the entire population. If your data represents a sample of the population,
+compute the standard deviation using STDEV.
+For large sample sizes, STDEV and STDEVP return approximately equal values.
+The standard deviation is calculated using the "n" method.
+https://help.archerirm.cloud/platform_2024_11/en-us/content/platform/calcfunctions/statistics_functions.htm 47/60
+
+
+===== PAGE 48 | METHOD: OCR =====
+
+
+3/2/26, 1:18 PM Statistics Functions
+To include logical values and text representations of numbers in a reference as part of the calculation, use the STDEVPA
+function.
+Return Type: Numeric
+Syntax: STDEVP(number1,number?....)
+In the above syntax, parameters in bold are required.
+The following table describes STDEVP function parameters.
+Parameter Description
+number], 1 to 255 number arguments corresponding to a population. You can also use a
+number2.... reference to a set of fields instead of arguments separated by commas.
+Note: Arguments can be numbers, names, or references that contain numbers.
+Logical values, and text representations of numbers that you type directly into
+the list of arguments are counted. If an argument is a reference, only numbers in
+that reference are counted. Empty fields, logical values, text, or error values in
+the reference are ignored. Arguments that are error values or text that cannot be
+translated into numbers cause errors.
+Example:
+10 tools stamped from the same machine during a production run are collected as a random sample and measured for
+breaking strength.
+The following table provides an example formula of the STDEVP function.
+Formula Result
+STDEVP(REF([Data Set],[Breaking Strength])) Standard deviation of breaking
+where Data Set is a cross-reference field and the values in strength, assuming only 10 tools are
+the Breaking Strength field are 1345, 1301, 1368, 1322, produced (26.05455814)
+1310, 1370, 1318, 1350, 1303, and 1299.
+STEYX Function
+The STEYX function returns the standard error of the predicted y-value for each x in the regression. The standard error
+is a measure of the amount of error in the prediction of y for an individual x.
+Return Type: Numeric
+Syntax: STEY X(known_y's,known_x's)
+In the above syntax, parameters in bold are required.
+The following table describes STEYX function
+parameters.
+Parameter Description
+known y's A set of dependent data points.
+known x's A set of independent data points.
+https://help.archerirm.cloud/platform_2024_11/en-us/content/platform/calcfunctions/statistics_functions.htm 48/60
+
+
+===== PAGE 49 | METHOD: OCR =====
+
+
+3/2/26, 1:18 PM Statistics Functions
+Note: Arguments can be numbers, names or references that contain numbers. Logical values and text representations
+of numbers that you type directly into the list of arguments are counted. If a reference argument contains text, logical
+values, or empty fields, those values are ignored; however, fields with the value zero are included. Arguments that are
+error values or text that cannot be translated into numbers cause errors. If known_y's and known_x's have a different
+number of data points, STEYX returns an error. If known_y's and known_x's are empty or have less than 3 data points,
+STEYX returns an error.
+Example:
+The following table provides an example formula of the STEYX function.
+Formula Result
+STEYX(REF([Data Set],[Dependent Data]), REF([Data Set], Standard error of the
+[Independent Data])) predicted y-value for each x
+where Data Set is a cross-reference field, the values in the in the regression (3.305719)
+Dependent Data field are 2, 3, 9, 1, 8, 7, and 5, and the values in
+the Independent Data field are 6, 5, 11, 7, 5, 4, and 4.
+SUM Function
+The SUM function adds all of the numbers in the specified parameters. If the SUM function references a multi-selection
+values list, it can be used with the SELECTED function to return the sum of the numeric values for each of the currently
+selected items.
+Return Type: Numeric
+Syntax: SUM(numberl1, number2....)
+In the above syntax, parameters in bold are required.
+The following table describes SUM function parameters.
+Parameter Description
+number], Parameters for which you want the total value. These parameters can be entered
+number2, as hard-coded values, for example, 2, or Numeric-field references, for example,
+[field name]. Referenced fields can reside within the application or within Sub-
+Form, Cross-Reference, or Related Records fields.
+Examples:
+The following table provides example formulas of the SUM function.
+Formula Result
+SUM(3, [Risk]) 15
+where the value in the Risk field is 12.
+SUM({Risk], [Criticality]) 19
+where the value in the Risk field is 12 and the value in the Criticality field is 7.
+SUM(REF([Orders],[Price])) 202.94
+where the value in the Price field within the Orders sub-form are 120.00, 50.19, and
+32.75.
+https://help.archerirm.cloud/platform_2024_11/en-us/content/platform/calcfunctions/statistics_functions.htm 49/60
+
+
+===== PAGE 50 | METHOD: OCR =====
+
+
+3/2/26, 1:18 PM Statistics Functions
+Formula Result
+SUM(SELECTEDVALUENUMBER([Key Factors])) 25
+where Key Factors is a multi-selection Values List field and the numeric values of the
+current selections are 3, 8, 4, and 10.
+SUMIF Function
+The SUMIF function sums the values of a specified Numeric field across all records in a Sub-Form, Cross-Reference,
+Related Records, or Scheduler field that contain a specific value in a given field. For example, you can return the sum of
+all Price field values across all cross-referenced records in which the Status field is set to “Shipped.”
+Return Type: Numeric
+Syntax: SUMIF(eval_field_ref, criterion, sum_field_ref)
+In the above syntax, parameters in bold are required.
+The following table describes SUMIF function parameters.
+Parameter Description
+eval _field_ref The reference to the field against which the criterion will be evaluated.
+Note: If sum_field_ref is not passed to SUMIF, eval_field_ref will also act as
+the field to sum.
+https://help.archerirm.cloud/platform_2024_11/en-us/content/platform/calcfunctions/statistics_functions.htm 50/60
+
+
+===== PAGE 51 | METHOD: OCR =====
+
+
+3/2/26, 1:18 PM
+Parameter
+criterion
+sum_field_ref
+Examples:
+Statistics Functions
+Description
+The test that will be performed against eval_field_ref to determine whether a
+given record will be qualified for the sum operation. The criterion can involve
+Values List, User/Groups List, and Record Permissions fields as well as fields
+containing numeric, text, and date type values.
+¢ Values Lists. If eval_field_ref is a Values List field, enclose the
+criterion value in VALUEOF or supply it as a quoted literal string, for
+example, "Dallas".
+¢ User/Groups List and Record Permissions Fields. If eval_field_ref is
+a User/Groups List or Record Permissions field, enclose the criterion
+value in USER or GROUP (as appropriate for the criterion).
+¢ Text, Numeric, or Date Fields. If eval_field_ref is a Text, Numeric, or
+Date field, the criterion must be enclosed in quotes, for example, ">56",
+and the criterion can involve any of the supported comparison operators
+(=, <>, <=, >=, <>).
+Note: The evaluation will always result in no matches if there is a space
+between the operator and the test value. For example, if the intent is to sum a
+given Numeric field across all sub-form records where a another given field
+contains a numeric value greater than 56, a space cannot appear in the formula
+between the ">" and the "56"
+If a function is used in the criterion, the function must be concatenated to the
+comparison operator. For example, the proper criterion syntax for specifying
+"greater than today" would be:
+">"&TODAY()
+The criterion parameter supports the use of literal dates or a date value derived
+from the TODAY function. Ifa literal date string is specified, it must be wrapped
+in a DATETIMEVALUE function.
+The reference to a Numeric field that will be summed across all qualified
+records.
+Note: If sum_field_ref is not passed to SUMIF, eval_field_ref will also act as
+the field to sum.
+The following table provides example formulas of the SUMIF function.
+Formula
+Result
+https://help.archerirm.cloud/platform_2024_11/en-us/content/platform/calcfunctions/statistics_functions.htm
+51/60
+
+
+===== PAGE 52 | METHOD: OCR =====
+
+
+3/2/26, 1:18 PM
+Statistics Functions
+Formula
+SUMIF(REF([Cases], [Status], VALUEOF(REF([Cases], [Status]),
+"Open"),REF([Cases], [Time Spent]))
+where:
+The name of the Cross-Reference field is Cases.
+The Status Values List field contains the values to be evaluated.
+The criterion for matching on the Status field is the selection “Open”.
+Time Spent is a Numeric field containing the numeric values to be summed.
+The sum of Time Spent across all “Open” cases is 832 minutes.
+SUMIF(REF([Items], [Line Item Cost]), ">5.99",REF([Items], [Line Total]))
+where:
+°
+The name of the Sub-Form field is Items.
+The Line Item Cost Numeric field in the related sub-form contains the data
+to be evaluated.
+The criterion for matching on Line Item Cost is values greater than 5.99.
+Line Total is a Numeric field containing the numeric values to be summed.
+The sum of Line Total across all sub-form records where Line Item Cost is
+greater than 5.99 is 2378.10.
+SUMIF(REF([Properties], [Sale Price]), ">=150000")
+where:
+°
+The name of the Cross-Reference field is Properties.
+The Sale Price Numeric field in the related application contains the data to
+be evaluated.
+The criterion for matching on Sale Price is values greater than or equal to
+150000.
+The sum of Sale Price across all related records where Line Item Cost is
+greater than or equal to 150000 is 1654887.
+Note: In this example, the sum_field_ref is not passed to SUMIF. As a result, the
+system will use Sale Price for evaluation purposes and for summing.
+https://help.archerirm.cloud/platform_2024_11/en-us/content/platform/calcfunctions/statistics_functions.htm
+Result
+832
+2378.10
+2654887
+52/60
+
+
+===== PAGE 53 | METHOD: OCR =====
+
+
+3/2/26, 1:18 PM Statistics Functions
+Formula Result
+SUMIF(REF([Properties], [Sale Date]), 1299000
+">="&DATETIMEVALUE("7/1/2008"),REF([Properties], [Sale Price]))
+where:
+e The name of the Cross-Reference field is Properties.
+¢ The Sale Date field in the related application contains the data to be
+evaluated.
+¢ The criterion for matching on Sale Date is dates greater than or equal to
+7/1/2008.
+e Sale Price is a Numeric field containing the numeric values to be summed.
+¢ The sum of Sale Price across all related records where Sales Date is greater
+than or equal to 7/1/2008 is 1299000.
+SUMPRODUCT Function
+The SUMPRODUCT function multiplies corresponding components in the given sets of fields, and returns the sum of
+those products.
+Return Type: Numeric
+Syntax: SUMPRODUCT(values1,values2,values3, ...)
+In the above syntax, parameters in bold are required.
+The following table describes SUMPRODUCT function parameters.
+Parameter Description
+valuesl, values2, 2 to 255 sets of values whose components you want to multiply and then add.
+values3, ... . . .
+Note: The respective arguments must have the same dimensions. If they do
+not, SUMPRODUCT returns an error. SUMPRODUCT treats field entries
+that are not numeric as if they were zeros.
+Example:
+The following table provides an example formula of the SUMPRODUCT function.
+Formula Result
+SUMPRODUCT(REF([Data Set],[ Values 1]),REF([Data Multiplies all the components of the
+Set],[Values2])) 2 arrays and then adds the products
+where Data Set is a cross-reference field and the values — that is, 3*2 + 4*7 + 8*6 + 6*7 +
+in the Values1 field are 3, 4, 8, 6, 1, and 9, and the values —-:1*5 + 9*3. (156)
+in the Values2 field are 2, 7, 6, 7, 5, and 3.
+SUMSQ Function
+The SUMSQ function returns the sum of the squares of the arguments.
+Return Type: Numeric
+https://help.archerirm.cloud/platform_2024_11/en-us/content/platform/calcfunctions/statistics_functions.htm 53/60
+
+
+===== PAGE 54 | METHOD: OCR =====
+
+
+3/2/26, 1:18 PM Statistics Functions
+Syntax: SUMSQ(number1 ,number2, ...)
+In the above syntax, parameters in bold are required.
+The following table describes SUMSQ function parameters.
+Parameter Description
+number], 1 to 255 arguments for which you want the sum of the squares. You can also use
+number2, ... a reference to an array instead of arguments separated by commas.
+Note: Arguments can be numbers, names, or references that contain numbers.
+Numbers, logical values, and text representations of numbers that you type
+directly into the list of arguments are counted. If an argument is a reference,
+only numbers in that reference are counted. Empty cells, logical values, text, or
+error values are ignored. Arguments that are error values or text that cannot be
+translated into numbers cause errors.
+Example:
+The following table provides an example formula
+of the SUMSQ function.
+Formula Result
+SUMSQ(3,4) | Sum of the squares of 3 and 4 (25)
+SUMX2PY2 Function
+The SUMX2PY?2 function returns the sum of the sum of squares of corresponding values in 2 sets of fields. The sum of
+the sum of squares is a common term in many statistical calculations.
+Return Type: Numeric
+Syntax: SUMX2PY2(values_x,values_y)
+In the above syntax, parameters in bold are required.
+The following table describes
+SUMX2PY2 function parameters.
+Parameter Description
+values_x The first set of fields.
+values_y The second set of fields.
+Note: The arguments should be numbers, names, or references that contain numbers. If a reference argument contains
+text, logical values, or empty cells, those values are ignored; however, fields with the value zero are included. If
+values_x and values_y have a different number of values, SUMX2PY?2 returns an error.
+Example:
+The following table provides an example formula of the SUMX2PY2 function.
+Formula Result
+https://help.archerirm.cloud/platform_2024_11/en-us/content/platform/calcfunctions/statistics_functions.htm 54/60
+
+
+===== PAGE 55 | METHOD: OCR =====
+
+
+3/2/26, 1:18 PM Statistics Functions
+Formula Result
+SUMX2PY2(REF([Data Set],[Values1]), REF([Data Set],[Values2])) | Sum of the sum of
+where Data Set is a cross-reference field, the values in the Values] squares of the 2 sets of
+field are 2, 3, 9, 1, 8, 7 and 5 and the values in the Values2 field are fields given (521)
+6, 5, 11, 7, 5, 4, and 4.
+SUMXMY2 Function
+The SUMXMY?2 function returns the sum of squares of differences of corresponding values in 2 sets of fields.
+Return Type: Numeric
+Syntax: SUMXMY2(values_x,values_y)
+In the above syntax, parameters in bold are required.
+The following table describes
+SUMXMY2 function parameters.
+Parameter Description
+values_x The first set of fields.
+values_y The second set of fields.
+Note: The arguments should be numbers, names, or references that contain numbers. If a reference argument contains
+text, logical values, or empty cells, those values are ignored; however, fields with the value zero are included. If
+values_x and values_y have a different number of values, SUMXMY7? returns an error.
+Examples:
+The following table provides example formulas of the SUMXMY2 function.
+Formula Result
+SUMXMY2(REF([Data Set],[Values1]), REF([Data Set], Sum of squares of
+[Values2])) differences of the 2 arrays
+where Data Set is a cross-reference field, the values in the Values1 given (79)
+field are 2, 3, 9, 1, 8, 7, and 5, and the values in the Values2 field
+are 6,5, 11, 7,5, 4, and 4.
+SUMXMY2({2, 3, 9, 1, 8, 7, 5}, {6, 5, 11, 7, 5, 4, 4}) Sum of squares of
+differences of the 2 arrays
+constants (79)
+TRIMMEAN Function
+The TRIMMEAN function returns the mean of the interior of a set of data. The value is derived by determining the
+mean of a series of values and excluding a percentage of the top and bottom values from the data set. This function can
+be used to eliminate outliers when determining the mean.
+Return Type: Numeric
+Syntax: TRIMMEAN(values, percent)
+In the above syntax, parameters in bold are required.
+https://help.archerirm.cloud/platform_2024_11/en-us/content/platform/calcfunctions/statistics_functions.htm 55/60
+
+
+===== PAGE 56 | METHOD: OCR =====
+
+
+3/2/26, 1:18 PM Statistics Functions
+The following table describes TRIMMEAN function parameters.
+Parameter Description
+values A set of values.
+percent This is the percent of data points to exclude when determining the mean. For
+example, if the percent parameter is .2 and the number of values in the data series
+is 100, 20 data points will be excluded when determining the mean (100 x .2=
+20). Within the excluded data points for this example, the calculation will exclude
+the 10 highest values and the 10 lowest values.
+Note: This function rounds the number of excluded data points down to the
+nearest multiple of 2. For example, if the percent is .1 and the number of data
+points is 30, the number of excluded data points should be 3. However, since this
+returns an odd number, TRIMMEAN will round this number down to 2 and
+exclude the highest value and the lowest value in the data series.
+Example:
+The following table provides an example formula of the TRIMMEAN function.
+Formula Result
+TRIMMEAN(REF([Facilities],[Risk Rating]), .2) 69
+where Facilities is a cross-reference field and the The values 45 and 92 were thrown out
+values in the Risk Rating field are 35, 50, 52, 60, 68, (since 20% of the values were to be
+75, 79, 82, 86, and 100. excluded) and the function found the
+mean of the remaining values.
+VAR Function
+The VAR function estimates the variance based on a sample of numbers. This function can compute the variance for up
+to 255 different values.
+Return Type: Numeric
+Syntax: VAR(number1, number2....)
+In the above syntax, parameters in bold are required.
+The following table describes VAR function parameters.
+Parameter Description
+number], Parameters for which you want to find the variance. These parameters can be
+number2, ... entered as hard-coded values, for example, 2, or Numeric-field references, for
+example, [field name]. Referenced fields can reside within the application or
+within Sub-Form, Cross-Reference, or Related Records fields.
+Note: This function assumes the numbers represent a sample from the overall
+population. If your data set represents the entire population, you must compute
+the variance using VARP.
+Example:
+The following table provides an example formula of the VAR function.
+https://help.archerirm.cloud/platform_2024_11/en-us/content/platform/calcfunctions/statistics_functions.htm
+56/60
+
+
+===== PAGE 57 | METHOD: OCR =====
+
+
+3/2/26, 1:18 PM Statistics Functions
+Formula Result
+VAR(REF([Facilities],[Risk Rating])) 382.4556
+where the parent record is related to 10 Facilities records and the values in the Risk
+Rating field are 35, 50, 52, 60, 68, 75, 79, 82, 86, and 100.
+VARA Function
+The VARA function estimates the variance based on a sample of numbers, text, or logical values (TRUE or FALSE).
+Return Type: Numeric
+Syntax: VARA(valuel, value?....)
+In the above syntax, parameters in bold are required.
+The following table describes VARA function parameters.
+Parameter Description
+valuel, Parameters for which you want to find the variance. These parameters can be
+value2, entered as hard-coded values, for example, 2, or field references, for example,
+[field name]. Referenced fields can reside within the application or within Sub-
+Form, Cross-Reference, or Related Records fields. If logical values (TRUE or
+FALSE) are used, they are evaluated as 1 and 0, respectively.
+Note: This function assumes the numbers represents a sample from the overall
+population. If your data set represents the entire population, you must compute
+the variance using VARPA.
+Example:
+The following table provides an example formula of the VARA function.
+Formula Result
+VAR([Offshore Facilities],[Risk Rating],[Customer Data])) 30.33333
+where the value of the Offshore Facilities field is "True", the value of the Risk Rating
+field is "10", and the value of the Customer Data field is "False".
+VARP Function
+The VARP function estimates the variance based on the entire population. This function can compute the variance for up
+to 255 different values.
+Return Type: Numeric
+Syntax: VARP(numberl1, number?2....)
+In the above syntax, parameters in bold are required.
+The following table describes VARP function parameters.
+Parameter Description
+https://help.archerirm.cloud/platform_2024_11/en-us/content/platform/calcfunctions/statistics_functions.htm 57/60
+
+
+===== PAGE 58 | METHOD: OCR =====
+
+
+3/2/26, 1:18 PM Statistics Functions
+Parameter Description
+number!1, Parameters for which you want to find the variance. These parameters can be
+number2, ... entered as hard-coded values, for example, 2, or Numeric-field references, for
+example, [field name]. Referenced fields can reside within the application or
+within Sub-Form, Cross-Reference, or Related Records fields.
+Note: This function assumes that the numbers represent the entire population.
+If your data set represents a sample population, you must compute the variance
+using VAR.
+Example:
+The following table provides an example formula of the VARP function.
+Formula Result
+VARP(REF([Facilities],[Risk Rating])) 344.21
+where the parent record is related to 10 Facilities records and the values in the Risk
+Rating field are 35, 50, 52, 60, 68, 75, 79, 82, 86, and 100.
+VARPA Function
+The VARPA function estimates the variance based on a total population of numbers, text or logical values (TRUE or
+FALSE).
+Return Type: Numeric
+Syntax: VARPA(valuel, value2,...)
+In the above syntax, parameters in bold are required.
+The following table describes VARPA function parameters.
+Parameter Description
+valuel, Parameters for which you want to find the variance. These parameters can be
+value2, ... entered as hard-coded values, for example, 2, or field references, for example,
+[field name]. Referenced fields can reside within the application or within Sub-
+Form, Cross-Reference, or Related Records fields. If logical values (TRUE or
+FALSE) are used, they are evaluated as | and 0, respectively.
+Note: This function assumes the numbers represent the entire population. If
+your data set represents a sample population, you must compute the variance
+using VARA.
+Example:
+The following table provides an example formula of the VARPA function.
+Formula Result
+VARPA([Offshore Facilities],[Risk Rating],[Customer Data])) 20.22222
+where the value of the Offshore Facilities field is "True", the value of the Risk Rating
+field is "10", and the value of the Customer Data field is "False".
+https://help.archerirm.cloud/platform_2024_11/en-us/content/platform/calcfunctions/statistics_functions.htm 58/60
+
+
+===== PAGE 59 | METHOD: OCR =====
+
+
+3/2/26, 1:18 PM Statistics Functions
+WEIBULL Function
+The WEIBULL function returns the Weibull distribution. You can use this distribution in reliability analysis.
+Return Type: Numeric
+Syntax: WEIBULL(x,alpha,beta,cumulative)
+In the above syntax, parameters in bold are required.
+The following table describes WEIBULL function parameters.
+Parameter Description
+x The value of the function.
+| Note: If x is nonnumeric or if x < 0, WEIBULL returns an error.
+alpha A parameter value for the distribution.
+| Note: If alpha < 0, WEIBULL returns an error.
+beta The other parameter value for the distribution.
+| Note: If beta < 0, WEIBULL returns an error.
+cumulative A logical value that indicates which form of the function to provide. If cumulative
+is TRUE, WEIBULL returns the cumulative distribution function; if FALSE, it
+returns the probability density function.
+Examples:
+The following table provides example
+formulas of the WEIBULL function.
+Formula Result
+WEIBULL(210,40,200, TRUE) 999124
+WEIBULL(210,40,200,FALSE)  .001175
+ZTEST Function
+The ZTEST function returns the 1-tailed probability value of a z-test. The function returns the probability that the
+sample mean would be greater than the average of observations in the data set.
+Return Type: Numeric
+Syntax: ZTEST(values,test,sigma)
+In the above syntax, parameters in bold are required.
+The following table describes ZTEST function parameters.
+Parameter Description
+https://help.archerirm.cloud/platform_2024_11/en-us/content/platform/calcfunctions/statistics_functions.htm 59/60
+
+
+===== PAGE 60 | METHOD: OCR =====
+
+
+3/2/26, 1:18 PM
+Parameter
+values
+test
+sigma
+Example:
+Statistics Functions
+Description
+A range of values.
+Note: If a reference argument contains text, logical values, or empty fields, those
+values are ignored; however, fields with the value zero are included.
+The value to test.
+The population standard deviation. If this value is not provided, the sample
+standard deviation is used.
+The following table provides an example formula of the ZTEST function.
+Formula
+Result
+ZTEST(REF([Facilities],[Risk Rating]),85) 99580
+where Facilities is a cross-reference field and the values in the Risk Rating field are 35,
+50, 52, 60, 68, 75, 79, 82, 86, and 100.
+Archer
+ABOUT
+ADDRESS CUSTOMERS CONNECT WITH US
+ARCHER
+13200 Metcalf Ave Events Archer Academy in’ @
+Suite 300 Resources Archer Exchange
+Overland Park, KS Services Support
+66213
+About Us Archer Community
+Archer is a leading provider of enterprise risk management solutions, which include third party risk management, IT risk
+management, operational risk management, and more. Contact us now to learn more about integrated risk management
+solutions from Archer.
+© 2008 Archer Technologies LLC. All rights Trademarks | Terms of | Privacy | Standard Form
+reserved.
+Use Policy Agreements
+https://help.archerirm.cloud/platform_2024_11/en-us/content/platform/calcfunctions/statistics_functions.htm
+60/60

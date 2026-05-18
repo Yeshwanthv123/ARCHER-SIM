@@ -1,0 +1,346 @@
+
+
+===== PAGE 1 | METHOD: OCR =====
+
+
+3/2/26, 1:14 PM Functions and Operators for Calculated Field Formulas
+You are here: Set Up & Maintenance > Building Applications, Questionnaires, and Solutions > Fields > Functions and
+Operators for Calculated Field Formulas
+https://help.archerirm.cloud/platform_2024_11/en-us/content/platform/fields/fld_calc_functions_operators_formulas.htm 1/7
+
+
+===== PAGE 2 | METHOD: OCR =====
+
+
+3/2/26, 1:14 PM
+Functions and Operators for Calculated Field Formulas
+Functions and Operators for Calculated Field Formulas
+Archer provides a library of functions and operators that you can use to build a formula.
+On this page
+Date functions
+The following table provides a list of date functions. Use these functions to produce dynamic values and to manipulate
+date information. For more details on each individual function, see Date Functions.
+e MONTH Function
+e DATEADD Function
+e DATEDIF Function
+e DATEFORMAT Function
+e DATETIMEVALUE Function
+¢ MONTHNAME Function
+¢ NOW Function
+¢ QUARTER Function
+e TODAY Function
+e¢ DAY Function
+e WEEKDAY Function
+e HOUR Function
+e MINUTE Function
+e WEEKNUMBER Function
+e YEAR Function
+Important: Dates and times are converted to Coordinated Universal Time (UTC) in Archer database. As a result,
+dates and times in calculations are returned in UTC.
+Date format descriptions
+The following table describes date elements.
+Date
+Element
+M
+MM
+MMMM
+dd
+dddd
+yy
+yyyy
+Return Example
+Displays the month as a number without a leading zero (Example: 1)
+Displays the month as a number with a leading zero (Example: 01)
+Displays the month as a full month name (Example: January)
+Displays the day as a number without a leading zero (Example: 5)
+Displays the day as a number with a leading zero (Example: 05)
+Displays the day as a full name (Example: Monday)
+Displays the year as a 2-digit number (Example: 06)
+Displays the year as a 4-digit number (Example: 2006)
+Displays the hour as a 1-digit or 2-digit number based on a 12-hour clock format
+(Example: 9)
+https://help.archerirm.cloud/platform_2024_11/en-us/content/platform/fields/fld_calc_functions_operators_formulas.htm
+2/7
+
+
+===== PAGE 3 | METHOD: OCR =====
+
+
+3/2/26, 1:14 PM
+Date
+Element
+hh
+HH
+Functions and Operators for Calculated Field Formulas
+Return Example
+Displays the hour as a 2 digit number (with a leading a leading zero, if necessary)
+based on a 12-hour clock format (Example: 09)
+Displays the hour as a 1-digit or 2-digit number based on a 24-hour clock format
+(Example: 13)
+Displays the hour as a 2-digit number based on a 24-hour clock format (Example:
+13)
+Displays the minute as a number without leading zeros (Example: 5)
+Displays the minute as a number with leading zeros (Example: 05)
+Displays the 1-letter AM/PM designator appropriate for the given time, regardless
+of whether the time is based on a 12-hour or 24-hour clock. (Example: 1:00 P for
+12-hour clock; 13:00 P for 24-hour clock)
+Displays the 2-letter AM/PM designator appropriate for the given time, regardless
+of whether the time is based on a 12-hour or 24-hour clock. (Example: 1:00 PM for
+12-hour clock; 13:00 PM for 24-hour clock)
+Financial functions
+The following table provides a list of financial functions. Use these functions to run common calculations associated
+with the financial industry. For more details on each individual function, see Financial Functions.
+e DB Function
+¢ DDB Function
+e FV Function
+e IPMT Function
+e TRR Function
+e¢ ISPMT Function
+e MIRR Function
+e¢ NPER Function
+Logical functions
+NPV Function
+PMT Function
+PPMT Function
+PV Function
+RATE Function
+SLN Function
+SYD Function
+VDB Function
+The following table provides a list of logical functions. Use these functions to evaluate an expression and return a
+specific result. For more details on each individual function, see Logical Functions.
+e AND Function
+e IF Function
+e¢ NOT Function
+¢ OR Function
+https://help.archerirm.cloud/platform_2024_11/en-us/content/platform/fields/fld_calc_functions_operators_formulas.htm 3/7
+
+
+===== PAGE 4 | METHOD: OCR =====
+
+
+3/2/26, 1:14 PM Functions and Operators for Calculated Field Formulas
+Math functions
+The following table provides a list of math functions. Use these functions to manipulate numeric values through a
+variety of options. For more details on each individual function, see Math Functions.
+¢ ABS Function * PI Function
+¢ POWER Function
+¢ PRODUCT Function
+¢ QUOTIENT Function
+¢ RADIANS Function
+¢ RAND Function
+e ROUND Function
+« ROUNDDOWN Function
+e ACOS Function
+e« ACOSH Function
+¢ ASIN Function
+e ASINH Function
+e ATAN Function
+e ATAN2 Function
+e ATANH Function
+¢ ROUNDUP Function
+e SIGN Function
+e CEILING Function
+¢ COMBIN Function
+e COS Function e SIN Function
+e SINH Function
+¢ SQRT Function
+e SUM Function
+¢ COSH Function
+e DEGREES Function
+e EVEN Function
+¢ EXP Function ¢ SUMIF Function
+¢ SUMPRODUCT Function
+¢ SUMSQ Function
+¢ FACT Function
+e¢ FLOOR Function
+e SUMX2MY2 Function
+¢ SUMX2PY2 Function
+¢ SUMXMY?2 Function
+e INT Function
+e LN Function
+e¢ LOG Function
+¢ LOGI1O Function e TAN Function
+e MOD Function
+e ODD Function
+e¢ TANH Function
+e TRUNC Function
+Statistics functions
+The following table provides a list of statistics functions. For more details on each individual function, see Statistics
+Functions.
+e¢ CONFIDENCE Function
+e¢ CORREL Function
+e AVEDEV Function
+e AVERAGE Function
++ AVERAGEA Function * COUNT Function
+e COUNTA Function
+¢ COUNTBLANK Function
+e¢ COUNTIF Function
+e¢ BINOMDIST Function
+¢ CHIDIST Function
+e¢ CHIINV Function
+https://help.archerirm.cloud/platform_2024_11/en-us/content/platform/fields/fld_calc_functions_operators_formulas.htm
+
+
+===== PAGE 5 | METHOD: OCR =====
+
+
+3/2/26, 1:14 PM
+e COVAR Function
+¢ CRITBINOM Function
+¢ DEVSQ Function
+e¢ EXPONDIST Function
+e FDIST Function
+e FINV Function
+e FISHER Function
+e FISHERINV Function
+¢ FORECAST Function
+¢ GAMMADIST Function
+¢ GAMMAINV Function
+¢ GAMMALN Function
+¢ GEOMEAN Function
+¢ HARMEAN Function
+¢ HYPGEOMDIST Function
+¢ INTERCEPT Function
+¢ KURT Function
+e LARGE Function
+e LOGINV Function
+« LOGNORMDIST Function
+¢ MAX Function
+¢ MAXA Function
+¢ MEDIAN Function
+e MIN Function
+e¢ MINA Function
+e¢ MODE Function
+e¢ NEGBINOMDIST Function
+¢ NORMDIST Function
+¢ NORMINV Function
+¢ PEARSON Function
+System functions
+Functions and Operators for Calculated Field Formulas
+PERCENTILE Function
+PERCENTRANK Function
+PERMUT Function
+POISSON Function
+PROB Function
+QUARTILE Function
+RANK Function
+RSQ Function
+SKEW Function
+SLOPE Function
+SMALL Function
+STANDARDIZE Function
+STDEV Function
+STDEVA Function
+STDEVP Function
+STDEVPA Function
+STEYX Function
+SUM Function
+SUMIF Function
+SUMPRODUCT Function
+SUMSQ Function
+SUMX2PY?2 Function
+SUMXMY?2 Function
+TRIMMEAN Function
+VAR Function
+VARA Function
+VARP Function
+VARPA Function
+WEIBULL Function
+ZTEST Function
+The following table provides a list of system functions. Use these functions to work with variables specific to Archer
+and options to produce dynamic results. For more details on each individual function, see System Functions.
+¢ COMBINESELECTIONS Function
+¢ CONTAINS Function
+CONTENTID Function
+GETGROUPS Function
+GETUSERS Function
+https://help.archerirm.cloud/platform_2024_11/en-us/content/platform/fields/fld_calc_functions_operators_formulas.htm 5/7
+
+
+===== PAGE 6 | METHOD: OCR =====
+
+
+3/2/26, 1:14 PM Functions and Operators for Calculated Field Formulas
+¢ GROUP Function
+¢ ISCORRECT Function
+e ISEMPTY Function
+¢ ISNUMBER Function
+e MOSTRECENTVALUE Function
+e NOVALUE Function
+¢ OTHERTEXT Function
+e REF Function
+e SELECTEDVALUENUMBER Function
+Text functions
+The following table provides a list of text functions. Use these functions to utilize and manipulate text strings to produce
+¢ TRACKINGID Function
+e USER Function
+e USERFIRSTNAME Function
+e USERLASTNAME Function
+e USERMIDDLENAME Function
+e¢ VALUEOF Function
+e WEIGHTEDSCORE Function
+¢ WEIGHTING Function
+dynamic values. For more details on each individual function, see Text Functions.
+¢ CONCATENATE Function
+e FIND Function
+e LEFT Function
+e LEN Function
+¢ LOWER Function
+¢ MASKEDTEXT Function
+¢ NUMBERFORMAT Function
+¢ PROPER Function
+e RIGHT Function
+e¢ STRIPHTML Function
+e¢ SUBSTRING Function
+e TRIM Function
+¢ UPPER Function
+Operators
+The following table provides a list of operators
+offered by the formula builder. Click an
+operator to see its description.
+Category Operator
+Arithmetic Addition
+Division
+Exponentiation
+Multiplication
+Subtraction
+https://help.archerirm.cloud/platform_2024_11/en-us/content/platform/fields/fld_calc_functions_operators_formulas.htm
+6/7
+
+
+===== PAGE 7 | METHOD: OCR =====
+
+
+3/2/26, 1:14 PM Functions and Operators for Calculated Field Formulas
+Category Operator
+Comparison Equal To
+Greater Than
+Greater Than or Equal To
+Less Than
+Less Than or Equal To
+Not Equal To
+Text Concatenation  Concatenate
+Note: Ifa field included in an addition, subtraction, multiplication, division or comparison operation is empty or null,
+the value "0" (zero) is used for the field value. The following formula is an exception to this rule:
+IF({Sample Field] = 0, "TRUE","FALSE")
+In this formula, the Sample Field is not populated with the value "0" if the field is empty or null. Instead, this formula
+returns TRUE when the Sample Field is empty or null.
+Archer
+ABOUT
+ADDRESS CUSTOMERS CONNECT WITH US
+ARCHER
+13200 Metcalf Ave Events Archer Academy in yo
+Suite 300 Resources Archer Exchange
+Overland Park, KS Services Support
+66213
+About Us Archer Community
+Archer is a leading provider of enterprise risk management solutions, which include third party risk management, IT risk
+management, operational risk management, and more. Contact us now to learn more about integrated risk management
+solutions from Archer.
+© 2024 Archer Technologies LLC. All rights
+Trademarks | Terms of | Privacy | Standard Form
+reserved.
+Use Policy Agreements
+https://help.archerirm.cloud/platform_2024_11/en-us/content/platform/fields/fld_calc_functions_operators_formulas.htm
+7IT

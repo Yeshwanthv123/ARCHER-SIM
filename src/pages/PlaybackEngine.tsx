@@ -163,6 +163,17 @@ const calculateLayout = (steps: Step[]) => {
           }
         }
         
+        // Fallback: If not found via graph edges (e.g. unconfigured condition branches),
+        // just find the closest previous condition in the steps array.
+        if (conditionNodeIndex === -1) {
+          for (let j = i - 1; j >= 0; j--) {
+            if ((steps[j]?.action || "").toLowerCase() === "condition") {
+              conditionNodeIndex = j;
+              break;
+            }
+          }
+        }
+        
         // Draw dotted line back to the condition
         if (conditionNodeIndex !== -1) {
           arrows.push({ from: i, to: conditionNodeIndex, label: "", isDotted: true, weight: 1 });
@@ -195,8 +206,10 @@ const calculateLayout = (steps: Step[]) => {
 
     for (let i = 1; i < steps.length; i++) {
       if (!hasIncoming[i]) {
-        // Add a layout-only edge from Start to this disconnected node
-        g.setEdge("0", String(i), { weight: 0, minlen: 2 }, `hidden_${i}`);
+        // Add a layout-only edge from the PREVIOUS node to this disconnected node 
+        // to ensure they are visually laid out sequentially from left to right.
+        // weight must be > 0 to prevent Dagre greedy acyclicer crashes on cycles.
+        g.setEdge(String(i - 1), String(i), { weight: 1, minlen: 2 }, `hidden_${i}`);
       }
     }
 
@@ -204,9 +217,12 @@ const calculateLayout = (steps: Step[]) => {
 
     const nodePositions: NodePosition[] = steps.map((_, i) => {
       const node = g.node(String(i));
+      // Safeguard against Dagre returning undefined or NaN for node coordinates (e.g. self-loops)
+      const validX = node && typeof node.x === 'number' && !isNaN(node.x);
+      const validY = node && typeof node.y === 'number' && !isNaN(node.y);
       return {
-        x: node ? node.x - NODE_WIDTH / 2 : 0,
-        y: node ? node.y - NODE_HEIGHT / 2 : 0,
+        x: validX ? node.x - NODE_WIDTH / 2 : i * (NODE_WIDTH + 150),
+        y: validY ? node.y - NODE_HEIGHT / 2 : 100,
         width: NODE_WIDTH,
         height: NODE_HEIGHT,
         stepIndex: i
@@ -224,7 +240,15 @@ const calculateLayout = (steps: Step[]) => {
     return { nodePositions, arrowPaths };
   } catch (err) {
     console.error("Layout error:", err);
-    return { nodePositions: [], arrowPaths: [] };
+    // Robust fallback: Layout nodes in a simple horizontal line so the canvas never goes completely blank
+    const fallbackPositions = steps.map((_, i) => ({
+      x: i * (NODE_WIDTH + 150),
+      y: 100,
+      width: NODE_WIDTH,
+      height: NODE_HEIGHT,
+      stepIndex: i
+    }));
+    return { nodePositions: fallbackPositions, arrowPaths: [] };
   }
 };
 
@@ -347,10 +371,10 @@ export default function PlaybackEngine({ steps, onExit }: Props) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const [zoom, setZoom] = useState(1);
   const [pan, setPan] = useState({ x: 0, y: 0 });
-  const [currentStep, setCurrentStep] = useState(0);
+  const [activeNodes, setActiveNodes] = useState<number[]>([0]);
+  const [visitedNodes, setVisitedNodes] = useState<Set<number>>(new Set([0]));
   const [selectedNode, setSelectedNode] = useState<number | null>(0);
   const [isPlaying, setIsPlaying] = useState(true);
-  const [visibleStepIndex, setVisibleStepIndex] = useState(0);
   const [isDragging, setIsDragging] = useState(false);
   const [dragStart, setDragStart] = useState({ x: 0, y: 0 });
   const [isSpacePressed, setIsSpacePressed] = useState(false);
@@ -367,63 +391,70 @@ export default function PlaybackEngine({ steps, onExit }: Props) {
   const step = selectedNode !== null ? steps[selectedNode] : null;
   const action = (step?.action || "").toLowerCase();
 
-  /* ================= AUTO ADVANCE ================= */
+  /* ================= AUTO ADVANCE (PARALLEL BRANCH EXPLORATION) ================= */
   useEffect(() => {
-    const currentStepObj = steps[currentStep];
-    if (!currentStepObj) return;
-    
-    const currentAction = (currentStepObj.action || "").toLowerCase();
-    
-    // Stop playback when reaching a Stop action
-    if (currentAction === "stop") {
-      setIsPlaying(false);
-      return;
-    }
-    
-    if (!isPlaying) return;
+    if (!isPlaying || activeNodes.length === 0) return;
 
     const timer = setTimeout(() => {
-      let nextIdx = -1;
-      
-      if (currentAction === "condition" || currentAction === "useraction") {
-        let foundTrueStep = false;
-        if (currentStepObj.rules && currentStepObj.rules.length > 0) {
-          for (const rule of currentStepObj.rules) {
-            if (rule.trueStep !== undefined && rule.trueStep !== "") {
-              nextIdx = Number(rule.trueStep) - 1;
-              foundTrueStep = true;
-              break;
-            }
+      let nextNodes = new Set<number>();
+
+      activeNodes.forEach(nodeIdx => {
+        const currentStepObj = steps[nodeIdx];
+        if (!currentStepObj) return;
+        
+        const currentAction = (currentStepObj.action || "").toLowerCase();
+        
+        if (currentAction === "stop") {
+          // This branch terminates. Do not add any next nodes for it.
+          return;
+        }
+
+        if (currentAction === "condition" || currentAction === "useraction") {
+          let hasBranch = false;
+          if (currentStepObj.rules && currentStepObj.rules.length > 0) {
+            currentStepObj.rules.forEach(rule => {
+              if (rule.trueStep !== undefined && rule.trueStep !== "") {
+                nextNodes.add(Number(rule.trueStep) - 1);
+                hasBranch = true;
+              }
+            });
+          }
+          if (currentStepObj.defaultStep !== undefined && currentStepObj.defaultStep !== "") {
+            nextNodes.add(Number(currentStepObj.defaultStep) - 1);
+            hasBranch = true;
+          }
+          if (!hasBranch && currentAction === "useraction" && nodeIdx + 1 < steps.length) {
+            nextNodes.add(nodeIdx + 1);
+          }
+        } else if (currentAction === "wait") {
+          if (nodeIdx + 1 < steps.length) {
+            nextNodes.add(nodeIdx + 1);
+          }
+        } else {
+          if (nodeIdx + 1 < steps.length) {
+            nextNodes.add(nodeIdx + 1);
           }
         }
-        
-        if (!foundTrueStep && currentStepObj.defaultStep !== undefined && currentStepObj.defaultStep !== "") {
-          nextIdx = Number(currentStepObj.defaultStep) - 1;
-        }
-      } else {
-        if (currentStep < steps.length - 1) {
-          nextIdx = currentStep + 1;
-        }
-      }
+      });
 
-      if (nextIdx !== -1 && nextIdx < steps.length && nextIdx !== currentStep) {
-        setCurrentStep(nextIdx);
-        setSelectedNode(nextIdx);
-        setVisibleStepIndex(nextIdx);
+      const nextNodesArr = Array.from(nextNodes).filter(idx => idx >= 0 && idx < steps.length && !visitedNodes.has(idx));
+      
+      if (nextNodesArr.length > 0) {
+        setActiveNodes(nextNodesArr);
+        setVisitedNodes(prev => {
+          const nextSet = new Set(prev);
+          nextNodesArr.forEach(idx => nextSet.add(idx));
+          return nextSet;
+        });
+        setSelectedNode(nextNodesArr[0]);
       } else {
         setIsPlaying(false);
+        setActiveNodes([]); // Clear active nodes when stopped
       }
     }, 1500);
 
     return () => clearTimeout(timer);
-  }, [currentStep, isPlaying, steps]);
-
-  /* ================= SYNC VISIBLE STEP WITH CURRENT STEP ================= */
-  useEffect(() => {
-    if (isPlaying) {
-      setVisibleStepIndex(currentStep);
-    }
-  }, [currentStep, isPlaying]);
+  }, [activeNodes, isPlaying, steps, visitedNodes]);
 
   useEffect(() => {
     const handleResize = () => setZoom(z => z); // force re-render on resize
@@ -476,12 +507,21 @@ export default function PlaybackEngine({ steps, onExit }: Props) {
     const contentHeight = maxY - minY;
     const scaleX = rect.width / contentWidth;
     const scaleY = rect.height / contentHeight;
-    const targetZoom = Math.min(scaleX, scaleY, 1);
+    let targetZoom = Math.min(scaleX, scaleY, 1);
+    
+    // Bulletproof shield against NaN propagation freezing the UI
+    if (isNaN(targetZoom) || !isFinite(targetZoom) || targetZoom <= 0) {
+      targetZoom = 1;
+    }
     
     const contentCenterX = (minX + maxX) / 2;
     const contentCenterY = (minY + maxY) / 2;
-    const targetPanX = (rect.width / 2) - (contentCenterX * targetZoom);
-    const targetPanY = (rect.height / 2) - (contentCenterY * targetZoom);
+    
+    let targetPanX = (rect.width / 2) - (contentCenterX * targetZoom);
+    let targetPanY = (rect.height / 2) - (contentCenterY * targetZoom);
+    
+    if (isNaN(targetPanX) || !isFinite(targetPanX)) targetPanX = 0;
+    if (isNaN(targetPanY) || !isFinite(targetPanY)) targetPanY = 0;
 
     setZoom(targetZoom);
     setPan({ x: targetPanX, y: targetPanY });
@@ -535,22 +575,24 @@ export default function PlaybackEngine({ steps, onExit }: Props) {
       ctx.stroke();
     }
 
-    // Filter visible arrows (show all arrows to fix incomplete branching display)
-    const visibleArrows = arrowPaths;
+    // Filter visible arrows (only show arrows where both nodes have been visited)
+    const visibleArrows = arrowPaths.filter(arrow => visitedNodes.has(arrow.from) && visitedNodes.has(arrow.to));
     
     // Draw transition nodes
     drawTransitionNodes(ctx, visibleArrows);
 
-    // Draw nodes (only icons, no background or labels) - only up to visibleStepIndex
+    // Draw nodes (only icons, no background or labels) - only visited nodes
     for (let i = 0; i < nodePositions.length; i++) {
+      if (!visitedNodes.has(i)) continue;
+      
       const pos = nodePositions[i];
       
       // Removed visibility filter so branching tree is fully visible
       const nodeStep = steps[pos.stepIndex];
       const nodeAction = (nodeStep.action || "").toLowerCase();
 
-      // Highlight current step
-      if (pos.stepIndex === currentStep) {
+      // Highlight active step
+      if (activeNodes.includes(pos.stepIndex)) {
         ctx.beginPath();
         ctx.arc(pos.x + pos.width / 2, pos.y + pos.height / 2, 55, 0, 2 * Math.PI);
         ctx.fillStyle = "rgba(211, 84, 0, 0.2)";
@@ -608,7 +650,7 @@ export default function PlaybackEngine({ steps, onExit }: Props) {
 
     ctx.restore();
 
-  }, [nodePositions, arrowPaths, steps, currentStep, selectedNode, zoom, pan, renderTrigger, visibleStepIndex]);
+  }, [nodePositions, arrowPaths, steps, activeNodes, visitedNodes, selectedNode, zoom, pan, renderTrigger]);
 
   /* ================= ZOOM HANDLERS ================= */
   const handleWheel = (e: React.WheelEvent) => {
@@ -723,8 +765,17 @@ export default function PlaybackEngine({ steps, onExit }: Props) {
   /* ================= PLAYBACK CONTROLS ================= */
   const handleStartFromNode = () => {
     if (selectedNode !== null) {
-      setCurrentStep(selectedNode);
-      setVisibleStepIndex(selectedNode);
+      setActiveNodes([selectedNode]);
+      
+      // We must completely rebuild the visited nodes up to the selected node.
+      // This ensures any "future" nodes from a previous playback are wiped out,
+      // so the auto-advance logic doesn't think they've already been visited and stop immediately.
+      const newVisited = new Set<number>();
+      for (let i = 0; i <= selectedNode; i++) {
+        newVisited.add(i);
+      }
+      setVisitedNodes(newVisited);
+      
       setIsPlaying(true);
     }
   };
@@ -986,6 +1037,13 @@ export default function PlaybackEngine({ steps, onExit }: Props) {
                             </div>
                           )}
                         </div>
+                        <button
+                          onClick={() => openEditRuleModal(rule)}
+                          className="ml-2 p-1 text-black hover:text-[#d35400] transition-colors opacity-0 group-hover:opacity-100 self-center"
+                          title="Edit rule"
+                        >
+                          ✏️
+                        </button>
                       </div>
                     </div>
                   ))}
@@ -1103,7 +1161,24 @@ export default function PlaybackEngine({ steps, onExit }: Props) {
         {/* ================= CONTROLS ================= */}
         <div className="border-t border-[#222] p-4 bg-[#2b2b2b] mt-auto space-y-2 shrink-0">
           <button
-            onClick={() => setIsPlaying(!isPlaying)}
+            onClick={() => {
+              if (isPlaying) {
+                setIsPlaying(false);
+              } else {
+                if (activeNodes.length === 0) {
+                  // If finished, restart from selected node or 0
+                  const startNode = selectedNode !== null ? selectedNode : 0;
+                  setActiveNodes([startNode]);
+                  
+                  const newVisited = new Set<number>();
+                  for (let i = 0; i <= startNode; i++) {
+                    newVisited.add(i);
+                  }
+                  setVisitedNodes(newVisited);
+                }
+                setIsPlaying(true);
+              }
+            }}
             className={`w-full px-4 py-2 rounded text-white font-semibold transition shadow-sm ${
               isPlaying
                 ? "bg-yellow-600 hover:bg-yellow-700"

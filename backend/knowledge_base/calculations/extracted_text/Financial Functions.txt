@@ -1,0 +1,919 @@
+
+
+===== PAGE 1 | METHOD: OCR =====
+
+
+3/2/26, 1:17 PM Financial Functions
+You are here: Set Up & Maintenance > Building Applications, Questionnaires, and Solutions > Fields > Financial Functions
+https://help.archerirm.cloud/platform_2024_11/en-us/content/platform/calcfunctions/financial_functions.htm 1/21
+
+
+===== PAGE 2 | METHOD: OCR =====
+
+
+3/2/26, 1:17 PM Financial Functions
+Financial Functions
+The following financial functions run common calculations associated with the financial industry.
+On this page
+DB Function
+The DB function returns the depreciation of an asset for a specified period using the fixed-declining balance method.
+Return Type: Numeric
+Syntax: DB(cost,salvage,life,period,month)
+In the above syntax, parameters in bold are required.
+The following table describes the DB function parameters.
+Parameter Description
+cost The initial cost of the asset.
+salvage The value at the end of the depreciation (sometimes called the salvage value of the
+asset).
+life The number of periods over which the asset is being depreciated (sometimes
+called the useful life of the asset).
+period The period for which you want to calculate the depreciation. Period must use the
+same units as life.
+month The number of months in the first year. If month is omitted, it is assumed to be 12.
+Examples:
+The following table provides example formulas of the DB function.
+Formula Result
+DB([Initial Cost],[Salvage Value],[Lifetime in Years],[Period in Depreciation in first year,
+Years],[Month]) with only 7 months
+Where the value in the Initial Cost field is 1,000,000, the value in calculated (186,083.33)
+the Salvage Value field is 100,000, the value in the Lifetime in
+Years field is 6, the value in the Period in Years field is 1, and the
+value in the Month field is 7.
+DB([Initial Cost],[Salvage Value],[Lifetime in Years],[Period in Depreciation in second year
+Years],[Month]) (259,639.42)
+Where the value in the Initial Cost field is 1,000,000, the value in
+the Salvage Value field is 100,000, the value in the Lifetime in
+Years field is 6, the value in the Period in Years field is 2, and the
+value in the Month field is 7.
+https://help.archerirm.cloud/platform_2024_11/en-us/content/platform/calcfunctions/financial_functions.htm 2/21
+
+
+===== PAGE 3 | METHOD: OCR =====
+
+
+3/2/26, 1:17 PM Financial Functions
+Formula Result
+DB([Initial Cost],[Salvage Value],[Lifetime in Years],[Period in Depreciation in third year
+Years],[Month]) (176,814.44)
+Where the value in the Initial Cost field is 1,000,000, the value in
+the Salvage Value field is 100,000, the value in the Lifetime in
+Years field is 6, the value in the Period in Years field is 3, and the
+value in the Month field is 7.
+DB([Initial Cost],[Salvage Value],[Lifetime in Years],[Period in Depreciation in fourth year
+Years],[Month]) (120,410.64)
+Where the value in the Initial Cost field is 1,000,000, the value in
+the Salvage Value field is 100,000, the value in the Lifetime in
+Years field is 6, the value in the Period in Years field is 4, and the
+value in the Month field is 7.
+DB([Initial Cost],[Salvage Value],[Lifetime in Years],[Period in Depreciation in fifth year
+Years],[Month]) (81,999.64)
+Where the value in the Initial Cost field is 1,000,000, the value in
+the Salvage Value field is 100,000, the value in the Lifetime in
+Years field is 6, the value in the Period in Years field is 5, and the
+value in the Month field is 7.
+DB([Initial Cost],[Salvage Value],[Lifetime in Years],[Period in Depreciation in sixth year
+Years],[Month]) (55,841.76)
+Where the value in the Initial Cost field is 1,000,000, the value in
+the Salvage Value field is 100,000, the value in the Lifetime in
+Years field is 6, the value in the Period in Years field is 6, and the
+value in the Month field is 7.
+DB([Initial Cost],[Salvage Value],[Lifetime in Years],[Period in Depreciation in seventh
+Years],[Month]) year, with only 5 months
+Where the value in the Initial Cost field is 1,000,000, the value in calculated (15,845.10)
+the Salvage Value field is 100,000, the value in the Lifetime in
+Years field is 6, the value in the Period in Years field is 7, and the
+value in the Month field is 7.
+DDB Function
+The DDB function returns the depreciation of an asset for a specified period using the double-declining balance method
+or some other method that you specify. The double-declining balance method computes depreciation at an accelerated
+rate. Depreciation is highest in the first period and decreases in successive periods. DDB uses the following formula to
+calculate depreciation for a period:
+Min( (cost - total depreciation from prior periods) * (factor/life), (cost - salvage - total depreciation from prior periods) )
+Use the VDB function to switch to the straight-line depreciation method when depreciation is greater than the declining
+balance calculation.
+Return Type: Numeric. The results are rounded to 2 decimal places.
+Syntax: DDB(cost,salvage,life,period, factor)
+In the above syntax, parameters in bold are required.
+https://help.archerirm.cloud/platform_2024_11/en-us/content/platform/calcfunctions/financial_functions.htm 3/21
+
+
+===== PAGE 4 | METHOD: OCR =====
+
+
+3/2/26, 1:17 PM Financial Functions
+The following table describes DDB function parameters.
+Parameter Description
+cost The initial cost of the asset. Must be a positive number.
+salvage The value at the end of the depreciation (sometimes called the salvage value of the
+asset). This value can be 0. Must be a positive number.
+life The number of periods over which the asset is being depreciated (sometimes
+called the useful life of the asset). Must be a positive number.
+period The period for which you want to calculate the depreciation. Period must use the
+same units as life. Must be a positive number.
+factor The rate at which the balance declines. If factor is omitted, it is assumed to be 2
+(the double-declining balance method). Change factor if you do not want to use
+the double-declining balance method. Must be a positive number.
+Examples:
+The following table provides example formulas of the DDB function.
+Formula Result
+DB([Initial Cost],[Salvage Value],[Lifetime in Years], First day depreciation. Archer
+[Period in Years]) automatically assumes that factor
+where the value in the Initial Cost field is 2400, the value in is 2. (1.32)
+the Salvage Value field is 300, the value in the Lifetime in
+Years field is 10, and the value in the Period in Years field is
+1.
+DB([Initial Cost],[Salvage Value],[Lifetime in Months], First month depreciation (40.00)
+[Period in Months],[Factor])
+where the value in the Initial Cost field is 2400, the value in
+the Salvage Value field is 300, the value in the Lifetime in
+Months field is 120, the value in the Period in Months field
+is 1, and the value in the Factor field is 2.
+DB([Initial Cost],[Salvage Value],[Lifetime in Years], First year depreciation (480.00)
+[Period in Years],[Factor])
+where the value in the Initial Cost field is 2400, the value in
+the Salvage Value field is 300, the value in the Lifetime in
+Years field is 10, the value in the Period in Years field is 1,
+and the value in the Factor field is 2.
+DB([Initial Cost],[Salvage Value],[Lifetime in Years], Second year depreciation using a
+[Period in Years],[Factor]) factor of 1.5 instead of the double-
+where the value in the Initial Cost field is 2400, the value in declining balance method
+the Salvage Value field is 300, the value in the Lifetime in (306.00)
+Years field is 10, the value in the Period in Years field is 2,
+and the value in the Factor field is 1.5.
+https://help.archerirm.cloud/platform_2024_11/en-us/content/platform/calcfunctions/financial_functions.htm 4/21
+
+
+===== PAGE 5 | METHOD: OCR =====
+
+
+3/2/26, 1:17 PM Financial Functions
+Formula Result
+DB([Initial Cost],[Salvage Value],[Lifetime in Years], Tenth year depreciation. Archer
+[Period in Years]) automatically assumes that factor
+where the value in the Initial Cost field is 2400, the value in is 2 (22.12)
+the Salvage Value field is 300, the value in the Lifetime in
+Years field is 10, and the value in the Period in Years field is
+10.
+FV Function
+The FV function returns the future value of an investment based on periodic, constant payments and a constant interest
+rate.
+Return Type: Numeric
+Syntax: FV(rate,nper,pmt,pv,type)
+In the above syntax, parameters in bold are required.
+The following table describes FV function parameters.
+Parameter Description
+rate The interest rate per period.
+nper The total number of payment periods in an annuity.
+pmt The payment made each period; it cannot change over the life of the annuity.
+Typically, pmt contains principal and interest but no other fees or taxes. If pmt is
+omitted, you must include the pv argument.
+pv The present value, or the lump-sum amount that a series of future payments is
+worth right now. If pv is omitted, it is assumed to be 0 (zero), and you must
+include the pmt argument.
+type The number 0 or | and indicates when payments are due. If type is omitted, it is
+assumed to be 0.
+¢ Set type equal to 0 if payments are due at the end of the period.
+¢ Set type equal to 1 if payments are due at the beginning of the period.
+Note: Be consistent about the units that you use for specifying rate and nper. If you make monthly payments on a 4-
+year loan at 12 percent annual interest, use 12%/12 for rate and 4*12 for nper. If you make annual payments on the
+same loan, use 12% for rate and 4 for nper.
+For all of the arguments, cash you pay out, such as deposits to savings, is represented by negative numbers; cash you
+receive, such as dividend checks, is represented by positive numbers.
+Examples:
+The following table provides example formulas of the FV function.
+Formula Result
+https://help.archerirm.cloud/platform_2024_11/en-us/content/platform/calcfunctions/financial_functions.htm 5/21
+
+
+===== PAGE 6 | METHOD: OCR =====
+
+
+3/2/26, 1:17 PM Financial Functions
+Formula Result
+FV({Annual Rate],[Number of Payments],[Payment Amount],[Present Future value of an
+Value],[Payment Due Indicator]) investment with the
+where the value in the Annual Rate field is .06/12, the value in the given terms (2581.40)
+Number of Payments field is 10, the value in the Payment Amount
+field is -200, the value in the Present Value field is -500, and the value
+in the Payment Due Indicator field is 1.
+The annual interest rate is divided by 12 because it is compounded
+monthly.
+FV({Annual Rate],[Number of Payments],[Payment Amount]) Future value of an
+where the value in the Annual Rate field is .12/12, the value in the investment with the
+Number of Payments field is 12, and the value in the Payment Amount | given terms (12,682.50)
+field is
+-1000.
+The annual interest rate is divided by 12 because it is compounded
+monthly.
+FV({Annual Rate],[ Number of Payments],[Payment Amount], , Future value of an
+[Payment Due Indicator]) investment with the
+where the value in the Annual Rate field is .11/12, the value in the given terms (82,846.25)
+Number of Payments field is 35, the value in the Payment Amount
+field is -2000, and the value in the Payment Due Indicator field is 1.
+The annual interest rate is divided by 12 because it is compounded
+monthly.
+FV({Annual Rate],[Number of Payments],[Payment Amount],[Present Future value of an
+Value],[Payment Due Indicator]) investment with the
+where the value in the Annual Rate field is .06/12, the value in the above terms (2301.40)
+Number of Payments field is 12, the value in the Payment Amount
+field is -100, the value in the Present Value field is -1000, and the
+value in the Payment Due Indicator field is 1.
+The annual interest rate is divided by 12 because it is compounded
+monthly.
+IPMT Function
+The IPMT function returns the interest payment for a given period for an investment based on periodic, constant
+payments, and a constant interest rate.
+Return Type: Numeric
+Syntax: IPMT(rate,per,nper,pv,fv,type)
+In the above syntax, parameters in bold are required.
+The following table describes IPMT function parameters.
+Parameter Description
+rate The interest rate per period.
+https://help.archerirm.cloud/platform_2024_11/en-us/content/platform/calcfunctions/financial_functions.htm 6/21
+
+
+===== PAGE 7 | METHOD: OCR =====
+
+
+3/2/26, 1:17 PM
+Parameter
+per
+nper
+py
+fv
+type
+Note: Make sure that you are consistent about the units that you use for specifying rate and nper. If you make monthly
+payments on a 4-year loan at 12 percent annual interest, use 12%/12 for rate and 4*12 for nper. If you make annual
+Financial Functions
+Description
+The period for which you want to find the interest and must be in the range | to
+nper.
+The total number of payment periods in an annuity.
+For all of the arguments, cash you pay out, such as deposits to savings, is
+represented by negative numbers; cash you receive, such as dividend checks, is
+represented by positive numbers.
+The present value, or the lump-sum amount that a series of future payments is
+worth right now.
+For all of the arguments, cash you pay out, such as deposits to savings, is
+represented by negative numbers; cash you receive, such as dividend checks, is
+represented by positive numbers.
+The future value, or a cash balance you want to attain after the last payment is
+made. If fv is omitted, it is assumed to be 0 (the future value of a loan, for
+example, is 0).
+The number 0 or | and indicates when payments are due. If type is omitted, it is
+assumed to be 0.
+¢ Set type equal to 0 if payments are due at the end of the period.
+¢ Set type equal to 1 if payments are due at the beginning of the period.
+payments on the same loan, use 12% for rate and 4 for nper.
+Examples:
+The following table provides example formulas of the IPMT function.
+Formula
+Result
+IPMT([Rate],[Period],[Years of Loan],[Present Value]) Interest due in the first month for a
+where the value in the Rate field is 10/12, the value in the loan with the terms given (-66.67)
+Period field is 1, the value in the Years of Loan field is
+3*12, and the value in the Present Value field is 8000.
+The interest rate is divided by 12 to get a monthly rate.
+The years the money is paid out is multiplied by 12 to get
+the number of payments.
+IPMT([Rate],[Period],[Years of Loan],[Present Value]) Interest due in the last year for a
+where the value in the Rate field is .10, the value in the loan with the terms given, where
+Period field is 3, the value in the Years of Loan field is 3, payments are made yearly (-292.45)
+and the value in the Present Value field is 8000.
+https://help.archerirm.cloud/platform_2024_11/en-us/content/platform/calcfunctions/financial_functions.htm
+7/21
+
+
+===== PAGE 8 | METHOD: OCR =====
+
+
+3/2/26, 1:17 PM Financial Functions
+IRR Function
+The IRR function returns the internal rate of return for a series of cash flows represented by the numbers in values.
+These cash flows do not have to be even, as they would be for an annuity. However, the cash flows must occur at regular
+intervals, such as monthly or annually. The internal rate of return is the interest rate received for an investment
+consisting of payments (negative values) and income (positive values) that occur at regular periods.
+Return Type: Numeric
+Syntax: IRR(values, guess)
+In the above syntax, parameters in bold are required.
+The following table describes IRR function parameters.
+Parameter Description
+values A reference (using the REF function) to fields that contain numbers for which you
+want to calculate the internal rate of return. Note the following:
+e Values must contain at least | positive value and | negative value to
+calculate the internal rate of return.
+e IRR uses the order of values to interpret the order of cash flows. Be sure
+to enter your payment and income values in the sequence you want.
+e Ifareference field contains text, logical values, or empty cells, those
+values are ignored.
+guess A number that you guess is close to the result of IRR. Note the following:
+e Archer uses an iterative technique for calculating IRR. Starting with
+guess, IRR cycles through the calculation until the result is accurate
+within 0.00001 percent. If IRR cannot find a result that works after 20
+tries, an error value is returned.
+¢ In most cases you do not need to provide guess for the IRR calculation. If
+guess is omitted, it is assumed to be 0.1 (10 percent).
+¢ Ifthe result is not close to what you expected, try again with a different
+value for guess.
+IRR is closely related to NPV, the net present value function. The rate of return calculated by IRR is the interest rate
+corresponding to a 0 (zero) net present value. The following formula demonstrates how NPV and IRR are related:
+NPV(IRR(B1:B6),B1:B6)
+equals 3.60E-08 [Within the accuracy of the IRR calculation, the value 3.60E-08 is effectively 0 (zero).]
+Examples:
+The following table provides example formulas of the IRR function.
+Formula Result
+IRR([REF([Related Yearly Results],[Net Income])) Investment internal rate of
+where Related Yearly Results is a cross-reference field to another return after 5 years (-2%).
+application. The other application has a field called Net Income
+which contains the values -70,000, 12,000, 15,000, 18,000, 21,000
+and 26,000.
+https://help.archerirm.cloud/platform_2024_11/en-us/content/platform/calcfunctions/financial_functions.htm 8/21
+
+
+===== PAGE 9 | METHOD: OCR =====
+
+
+3/2/26, 1:17 PM Financial Functions
+Formula Result
+IRR({REF({Related Yearly Results],[Net Income]),[Guess]) To calculate the internal rate
+where Related Yearly Results is a cross-reference field to another | of return after 2 years, you
+application. The other application has a field called Net Income need to include a guess
+which contains the values -70,000, 12,000 and 15,000, and the (-44%).
+value in the Guess field is 0.10.
+ISPMT Function
+The ISPMT function calculates the interest paid during a specific period of an investment. This function is provided for
+compatibility with Lotus 1-2-3.
+For additional information about financial functions, see the PV function.
+Return Type: Numeric
+Syntax: ISPMT(rate,per,nper,pv)
+In the above syntax, parameters in bold are required.
+The following table describes ISPMT function parameters.
+Parameter Description
+rate The interest rate for the investment.
+per The period for which you want to find the interest and must be in the range | to
+nper.
+nper The total number of payment periods in an annuity.
+Make sure that you are consistent about the units that you use for specifying rate
+and nper. If you make monthly payments on a 4-year loan at an annual interest rate
+of 12 percent, use 12%/12 for rate and 4*12 for nper. If you make annual
+payments on the same loan, use 12% for rate and 4 for nper.
+pv The present value of the investment. For a loan, pv is the loan amount.
+The cash that you pay out, such as deposits to savings or other withdrawals, is
+represented by negative numbers; the cash that you receive, such as dividend
+checks and other deposits, is represented by positive numbers.
+Examples:
+The following table provides example formulas of the ISPMT function.
+Formula Result
+ISPMT([Rate],[Period],[ Number of Years],[Loan Amount]) Interest paid for the first
+where the value in the Rate field is 0.10/12, the value in the monthly payment of a loan with
+Period field is 1, the value in the Number of Years field is the given terms (-64814.8)
+3*12, and the value in the Loan Amount field is 8,000,000.
+The interest rate is divided by 12 to get a monthly rate. The
+years the money is paid out is multiplied by 12 to get the
+number of payments.
+https://help.archerirm.cloud/platform_2024_11/en-us/content/platform/calcfunctions/financial_functions.htm
+9/21
+
+
+===== PAGE 10 | METHOD: OCR =====
+
+
+3/2/26, 1:17 PM Financial Functions
+Formula Result
+ISPMT([Rate],[Period],[ Number of Years],[Loan Amount]) Interest paid in the first year of
+where the value in the Rate field is 0.10, the value in the a loan with the given terms
+Period field is 1, the value in the Number of Years field is 3, (-533333)
+and the value in the Loan Amount field is 8,000,000.
+MIRR Function
+The MIRR function returns the modified internal rate of return for a series of periodic cash flows. MIRR considers both
+the cost of the investment and the interest received on reinvestment of cash. MIRR uses the order of values to interpret
+the order of cash flows. Be sure to enter your payment and income values in the sequence that you want and with the
+correct signs (positive values for cash received, negative values for cash paid).
+Return Type: Numeric
+Syntax: MIRR(values,finance_rate,reinvest_rate)
+In the above syntax, parameters in bold are required.
+The following table describes MIRR function parameters.
+Parameter Description
+values A reference (using the REF function) to fields that contain numbers. These
+numbers represent a series of payments (negative values) and income (positive
+values) occurring at regular periods. Note that:
+e Values must contain at least 1 positive value and | negative value to
+calculate the modified internal rate of return. Otherwise, MIRR returns
+an error value.
+¢ Ifareference argument contains text, logical values, or empty cells,
+those values are ignored; however, cells with the value zero are included.
+finance_rate The interest rate that you pay on the money used in the cash flows.
+reinvest_rate The interest rate that you receive on the cash flows as you reinvest them.
+Example:
+The following table provides an example formula of the MIRR function.
+Formula Result
+MIRR(REF([Related Results],0.10,0.12)) Investment modified
+where Related Yearly Results is a cross-reference field to another rate of return after 5
+application. The other application has a field called Net Income which years (13%)
+contains the values -120,000, 39,000, 30,000, 21,000, 37,000 and
+46,000.
+NPER Function
+The NPER function returns the number of periods for an investment based on periodic, constant payments and a
+constant interest rate.
+https://help.archerirm.cloud/platform_2024_11/en-us/content/platform/calcfunctions/financial_functions.htm
+10/21
+
+
+===== PAGE 11 | METHOD: OCR =====
+
+
+3/2/26, 1:17 PM Financial Functions
+For a more complete description of the arguments in NPER and for more information about annuity functions, see the
+PV function.
+Return Type: Numeric
+Syntax: NPER(rate, pmt, pv, fv, type)
+In the above syntax, parameters in bold are required.
+The following table describes NPER function parameters.
+Parameter Description
+rate The interest rate per period.
+pmt The payment made each period; it cannot change over the life of the annuity.
+Typically, pmt contains principal and interest but no other fees or taxes.
+pv The present value, or the lump-sum amount that a series of future payments is
+worth right now.
+fv The future value, or a cash balance that you want to attain after the last payment is
+made. If fv is omitted, it is assumed to be 0 (the future value of a loan, for
+example, is 0).
+type The number 0 or | and indicates when payments are due.
+¢ Set type equal to 0 or omitted if payments are due at the end of the
+period.
+e Set type equal to | if payments are due at the beginning of the period.
+Examples:
+The following table provides example formulas of the NPER function.
+Formula Result
+NPER([Rate],[Payment],[Present Value],[Future Value], Periods for the investment with
+[Payment Due]) the given terms (60)
+where the value in the Rate field is 0.12/12, the value in the
+Payment field is -100, the value in the Present Value field is
+-1000, the value in the Future Value field is 10000, and the
+value in the Payment Due field is 1.
+NPER([Rate],[Payment],[Present Value],[Future Value]) Periods for the investment with
+where the value in the Rate field is 0.12/12, the value in the the given terms, except payments
+Payment field is -100, the value in the Present Value field is | are made at the beginning of the
+-1000, and the value in the Future Value field is 10000. period (60)
+NPER([Rate],[Payment],[Present Value]) Periods for the investment with
+where the value in the Rate field is 0.12/12, the value in the the given terms, except with a
+Payment field is -100, and the value in the Present Value future value of 0 (-9.578)
+field is -1000.
+https://help.archerirm.cloud/platform_2024_11/en-us/content/platform/calcfunctions/financial_functions.htm 11/21
+
+
+===== PAGE 12 | METHOD: OCR =====
+
+
+3/2/26, 1:17 PM Financial Functions
+NPV Function
+The NPV function calculates the net present value of an investment using a discount rate and a series of future payments
+(negative values) and income (positive values).
+The NPV investment begins | period before the date of the valuel cash flow and ends with the last cash flow in the list.
+The NPV calculation is based on future cash flows. If your first cash flow occurs at the beginning of the first period, the
+first value must be added to the NPV result, not included in the values arguments.
+NPV is similar to the PV function (present value). The primary difference between PV and NPV is that PV allows cash
+flows to begin either at the end or at the beginning of the period. Unlike the variable NPV cash flow values, PV cash
+flows must be constant throughout the investment. For information about annuities and financial functions, see the PV
+function.
+NPV is also related to the IRR function (internal rate of return). IRR is the rate for which NPV equals zero:
+NPV(IRR(...), ...) = 0. See the IRR function.
+Return Type: Numeric
+Syntax: NPV(rate,valuel,value2, ...)
+In the above syntax, parameters in bold are required.
+The following table describes NPV function parameters.
+Parameter Description
+rate The rate of discount over the length of 1 period.
+valuel,value2,...._ 1 to 254 arguments representing the payments and income. Note that:
+e Valuel, value2, ... must be equally spaced in time and occur at the
+end of each period.
+¢ NPV uses the order of valuel, value2, ... to interpret the order of cash
+flows. Be sure to enter your payment and income values in the
+correct sequence.
+Arguments that are numbers, empty cells, logical values, or text
+representations of numbers are counted; arguments that are error
+values or text that cannot be translated into numbers are ignored.
+¢ Ifan argument is a reference, only numbers in that reference are
+counted. Empty cells, logical values, or text in the reference are
+ignored.
+Examples:
+The following table provides example formulas of the NPV function.
+Formula Result
+NPV([{Rate],[Values]) Net present value of this investment (1,188.44)
+where the value in the Rate field is 0.10 and In this example, you include the initial $10,000
+the values in the Values field are -10,000, cost as | of the values, because the payment
+3,000, 4,200 and 6,800. occurs at the end of the first period.
+https://help.archerirm.cloud/platform_2024_11/en-us/content/platform/calcfunctions/financial_functions.htm 12/21
+
+
+===== PAGE 13 | METHOD: OCR =====
+
+
+3/2/26, 1:17 PM Financial Functions
+Formula Result
+NPV([(Rate],[Values]) + (-40,000) Net present value of this investment (1,922.06)
+where the value in the Rate field is 0.08 and In this example, you do not include the initial
+the values in the Values field are 8,000, $40,000 cost as 1 of the values, because the
+9,200, 10,000, 12,000 and 14,500. payment occurs at the beginning of the first
+period.
+NPV([{Rate],[Values],-9,000) + (-40,000) Net present value of this investment, with a loss
+where the value in the Rate field is 0.08 and in the sixth year of 9000 (-3,749.47)
+the values in the Values field are 8,000, In this example, you do not include the initial
+9,200, 10,000, 12,000 and 14,500. $40,000 cost as 1 of the values, because the
+payment occurs at the beginning of the first
+period.
+PMT Function
+The PMT function calculates the payment for a loan based on constant payments and a constant interest rate. The
+payment returned by PMT includes principal and interest but no taxes, reserve payments, or fees sometimes associated
+with loans.
+| Note: To find the total amount paid over the duration of the loan, multiply the returned PMT value by nper.
+Return Type: Numeric
+Syntax: PMT(rate,nper,pv,fv,type)
+In the above syntax, parameters in bold are required.
+The following table describes PMT function parameters.
+Parameter Description
+rate The interest rate for the loan.
+nper The total number of payment periods for the loan.
+pv The present value, or the total amount that a series of future payments is worth
+now; also known as the principal.
+fv The future value, or a cash balance you want to attain after the last payment is
+made. If fv is omitted, it is assumed to be 0 (zero), that is, the future value of a
+loan is 0.
+type The number 0 or | and indicates when payments are due. If type is omitted, it is
+assumed to be 0.
+¢ Set type equal to 0 or omitted if payments are due at the end of the
+period.
+¢ Set type equal to 1 if payments are due at the beginning of the period.
+Note: Make sure that you are consistent about the units you use for specifying rate and nper. If you make monthly
+payments on a 4-year loan at an annual interest rate of 12 percent, use 12%/12 for rate and 4*12 for nper. If you make
+annual payments on the same loan, use 12 percent for rate and 4 for nper.
+Examples:
+https://help.archerirm.cloud/platform_2024_11/en-us/content/platform/calcfunctions/financial_functions.htm 13/21
+
+
+===== PAGE 14 | METHOD: OCR =====
+
+
+3/2/26, 1:17 PM Financial Functions
+The following table provides example formulas of the PMT function.
+Formula Result
+PMT([Rate],[Number of Payments],[Amount of Monthly payment for a loan with the given
+Loan]) terms (-1,037.03)
+where the value in the Rate field is 0.08/12, the
+value in the Number of Payments field is 10, and
+the value in the Amount of Loan field is 10000.
+PMT([Rate],[Number of Payments],[Amount of Monthly payment for a loan with the given
+Loan],[Future Value], 1) terms, except payments are due at the
+where the value in the Rate field is 0.08/12, the beginning of the period (-1,030.16)
+value in the Number of Payments field is 10, the
+value in the Amount of Loan field is 10000, and
+the value in the Future Value field is 0.
+PMT([Rate],[ Years to Save],[Present Value],[Goal | Amount to save each month to have 50,000
+Amount]) at the end of 18 years (-129.08)
+where the value in the Rate field is 0.06/12, the
+value in the Years to Save field is 18*12, the value
+in the Present Value field is 0, and the value in the
+Goal Amount field is 50000.
+Note: The interest rate is divided by 12 to
+get a monthly rate. The number of years
+the money is paid out is multiplied by 12
+to get the number of payments.
+PPMT Function
+The PPMT function returns the payment on the principal for a given period for an investment based on periodic,
+constant payments and a constant interest rate.
+Return Type: Numeric
+Syntax: PPMT(rate,per,nper,pv,fv,type)
+In the above syntax, parameters in bold are required.
+The following table describes PPMT function parameters.
+Parameter Description
+rate The interest rate for the period.
+per Specifies the period and must be in the range | to nper.
+nper The total number of payment periods in an annuity.
+pv The present value— the total amount that a series of future payments is worth
+now.
+fv The future value, or a cash balance you want to attain after the last payment is
+made. If fv is omitted, it is assumed to be 0 (zero), that is, the future value of a
+loan is 0.
+https://help.archerirm.cloud/platform_2024_11/en-us/content/platform/calcfunctions/financial_functions.htm 14/21
+
+
+===== PAGE 15 | METHOD: OCR =====
+
+
+3/2/26, 1:17 PM Financial Functions
+Parameter Description
+type The number 0 or | and indicates when payments are due. If type is omitted, it is
+assumed to be 0.
+e Set type equal to 0 or omitted if payments are due at the end of the
+period.
+e Set type equal to | if payments are due at the beginning of the period.
+Note: Make sure that you are consistent about the units that you use for specifying rate and nper. If you make monthly
+payments on a 4-year loan at an annual interest rate of 12 percent, use 12%/12 for rate and 4*12 for nper. If you make
+annual payments on the same loan, use 12% for rate and 4 for nper.
+Examples:
+The following table provides example formulas of the PPMT function.
+Formula Result
+PPMT({Rate],[Period],[ Number of Years of Loan], | Payment on principle for the first month of
+[Amount of Loan]) loan (-75.62)
+where the value in the Rate field is 0.10/12, the
+value in the Period field is 1, the value in the
+Number of Years of Loan field is 2*12, and the
+value in the Amount of Loan field is 2000.
+Note: The interest rate is divided by 12 to
+get a monthly rate. The number of years
+the money is paid out is multiplied by 12
+to get the number of payments.
+PPMT([Rate],[Period],[ Number of Years of Loan], Principal payment for the last year of the
+[Amount of Loan]) loan with the given terms (-27,598.05)
+where the value in the Rate field is 0.08, the value
+in the Period field is 10, the value in the Number
+of Years of Loan field is 10, and the value in the
+Amount of Loan field is 200,000.
+PV Function
+The PV function returns the present value of an investment. The present value is the total amount that a series of future
+payments is worth now. For example, when you borrow money, the loan amount is the present value to the lender.
+Note: Make sure that you are consistent about the units you use for specifying rate and nper. If you make monthly
+payments on a 4-year loan at 12 percent annual interest, use 12%/12 for rate and 4*12 for nper. If you make annual
+payments on the same loan, use 12% for rate and 4 for nper.
+The following functions apply to annuities:
+e FV
+e¢ IPMT
+¢ PMT
+e PPMT
+e RATE
+https://help.archerirm.cloud/platform_2024_11/en-us/content/platform/calcfunctions/financial_functions.htm 15/21
+
+
+===== PAGE 16 | METHOD: OCR =====
+
+
+3/2/26, 1:17 PM
+Financial Functions
+An annuity is a series of constant cash payments made over a continuous period. For example, a car loan or a mortgage
+is an annuity. For more information, see the description for each annuity function.
+In annuity functions, cash you pay out, such as a deposit to savings, is represented by a negative number; cash you
+receive, such as a dividend check, is represented by a positive number. For example, a $1,000 deposit to the bank would
+be represented by the argument -1000 if you are the depositor and by the argument 1000 if you are the bank.
+Return Type: Numeric
+Syntax: PV(rate,nper,pmt,fv,type)
+In the above syntax, parameters in bold are required.
+The following table describes PV function parameters.
+Parameter
+rate
+nper
+pmt
+fv
+type
+Example:
+Description
+The interest rate per period. For example, if you obtain an automobile loan at a 10
+percent annual interest rate and make monthly payments, your interest rate per
+month is 10%/12, or 0.83%. You would enter 10%/12, or 0.83%, or 0.0083, into
+the formula as the rate.
+The total number of payment periods in an annuity. For example, if you get a 4-
+year car loan and make monthly payments, your loan has 4* 12 (or 48) periods.
+You would enter 48 into the formula for nper.
+The payment made each period and cannot change over the life of the annuity.
+Typically, pmt includes principal and interest but no other fees or taxes. For
+example, the monthly payments on a $10,000, 4-year car loan at 12 percent are
+$263.33. You would enter -263.33 into the formula as the pmt. If pmt is omitted,
+you must include the fv argument.
+The future value, or a cash balance you want to attain after the last payment is
+made. If fv is omitted, it is assumed to be 0 (the future value of a loan, for
+example, is 0). For example, if you want to save $50,000 to pay for a special
+project in 18 years, then $50,000 is the future value. You could then make a
+conservative guess at an interest rate and determine how much you must save each
+month. If fv is omitted, you must include the pmt argument.
+The number 0 or | and indicates when payments are due. If type is omitted, it is
+assumed to be 0.
+¢ Set type equal to 0 or omitted if payments are due at the end of the
+period.
+¢ Set type equal to | if payments are due at the beginning of the period.
+The following table provides an example formula of the PV function.
+Formula
+Result
+https://help.archerirm.cloud/platform_2024_11/en-us/content/platform/calcfunctions/financial_functions.htm
+16/21
+
+
+===== PAGE 17 | METHOD: OCR =====
+
+
+3/2/26, 1:17 PM
+Formula
+PV([{Rate],[Years Money Will
+Pay],[Payment], ,0)
+where the value in the Rate field
+is 0.08/12, the value in the Years
+Money Will Pay field is 20*12,
+and the value in the Payment
+field is 500.
+RATE Function
+The RATE function returns the interest rate per period of an annuity. RATE is calculated by iteration and can have zero
+or more solutions. If the successive results of RATE do not converge to within 0.0000001 after 20 iterations, RATE
+returns an error.
+Return Type: Numeric
+Financial Functions
+Result
+Present value of an annuity with the terms above
+(-59,777.15).
+The result is negative because it represents money that you
+would pay, an outgoing cash flow. If you are asked to pay
+(60,000) for the annuity, you would determine this would not
+be a good investment because the present value of the
+annuity (59,777.15) is less than what you are asked to pay.
+Note: The interest rate is divided by 12 to get a monthly
+rate. The years the money is paid out is multiplied by 12 to
+get the number of payments.
+Syntax: RATE(nper,pmt,pv,fv,type,guess)
+In the above syntax, parameters in bold are required.
+The following table describes RATE function parameters.
+Parameter Description
+nper The total number of payment periods in an annuity.
+Note: Make sure that you are consistent about the units you use for specifying
+guess and nper. If you make monthly payments on a 4-year loan at 12 percent
+annual interest, use 12%/12 for guess and 4*12 for nper. If you make annual
+payments on the same loan, use 12% for guess and 4 for nper.
+pmt The payment made each period and cannot change over the life of the annuity.
+Typically, pmt includes principal and interest but no other fees or taxes. If pmt is
+omitted, you must include the fv argument.
+pv The present value — the total amount that a series of future payments is worth
+now.
+fv The future value, or a cash balance you want to attain after the last payment is
+made. If fv is omitted, it is assumed to be 0 (the future value of a loan, for
+example, is 0).
+type The number 0 or | and indicates when payments are due. If type is omitted, it is
+assumed to be 0.
+¢ Set type equal to 0 or omitted if payments are due at the end of the
+period.
+¢ Set type equal to | if payments are due at the beginning of the period.
+https://help.archerirm.cloud/platform_2024_11/en-us/content/platform/calcfunctions/financial_functions.htm
+
+
+===== PAGE 18 | METHOD: OCR =====
+
+
+3/2/26, 1:17 PM
+Parameter
+guess
+Examples:
+Financial Functions
+Description
+Your guess for what the rate will be.
+If you omit guess, it is assumed to be 10 percent.
+If RATE does not converge, try different values for guess. RATE usually
+converges if guess is between 0 and 1.
+Note: Make sure that you are consistent about the units that you use for
+specifying guess and nper. If you make monthly payments on a 4-year loan at 12
+percent annual interest, use 12%/12 for guess and 4*12 for nper. If you make
+annual payments on the same loan, use 12% for guess and 4 for nper.
+The following table provides example formulas of the RATE function.
+Formula Result
+RATE([Years of Loan],[Monthly Payment],[Amount of Monthly rate of the loan with
+Loan]) the given terms (1%)
+where the value in the Years of Loan field is 4*12, the value
+in the Monthly Payment field is -200, and the value in the
+Amount of Loan field is 8000.
+RATE([Years of Loan],[Monthly Payment],[Amount of Annual rate of the loan with the
+Loan])*12
+given terms (0.09241767 or
+where the value in the Years of Loan field is 4*12, the value 9.24%)
+in the Monthly Payment field is -200, and the value in the
+Amount of Loan field is 8000.
+SLN Function
+The SLN function returns the straight-line depreciation of an asset for | period.
+Return Type: Numeric
+Syntax: SLN(cost,salvage, life)
+In the above syntax, parameters in bold are required.
+The following table describes SLN function parameters.
+Parameter
+cost
+salvage
+life
+Example:
+Description
+The initial cost of the asset.
+The value at the end of the depreciation (sometimes called the salvage value of the
+asset).
+The number of periods over which the asset is depreciated (sometimes called the
+useful life of the asset).
+The following table provides an example formula of the SLN function.
+Formula
+Result
+https://help.archerirm.cloud/platform_2024_11/en-us/content/platform/calcfunctions/financial_functions.htm
+18/21
+
+
+===== PAGE 19 | METHOD: OCR =====
+
+
+3/2/26, 1:17 PM Financial Functions
+Formula Result
+SLN([Cost],[Salvage Value],[ Years of Useful Life]) The depreciation allowance
+where the value in the Cost field is 30,000, the value in the for each year (2,250)
+Salvage Value field is 7,500, and the value in the Years of Useful
+Life field is 10.
+SYD Function
+The SYD function returns the sum-of-years' digits depreciation of an asset for a specified period.
+Return Type: Numeric
+Syntax: SYD(cost,salvage,life,per)
+In the above syntax, parameters in bold are required.
+The following table describes SYD function parameters.
+Parameter Description
+cost The initial cost of the asset.
+salvage The value at the end of the depreciation (sometimes called the salvage value of the
+asset).
+life The number of periods over which the asset is depreciated (sometimes called the
+useful life of the asset).
+per The period and must use the same units as life.
+Examples:
+The following table provides example formulas of the SYD function.
+Formula Result
+SYD([Initial Cost],[Salvage Value],[Lifespan in Years], 1) Yearly depreciation allowance
+where the value in the Initial Cost field is 30,000, the value in for the first year (4,090.91)
+the Salvage Value field is 7,500, and the value in the Lifespan in
+Years field is 10.
+SYD([Initial Cost],[Salvage Value],[Lifespan in Years],10) Yearly depreciation allowance
+where the value in the Initial Cost field is 30,000, the value in for the tenth year (409.09)
+the Salvage Value field is 7,500, and the value in the Lifespan in
+Years field is 10.
+VDB Function
+The VDB function returns the variable declining balance of an asset for a specified period, including partial periods.
+This function uses the double-declining balance method, or another method if you specify.
+Return Type: Numeric
+Syntax: VDB(cost,salvage,life,start_period,end_period,factor,no_switch)
+In the above syntax, parameters in bold are required.
+https://help.archerirm.cloud/platform_2024_11/en-us/content/platform/calcfunctions/financial_functions.htm 19/21
+
+
+===== PAGE 20 | METHOD: OCR =====
+
+
+3/2/26, 1:17 PM
+Financial Functions
+The following table describes VDB function parameters.
+Parameter
+cost
+salvage
+life
+start_period
+end_period
+factor
+no_switch
+Examples:
+Description
+The initial cost of the asset.
+The value at the end of the depreciation (sometimes called the salvage value of the
+asset).
+The number of periods over which the asset is depreciated (sometimes called the
+useful life of the asset).
+The starting period for which you want to calculate the depreciation.
+| Note: The start_period must have the same units as the life parameter.
+The ending period for which you want to calculate the depreciation.
+| Note: The end_period must have the same units as the life parameter.
+The rate at which the balance declines. If no factor is specified, the function will
+assume a value of 2 (the double-declining balance method).
+A logical value specifying whether to switch to straight-line depreciation when
+depreciation is greater than the declining balance calculation.
+If the value is "TRUE" the function will not switch to straight-line depreciation. If
+the value is "FALSE" the function will switch to straight-line depreciation when
+the depreciation is greater than the declining balance calculation.
+The following table provides example formulas of the VDB function.
+Formula
+Result
+VDB({Cost],[Salvage Value],[ Years of Useful Life],0,1) 6000
+where the value in the Cost field is 30,000, the value in the Salvage This is the first year
+Value field is 7,500, and the value in the Years of Useful Life field depreciation.
+is 10.
+VDB({Cost], [Salvage Value],[Years of Useful Life],2,3) 3840
+where the value in the Cost field is 30,000, the value in the Salvage This is the depreciation
+Value field is 7,500, and the value in the Years of Useful Life field between years 2 and 3.
+is 10.
+Archer
+ABOUT
+ADDRESS CUSTOMERS CONNECT WITH US
+ARCHER
+13200 Metcalf Ave Events Archer Academy in ¥y oo
+Suite 300 Resources Archer Exchange
+Overland Park, KS Services Support
+66213
+https://help.archerirm.cloud/platform_2024_11/en-us/content/platform/calcfunctions/financial_functions.htm 20/21
+
+
+===== PAGE 21 | METHOD: OCR =====
+
+
+3/2/26, 1:17 PM Financial Functions
+ABOUT
+ADDRESS CUSTOMERS CONNECT WITH US
+ARCHER
+About Us Archer Community
+Archer is a leading provider of enterprise risk management solutions, which include third party risk management, IT risk
+management, operational risk management, and more. Contact us now to learn more about integrated risk management
+solutions from Archer.
+© 2024 Archer Technologies LLC. All rights
+Trademarks | Terms of | Privacy | Standard Form
+reserved.
+Use Policy Agreements
+https://help.archerirm.cloud/platform_2024_11/en-us/content/platform/calcfunctions/financial_functions.htm
+21/21

@@ -1,0 +1,93 @@
+
+
+===== PAGE 1 | METHOD: OCR =====
+
+
+3/2/26, 1:37 PM Scheduling Calculations
+You are here: Set Up & Maintenance > Building Applications, Questionnaires, and Solutions > Fields > Scheduling
+Calculations
+https://help.archerirm.cloud/platform_2024_11/en-us/content/platform/fields/fld_calc_scheduling.htm 1/3
+
+
+===== PAGE 2 | METHOD: OCR =====
+
+
+3/2/26, 1:37 PM Scheduling Calculations
+Scheduling Calculations and Recalculations
+Scheduling calculations enables you to automate predefined calculated fields in an application on a recurring basis and
+run calculations and recalculations on-demand.
+System administrators have unrestricted access to all schedules in Archer. Configuration administrators have unrestricted
+access to schedules in their applications, except for filter fields, reference fields, or fields being updated to which they do
+not have access.
+On this page
+Schedule a calculation or recalculation
+1. From the menu, click ‘ > Application Builder > Manage Schedules.
+2. On the Calculation Schedules tab, click Add New.
+3. In the General Information section, do the following:
+a. Enter a name and description for the schedule.
+b. Select the application for which you want to calculate fields.
+c. In the Status field, select Active if you want the schedule to start running as scheduled once it is
+saved. Otherwise, select Inactive and change the status to Active later when you are ready for the
+schedule to start running.
+d. Do 1 of the following:
+= Ifthe application is not a leveled application, go to the next step.
+= Ifthe application is a leveled application, select the level where the fields on which you
+want to execute a calculation resides.
+4. In the Notifications section, select Send Job Status Notification (regardless of whether it was successful or
+not).
+Note: Job Status Notifications are only sent if notifications have been configured for scheduled calculations
+in this application. For instructions, see Adding Admin Notifications.
+5. In the Recurrences section, select the frequency, start time, start date, and time zone in which you want to run
+the schedule.
+6. In the Filters section, create search filters to identify only the records on which you want to execute a
+calculation.
+7. Click Save.
+8. (Optional) Click @ to return to the Manage Schedule page.
+Manage schedules
+1. From the menu, click ‘ > Application Builder > Manage Schedules.
+2. Do any of the following:
+° To edit a calculation, click the schedule name or, in the Actions column, click a . Update the
+scheduled calculation as necessary, then click Save.
+https://help.archerirm.cloud/platform_2024_11/en-us/content/platform/fields/fld_calc_scheduling.htm 2/3
+
+
+===== PAGE 3 | METHOD: OCR =====
+
+
+3/2/26, 1:37 PM Scheduling Calculations
+© To delete a calculation, in the Actions column of the scheduled calculation you want to delete, click
+. When prompted if you want to proceed, click Delete.
+° Toruna calculation on-demand, in the Actions column of the scheduled calculation you want to run,
+click Run Now.
+e Toruna calculation, in the Actions column of the scheduled calculation you want to run, click re
+When prompted if you want to proceed, click Run.
+Important: The schedule runs using the permissions of the user who initiates the run.
+The system queues a job in the Job Engine Services queue. When the job is complete, you can view
+the run report (see step 3).
+Note: The progress bar reflects both number of actions as well as number of records that are being
+processed. The progress bar is proportioned by number of actions, and the proportion of an action
+reflects the progress of the action.
+EMAIL |
+© To email a schedule, click the schedule you want to share and click
+3. (Optional) To view the schedule run details, do the following:
+a. Click the Schedule Run Details tab.
+b. In the Report column for the schedule you want to view, click af .
+The report provides information and statistics about the schedule job. If the job is still running, you
+can click Refresh to load the latest results.
+c. To close the report, click OK.
+Archer
+ABOUT
+ADDRESS CUSTOMERS CONNECT WITH US
+ARCHER
+13200 Metcalf Ave Events Archer Academy in ¥o
+Suite 300 Resources Archer Exchange
+Overland Park, KS Services Support
+66213
+About Us Archer Community
+Archer is a leading provider of enterprise risk management solutions, which include third party risk management, IT risk
+management, operational risk management, and more. Contact us now to learn more about integrated risk management
+solutions from Archer.
+© 2024 Archer Technologies LLC. All rights Trademarks | Terms of | Privacy | Standard Form
+reserved.
+Use Policy Agreements
+https://help.archerirm.cloud/platform_2024_11/en-us/content/platform/fields/fld_calc_scheduling.htm 3/3

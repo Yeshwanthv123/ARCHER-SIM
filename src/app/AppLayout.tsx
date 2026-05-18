@@ -6,6 +6,7 @@ import Topbar from "../components/topbar/Topbar";
 import Dashboard from "../pages/Dashboard";
 import AdvancedWorkflow from "../pages/AdvancedWorkflow";
 import WorkflowBuilder from "../pages/WorkflowBuilder";
+import CalculationAssistant from "../pages/calculationAssistant";
 import type { Step } from "../pages/WorkflowBuilder";
 
 export default function AppLayout() {
@@ -39,6 +40,11 @@ export default function AppLayout() {
           {/* 🔥 WORKFLOW BUILDER (NEW) */}
           {activePage === "workflow-builder" && (
             <WorkflowBuilder initialSteps={workflowSteps} />
+          )}
+
+          {/* SIMULATE CALCULATION */}
+          {activePage === "simulate-calculation" && (
+            <CalculationAssistant setActivePage={setActivePage} />
           )}
 
         </main>

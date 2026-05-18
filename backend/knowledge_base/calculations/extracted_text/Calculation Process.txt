@@ -1,0 +1,185 @@
+
+
+===== PAGE 1 | METHOD: OCR =====
+
+
+3/2/26, 1:37 PM Calculation Process
+You are here: Set Up & Maintenance > Building Applications, Questionnaires, and Solutions > Fields > Calculation Process
+https://help.archerirm.cloud/platform_2024_11/en-us/content/platform/fields/fld_calc_process.htm 1/5
+
+
+===== PAGE 2 | METHOD: OCR =====
+
+
+3/2/26, 1:37 PM Calculation Process
+Calculation Process
+Formulas of calculated fields are recalculated whenever there is a change in the content of a field, related field, or sub-
+form. Calculations are run either through administrative or user functions.
+On this page
+Administrative and user functions
+The following table describes the administrative and user functions.
+Function Action Result
+Administrative Calculations Administrator updates a formula of a calculated field and
+queued in an queues an asynchronous job. This job runs during normal
+asynchronous processing based on the number of jobs in the queue.
+job
+Calculations 1. Administrator schedules an asynchronous job to
+scheduled in an run a full module recalculation from the
+asynchronous Calculations tab of the module in the Application
+job Builder. This job is queued with all fields in the
+module for calculation.
+2. Administrator creates a Schedule to run an
+asynchronous job for recalculation at a specific
+time. Only the fields that contain NOW() or
+TODAY () functions in their formulas are
+recalculated. If the record contains such fields,
+and any of them recalculate to a different value,
+then any fields set to Always Recalculate in the
+record will also be recalculated.
+User Calculations 1. User clicks the Recalculate button while viewing
+recalculated a record. Content ‘marked’ for recalculation is
+inline recalculated.
+2. User clicks the Apply button without making a
+change. Content ‘marked’ for recalculation is
+recalculated.
+3. User clicks the Save button after making a
+change. Content is saved and ‘marked’ content is
+recalculated.
+Recalculation process
+The following table describes how recalculations are processed. Recalculations are processed
+immediately or through an asynchronous job.
+Type Description
+https://help.archerirm.cloud/platform_2024_11/en-us/content/platform/fields/fld_calc_process.htm
+
+
+===== PAGE 3 | METHOD: OCR =====
+
+
+3/2/26, 1:37 PM Calculation Process
+Type Description
+Immediate Calculations are triggered by a user saving a record that is either 'marked' or
+changing a field that is used by a calculated field in the same level. 'Marked'
+content is changed to an ‘unmarked’ status when a user saves that content.
+An immediately applied calculation can be performed in a cross-referenced
+application | level away.
+For example, Application A is dependent on a calculated field in Application B.
+Application B has a cross-reference relationship with Application A. When a
+record is updated in Application B, its related record in Application A can be
+recalculated immediately when the user returns to Application A and clicks
+Apply or Save.
+Related records are updated when a user initiates the recalculation or the
+recalculation is updated through an asynchronous job.
+e When updated by the user, the Last Updated field contains the
+identification of the user who updated the record.
+e When updated by an asynchronous job, the Last Updated field is not
+updated.
+Asynchronous | Queued asynchronous jobs run based on the number of jobs in the job queue.
+jobs Scheduled asynchronous jobs run at a specified time regardless of any current
+activity on the record.
+Calculations are queued in an asynchronous job in various ways.
+¢ Change the formula of a calculated field, and select Yes to recalculate
+the field.
+¢ Change the weight of a question field.
+e Change the order of calculations.
+e Change the Recalculation option of a calculated field, and select Yes
+to recalculate the field.
+e Change the Error Handling option of a calculated field, and select Yes
+o recalculate the field.
++
+e Change the input mask on a text field that is referenced by a calculated
+field.
+e Change the numeric attribute of a value in a Values List field that is
+referenced by a calculated field.
+e Change the Other text attribute of a value in a Values List field that is
+referenced by a calculated field.
+e Change the Correctness attribute of a value in a Questions Values List
+field that is referenced by a calculated field.
+Example: Triggers for recalculating
+The following table describes example scenarios of triggers for recalculating.
+https://help.archerirm.cloud/platform_2024_11/en-us/content/platform/fields/fld_calc_process.htm
+3/5
+
+
+===== PAGE 4 | METHOD: OCR =====
+
+
+3/2/26, 1:37 PM Calculation Process
+1. Edit a record by changing a field that is tied to a calculated field in an
+Scenario application.
+1 2. Save the record.
+Results: Any calculated field dependent on that change is recalculated immediately.
+1. Edit a record that has a dependent field in a related application.
+2. Drill into a cross-reference application.
+Scenario
+5 3. Change the dependent field in a related record.
+4. Save the record.
+Results: Recalculations for the dependent fields are queued in an asynchronous job
+and is processed based on the number of jobs in the job queue.
+Asynchronous job processing
+When you change the formula of a calculated field and schedules the recalculation in an asynchronous job, the content
+affected by this change has a status of ‘marked’ for recalculation.
+When this condition exists, the following occurs:
+¢ The asynchronous job is queued with all fields ‘marked’ for recalculation.
+¢ The content is ‘marked’ for recalculation and can be recalculated immediately in View or Edit mode.
+e Any calculated field in the same level with the content status of ‘marked’ is reset and is no longer ‘marked’ for
+recalculation.
+When you change the formula of a calculated field but does not schedule the recalculation in an asynchronous job, the
+contents in this application affected by this change is not ‘marked’. When this condition exists, the content status is
+updated by a user saving the change or by the asynchronous job.
+However, if you change | or more fields and only schedule an asynchronous job for 1 of the fields, all fields ‘marked’
+for recalculation are included in the asynchronous job.
+Example: Asynchronous Job Queued
+The following table describes an example scenario of an Asynchronous Job Queued.
+There are 4 fields: Risk, Criticality, Controls, and Rating.
+Risk is dependent on the value of Criticality.
+Scenario SUM([Risk], [Criticality]).
+Field Controls is dependent on the value of Rating.
+IF(CONTAINS[Rating] “10”, RANK(REF([Controls] “5’”)))
+Administrator updates both formulas of the calculated fields and schedules an
+Action | asynchronous job to recalculate the fields.
+Results Formulas are updated in the applications.
+[Risk] and [Controls] are ‘marked’ for recalculation.
+. User with Read and Update permissions views the record in View mode.
+Action 2
+User notices message that content is not up to date and clicks Recalculate.
+https://help.archerirm.cloud/platform_2024_11/en-us/content/platform/fields/fld_calc_process.htm
+4/5
+
+
+===== PAGE 5 | METHOD: OCR =====
+
+
+3/2/26, 1:37 PM Calculation Process
+[Risk] is recalculated immediately, and the updated value is displayed.
+[Controls] is recalculated immediately, and the updated value is displayed.
+Results
+Example: Asynchronous Job Not Queued
+The following table describes an example of an Asynchronous Job Not Queued.
+There are 4 fields: Risk, Criticality, Controls, and Rating. Risk is dependent on the
+Scenario value of Criticality. SUM([Risk], [Criticality]). Field Controls is dependent on the
+value of Rating. IF(CONTAINS[Rating] “10”, RANK(REF([Controls] “‘5”)))
+Administrator updates both formulas of the calculated fields and does not schedule an
+Action | .
+asynchronous job to recalculate the fields.
+Results Formulas are updated in the applications. [Risk] and [Controls] are not ‘marked’ for
+recalculation.
+Action 2 User with Read and Update permissions views the record in View mode. User is not
+ction
+notified that content is not up to date.
+Results Contents of [Risk] and [Controls] are not updated.
+Archer
+ABOUT
+ADDRESS CUSTOMERS CONNECT WITH US
+ARCHER
+13200 Metcalf Ave Events Archer Academy in’ @
+Suite 300 Resources Archer Exchange
+Overland Park, KS Services Support
+66213
+About Us Archer Community
+Archer is a leading provider of enterprise risk management solutions, which include third party risk management, IT risk
+management, operational risk management, and more. Contact us now to learn more about integrated risk management
+solutions from Archer.
+© 2024 Archer Technologies LLC. All rights Trademarks | Terms of | Privacy | Standard Form
+reserved.
+Use Policy Agreements
+https://help.archerirm.cloud/platform_2024_11/en-us/content/platform/fields/fld_calc_process.htm 5/5

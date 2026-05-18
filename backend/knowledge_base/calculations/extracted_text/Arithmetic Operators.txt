@@ -1,0 +1,55 @@
+
+
+===== PAGE 1 | METHOD: OCR =====
+
+
+3/2/26, 1:20 PM Arithmetic Operators
+You are here: Set Up & Maintenance > Building Applications, Questionnaires, and Solutions > Fields > Arithmetic Operators
+https://help.archerirm.cloud/platform_2024_11/en-us/content/platform/calcfunctions/arithmetic_operators.htm 1/3
+
+
+===== PAGE 2 | METHOD: OCR =====
+
+
+3/2/26, 1:20 PM Arithmetic Operators
+Arithmetic Operators
+The following table provides the
+description of arithmetic operators
+offered by the formula builder.
+Operator Description
++ Addition (3 + 3)
+/ Division (3 / 2)
+Exponentiation (3 “ 2)
+* Multiplication (2 * 3)
+- Subtraction (5 - 2)
+Negation (-4)
+If a field included in an addition, subtraction, multiplication, division or comparison operation is empty or null, the value
+"0" (zero) is used for the field value. The following formula is an exception to this rule:
+IF({Sample Field] = 0, "TRUE","FALSE")
+In this formula, the Sample Field is not populated with the value "0" if the field is empty or null. Instead, this formula
+returns TRUE when the Sample Field is empty or null.
+Archer
+ABOUT
+ADDRESS CUSTOMERS CONNECT WITH US
+ARCHER
+13200 Metcalf Ave Events Archer Academy inv’ @
+Suite 300 Resources Archer Exchange
+Overland Park, KS Services Support
+66213
+About Us Archer Community
+https://help.archerirm.cloud/platform_2024_11/en-us/content/platform/calcfunctions/arithmetic_operators.htm
+
+
+===== PAGE 3 | METHOD: OCR =====
+
+
+3/2/26, 1:20 PM Arithmetic Operators
+Archer is a leading provider of enterprise risk management solutions, which include third party risk management, IT risk
+management, operational risk management, and more. Contact us now to learn more about integrated risk management
+solutions from Archer.
+© 2024 Archer Technologies LLC. All rights
+Trademarks | Terms of | Privacy | Standard Form
+reserved.
+Use Policy Agreements
+https://help.archerirm.cloud/platform_2024_11/en-us/content/platform/calcfunctions/arithmetic_operators.htm
+3/3

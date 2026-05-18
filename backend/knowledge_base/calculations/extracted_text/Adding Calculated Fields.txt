@@ -1,0 +1,180 @@
+
+
+===== PAGE 1 | METHOD: OCR =====
+
+
+3/2/26, 1:12 PM Adding Calculated Fields
+You are here: Set Up & Maintenance > Building Applications, Questionnaires, and Solutions > Fields > Creating a Calculated
+Field
+https://help.archerirm.cloud/platform_2024_11/en-us/content/platform/fields/fld_calc_adding.htm 1/5
+
+
+===== PAGE 2 | METHOD: OCR =====
+
+
+3/2/26, 1:12 PM Adding Calculated Fields
+Adding Calculated Fields
+With a calculated field, you can specify a formula for dynamically computing a value for a text, numeric, date, or values
+list field.
+On this page
+Before you begin
+Complete the process for adding a date, numeric, text, cross-reference, or values list field.
+¢ Adding Date Fields
+e Adding Numeric Fields
+¢ Adding Text Fields
+« Adding Cross-Reference Fields
+e Adding Values List Fields
+Task 1: Make the field calculated
+1. From your application, go to Designer tab > Layout tab > Objects panel.
+2. Select the field.
+3. In the Properties panel > Options section, select Make this a calculated field.
+Important: If you select Calculated Field and save this change for a field in which user-entered values have already
+been entered, all values written to that field are deleted across all records in the application and are replaced with
+calculated values. Conversely, if you clear the Calculated Field checkbox for a field in which calculated values have
+already been saved, those calculated values are retained in the database.
+Task 2: Build the formula
+You can edit a formula directly in the Formula field or the function and operations to insert the proper syntax.
+1. In the Calculation Properties section, click A to open the Formula Builder.
+2. Scroll down to Functions & Operators, select the functions and operators (1 at a time) that you want to use in
+the formula.
+3. Do | or more of the following:
+e To include a field reference as a parameter for the formula, click the field in the Available Fields list.
+© To include a field-value reference from a Values List field as a parameter for the formula, expand
+the appropriate field node in the Available Fields list and select the value. The value is added to your
+formula within the "VALUEOF" function.
+Note: If you select a field value to reference in your formula and that value is later modified in the
+values list, the field-value reference in your formula is automatically updated to reflect the
+modified value.
+4. When you finish creating the formula, click Validate in the top-right corner of the formula.
+https://help.archerirm.cloud/platform_2024_11/en-us/content/platform/fields/fld_calc_adding.htm
+2/5
+
+
+===== PAGE 3 | METHOD: OCR =====
+
+
+3/2/26, 1:12 PM Adding Calculated Fields
+If the validation process encounters an error in the formula, a message displays that describes the error or
+alerts you that the formula contains an unknown error. The validation process only identifies 1 error at a time,
+even if the formula contains multiple errors. If you get an error message, correct the error and click Validate
+again. If you get another error message, correct that error as well. Continue this process until the formula
+passes the validation process.
+5. Click Save.
+Task 3: Define the recalculation behavior
+1. Go to the Calculation Properties section.
+2. In the Recalculation field, select behavior for recalculating field values.
+The following table describes the options.
+Field Description
+As Formulas are recalculated when a dependent field in the formula changes.
+Needed
+Always Formulas are recalculated every time content is saved even though a field is not
+referenced in the formula. Formulas that contain NOW() and TODAY() functions, or
+user first name, last name, and middle name (Editor) parameters are recalculated
+regardless of content change.
+Task 4: Define the error handling behavior
+1. Go to the Calculation Properties section.
+2. In the Error Handling field, select rules for handling errors.
+The following table describes the options.
+Field Description
+Display Displays the word Error as a link when a calculation error occurs. Users with the
+Error appropriate access privileges can click the link to open the Calculation Error page
+where the error is explained.
+Use No Saves an empty value in the field when a calculation error occurs.
+Value
+Use Saves a specific value in the field when a calculation error occurs
+Specific
+Value
+Task 5: Set configuration options
+In the Configuration section, if the field is a Numeric field, set the following options:
+The following table describes the options.
+Option Description
+https://help.archerirm.cloud/platform_2024_11/en-us/content/platform/fields/fld_calc_adding.htm
+
+
+===== PAGE 4 | METHOD: OCR =====
+
+
+3/2/26, 1:12 PM
+Option
+Decimal
+places
+Negative
+display
+Prefix
+Suffix
+Adding Calculated Fields
+Description
+Specifies the number of decimal places required for values entered in the field
+(maximum 6). Entering a value in the numeric field with fewer decimal places than
+the required number pads the value with zeros.
+For example, if you require 3 decimal places and you then enter a value of "4.1" in
+the field, the value displays as "4.100" when you save the record.
+On the other hand, if you enter a value in the field with more decimal places than the
+required number, you must limit the number of decimal places in the value to fit the
+field requirements before you can save the record.
+Specifies how the negative numbers display. Options include:
+¢ (1234.56) font color = red; default option
+¢ -1234.56 font color = red
+¢ (1234.56) font color = black
+¢ -1234.56 font color = black
+Specifies the text (up to 10 characters) that appears in front of the numeric value.
+For example, when you enter "ABC" in this field, record displays "ABC123456."
+Specifies the text (up to 10 characters) that appears after the numeric value. For
+example, entering "miles" labels the field value as a measurement of distance. For
+the tracking ID, you enter "XYZ" in this field. The tracking ID value for a record
+displays "123456X YZ."
+Task 6: Configure help text
+Field-level help provides additional guidelines and instructions to ensure users enter appropriate information in the field.
+This Help text displays for users when they add, edit, and view records in the application where the field resides.
+Consider the following general guidelines when writing field-level Help:
+e Use short, concise instructions that direct the user to take a specific action. For example, "Enter your name" is
+preferable to "This field is used to enter your name."
+e Use complete sentences whenever possible.
+e Avoid jargon (unless terms are critical and are familiar to your users).
+¢ Consider the technical aptitude of your audience, and author your help text at a corresponding level.
+e Use “you” and “your” as if you are speaking directly to the user.
+¢ Consider posing Help text in the form of a question, for example, "What is your level of interest?"
+In the Help text section, do the following:
+1. Select a display option for both edit and view modes.
+The following table describes the options.
+Option Description
+None Help text does not display.
+https://help.archerirm.cloud/platform_2024_11/en-us/content/platform/fields/fld_calc_adding.htm
+4/5
+
+
+===== PAGE 5 | METHOD: OCR =====
+
+
+3/2/26, 1:12 PM Adding Calculated Fields
+Option Description
+Tooltip Help icon displays beside the field in edit and view modes. Click this icon to display the
+Icon field Help. The application dynamically sizes of the Help box based on the number of
+characters in the text.
+Below Help displays below the field in edit and view modes.
+Availability:
+Please indicate the hours you are available each day.
+2. If you are using help text, enter the text.
+Task 7: Configure field access
+Access rights determine whether all users or only select users or groups have access to the field.
+In the Access section, do the following:
+1. Select Public or Private.
+Note: Key fields must be public.
+2. If you selected Private, maximize the pane and click ° to select the users and groups to whom you want to
+grant access.
+Archer
+ADDRESS ABOUT CUSTOMERS CONNECT WITH US
+ARCHER
+13200 Metcalf Ave Events Archer Academy in ¥o
+Suite 300 Resources Archer Exchange
+Overland Park, KS Services Support
+66213
+About Us Archer Community
+Archer is a leading provider of enterprise risk management solutions, which include third party risk management, IT risk
+management, operational risk management, and more. Contact us now to learn more about integrated risk management
+solutions from Archer.
+© 2024 Archer Technologies LLC. All rights
+Trademarks | Terms of _| Privacy | Standard Form
+reserved.
+Use Policy Agreements
+https://help.archerirm.cloud/platform_2024_11/en-us/content/platform/fields/fld_calc_adding.htm 5/5

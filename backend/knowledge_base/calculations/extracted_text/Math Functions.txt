@@ -1,0 +1,1223 @@
+
+
+===== PAGE 1 | METHOD: OCR =====
+
+
+3/2/26, 1:18 PM Math Functions
+You are here: Set Up & Maintenance > Building Applications, Questionnaires, and Solutions > Fields > Math Functions
+https://help.archerirm.cloud/platform_2024_11/en-us/content/platform/calcfunctions/math_functions.htm 1/31
+
+
+===== PAGE 2 | METHOD: OCR =====
+
+
+3/2/26, 1:18 PM Math Functions
+Math Functions
+The following math functions manipulate numeric values through a variety of options.
+On this page
+ABS Function
+The ABS function returns the absolute value of a number. The absolute value of a number is the distance of a number
+from zero.
+Return Type: Numeric
+Syntax: ABS(number)
+In the above syntax, parameters in bold are required.
+The following table describes the ABS function parameter.
+Parameter Description
+number The number for which you want to return the absolute value.
+Examples:
+The following table provides example formulas of the ABS function.
+Formula Result
+ABS(-8) 8
+ABS([Yearly Profit]) 1234
+where Yearly Profit is a Numeric field with a value of -1234.
+ACOS Function
+The ACOS function returns the arccosine (inverse cosine) of an angle. The returned value is expressed in radians.
+Return Type: Numeric
+Syntax: ACOS(number)
+In the above syntax, parameters in bold are required.
+The following table describes the ACOS function parameter.
+Parameter Description
+Number The cosine of the angle for which you want to determine the arccosine. The value
+for this parameter must be between -1 and 1.
+Examples:
+The following table provides example formulas of the ACOS function.
+Formula Result
+https://help.archerirm.cloud/platform_2024_11/en-us/content/platform/calcfunctions/math_functions.htm 2/31
+
+
+===== PAGE 3 | METHOD: OCR =====
+
+
+3/2/26, 1:18 PM Math Functions
+Formula Result
+ACOS(.5) 1.047198
+ACOS({Angle Cosine]) -785398
+where Angle Cosine is a Numeric field with a value of .707107.
+ACOSH Function
+The ACOSH function returns the inverse hyperbolic cosine of a number.
+Return Type: Numeric
+Syntax: ACOSH(number)
+In the above syntax, parameters in bold are required.
+The following table describes the ACOSH function parameter.
+Parameter Description
+Number The number for which you want to determine the inverse hyperbolic cosine. The
+value for this parameter must be greater than or equal to 1.
+Examples:
+The following table provides example formulas of the
+ACOSH function.
+Formula Result
+ACOSH(1) 0
+ACOSH([Number]) 2.292432
+where Number is a Numeric field with a value of 5.
+ASIN Function
+The ASIN function returns the arcsine (inverse sine) of an angle. The returned value is expressed in radians.
+Return Type: Numeric
+Syntax: ASIN(number)
+In the above syntax, parameters in bold are required.
+The following table describes the ASIN function parameter.
+Parameter Description
+Number The sine of the angle for which you want to determine the arcsine. The value for
+this parameter must be between -1 and 1.
+Examples:
+The following table provides example formulas of the
+ASIN function.
+https://help.archerirm.cloud/platform_2024_11/en-us/content/platform/calcfunctions/math_functions.htm 3/31
+
+
+===== PAGE 4 | METHOD: OCR =====
+
+
+3/2/26, 1:18 PM Math Functions
+Formula Result
+ASIN(.5) 523599
+ASIN([Angle Sine]) 1.570796
+where Angle Sine is a Numeric field with a value of 1.
+ASINH Function
+The ASINH function returns the inverse hyperbolic sine of a number.
+Return Type: Numeric
+Syntax: ASINH(number)
+In the above syntax, parameters in bold are required.
+The following table describes the ASINH function parameter.
+Parameter Description
+Number The number for which you want to determine the inverse hyperbolic sine. The
+value for this parameter must be greater than or equal to 1.
+Examples:
+The following table provides example formulas of the
+ASINH function.
+Formula Result
+ASINH(1) 881374
+ASINH([Number]) 2.312438
+where Number is a Numeric field with a value of 5.
+ATAN Function
+The ATAN function returns the arctangent (inverse tangent) of an angle. The returned value is expressed in radians.
+Return Type: Numeric
+Syntax: ATAN(number)
+In the above syntax, parameters in bold are required.
+The following table describes the ATAN function parameter.
+Parameter Description
+Number The tangent of the angle for which you want to determine the arctangent.
+Examples:
+The following table provides example formulas of the ATAN
+function.
+Formula Result
+https://help.archerirm.cloud/platform_2024_11/en-us/content/platform/calcfunctions/math_functions.htm 4/31
+
+
+===== PAGE 5 | METHOD: OCR =====
+
+
+3/2/26, 1:18 PM Math Functions
+Formula Result
+ATAN(.5) 463648
+ATAN([Angle Tangent]) -785398
+where Angle Tangent is a Numeric field with a value of 1.
+ATAN2 Function
+The ATAN2 function returns the arctangent (inverse tangent) of a specified set of x/y coordinates. The returned value is
+expressed in radians.
+Return Type: Numeric
+Syntax: ATAN2(x_number, y_number)
+In the above syntax, parameters in bold are required.
+The following table describes ATAN2
+function parameters.
+Parameter Description
+x_number The x coordinate of a point.
+y_number The y coordinate of a point.
+Examples:
+The following table provides example formulas of the ATAN2 function.
+Formula Result
+ATAN2(2,2) .785398
+ATAN2([X Point],[Y Point]) 1.373401
+where X Point and Y Point are Numeric fields with values of | and 5, respectively.
+ATANH Function
+The ATANH function returns the inverse hyperbolic tangent of a number.
+Return Type: Numeric
+Syntax: ATANH(number)
+In the above syntax, parameters in bold are required.
+The following table describes the ATANH function parameter.
+Parameter Description
+Number The number for which you want to determine the inverse hyperbolic tangent. The
+value for this parameter must be between -1 and 1.
+Examples:
+https://help.archerirm.cloud/platform_2024_11/en-us/content/platform/calcfunctions/math_functions.htm 5/31
+
+
+===== PAGE 6 | METHOD: OCR =====
+
+
+3/2/26, 1:18 PM Math Functions
+The following table provides example formulas of the
+ATANH function.
+Formula Result
+ATANH(.5) 549306
+ATANH([Number]) -.25541
+where Number is a Numeric field with a value of
+-.25,
+CEILING Function
+The CEILING function rounds a number, away from zero, to the nearest multiple of significance.
+Return Type: Numeric
+Syntax: CEILING(number, significance)
+In the above syntax, parameters in bold are required.
+The following table describes CEILING function parameters.
+Parameter Description
+number The number you want to round. This parameter can be formatted as a Numeric-
+field reference (e.g., [field name]) or as another formula that results in a numeric
+value, such as SUM([field 1],[field 2]) where field 1 and field 2 are Numeric
+fields.
+significance The multiple to which you want to round.
+Example:
+The following table provides example formulas of the CEILING function.
+Formula Result
+CEILING([Score], 1) 3
+where the value in the Score field is 2.5
+CEILING(SUM([Risk],[Criticality]), 5) 20
+where the sum of the values in the Risk and Criticality fields is 17.10
+COMBIN Function
+The COMBIN function returns the number of combinations for a given number of items. Use COMBIN to determine the
+total possible number of groups for a given number of items.
+Note: A combination is any set or subset of items, regardless of their internal order. Combinations are distinct from
+permutations, for which the internal order is significant.
+Return Type: Numeric
+Syntax: COMBIN(number,number_chosen)
+In the above syntax, parameters in bold are required.
+https://help.archerirm.cloud/platform_2024_11/en-us/content/platform/calcfunctions/math_functions.htm 6/31
+
+
+===== PAGE 7 | METHOD: OCR =====
+
+
+3/2/26, 1:18 PM Math Functions
+The following table describes COMBIN function parameters.
+Parameter Description
+number The number of items. Numeric arguments are truncated to integers.
+Note: If nonnumeric, if number < 0 or if number < number_chosen,
+COMBIN returns an error.
+number_chosen The number of items in each combination. Numeric arguments are truncated to
+integers.
+Note: If nonnumeric, if number_chosen < 0 or if number < number_chosen,
+COMBIN returns an error.
+Example:
+The following table provides an example formula of the COMBIN function.
+Formula Result
+COMBIN([Candidates],[Team Size]) 28
+where the value in the Candidates field is 8 and the value in the Team Size field is 2.
+COS Function
+The COS function returns the cosine of the given angle.
+Return Type: Numeric
+Syntax: COS(number)
+In the above syntax, parameters in bold are required.
+The following table describes the COS function parameter.
+Parameter Description
+number The angle in radians for which you want the cosine.
+If the angle is in degrees, either multiply the angle by PI()/180 or use the
+RADIANS function to convert the angle to radians.
+Examples:
+The following table provides example formulas of the
+COS function.
+Formula Result
+=COS(1.047) Cosine of 1.047 radians (0.500171)
+=COS(60*PI()/180) Cosine of 60 degrees (0.5)
+=COS(RADIANS(60)) | Cosine of 60 degrees (0.5)
+https://help.archerirm.cloud/platform_2024_11/en-us/content/platform/calcfunctions/math_functions.htm 7/31
+
+
+===== PAGE 8 | METHOD: OCR =====
+
+
+3/2/26, 1:18 PM Math Functions
+COSH Function
+The COSH function returns the hyperbolic cosine of a number.
+Return Type: Numeric
+Syntax: COSH(number)
+In the above syntax, parameters in bold are required.
+The following table describes the COSH function parameter.
+Parameter Description
+number Any real number for which you want to find the hyperbolic cosine.
+Examples:
+The following table provides example formulas of the COSH function.
+Formula Result
+COSH(4) Hyperbolic cosine of 4 (27.30823)
+=COSH(EXP(1)) | Hyperbolic cosine of the base of the natural logarithm (7.610125)
+DEGREES Function
+The DEGREES function converts radians into degrees.
+Return Type: Numeric
+Syntax: DEGREES(angle)
+In the above syntax, parameters in bold are required.
+The following table describes the DEGREES function
+parameter.
+Parameter Description
+angle The angle, in radians, that you want to convert.
+Example:
+The following table provides an example
+formula of the DEGREES function.
+Formula Result
+DEGREES(PI()) _ Degrees of pi radians (180)
+EVEN Function
+The EVEN function returns the number rounded up to the nearest even integer. You can use this function for processing
+items that come in twos. For example, a packing crate accepts rows of | or 2 items. The crate is full when the number of
+items, rounded up to the nearest 2, matches the crate capacity.
+Return Type: Numeric
+https://help.archerirm.cloud/platform_2024_11/en-us/content/platform/calcfunctions/math_functions.htm
+8/31
+
+
+===== PAGE 9 | METHOD: OCR =====
+
+
+3/2/26, 1:18 PM Math Functions
+Syntax: EVEN(number)
+In the above syntax, parameters in bold are required.
+The following table describes the EVEN function parameter.
+Parameter Description
+number The value to round. If number is non-numeric, EVEN returns an error. Regardless
+of the sign of number, a value is rounded up when adjusted away from zero. If
+number is an even integer, no rounding occurs.
+Examples:
+The following table provides example formulas of the
+EVEN function.
+Formula Result
+EVEN(1.5) Rounds 1.5 up to the nearest even integer (2)
+EVEN(3) Rounds 3 up to the nearest even integer (4)
+EVEN(2) Rounds 2 up to the nearest even integer (2)
+EVEN(-1) Rounds -1 up to the nearest even integer (-2)
+EXP Function
+The EXP function returns e raised to the power of number. The constant e equals 2.71828182845904, the base of the
+natural logarithm.
+Return Type: Numeric
+Syntax: EXP(number)
+In the above syntax, parameters in bold are required.
+The following table describes the EXP function parameter.
+Parameter Description
+number The exponent applied to the base e. To calculate powers of other bases, use the
+exponentiation operator (*). EXP is the inverse of LN, the natural logarithm of
+number.
+Examples:
+The following table provides example formulas of the EXP function.
+Formula Result
+EXP(1) Approximate value of e (2.718282)
+EXP(2) Base of the natural logarithm e raised to the power of 2 (7.389056)
+FACT Function
+The FACT function returns the factorial of a number. The factorial of a number is equal to 1*2*3*...* number.
+https://help.archerirm.cloud/platform_2024_11/en-us/content/platform/calcfunctions/math_functions.htm 9/31
+
+
+===== PAGE 10 | METHOD: OCR =====
+
+
+3/2/26, 1:18 PM Math Functions
+Return Type: Numeric
+Syntax: FACT(number)
+In the above syntax, parameters in bold are required.
+The following table describes the FACT function parameter.
+Parameter Description
+number The non-negative number for which you want the factorial. If number is not an
+integer, it is truncated.
+Examples:
+The following table provides example formulas
+of the FACT function.
+Formula Result
+FACT(5) Factorial of 5, or 1*2*3*4*5 (120)
+FACT(1.9) Factorial of the integer of 1.9 (1)
+FACT(0) Factorial of 0 (1)
+FACT(-1) Negative numbers return an error.
+FACT(1) Factorial of 1 (1)
+FLOOR Function
+The FLOOR function rounds a number down toward zero, to the nearest multiple of significance.
+Return Type: Numeric
+Syntax: FLOOR(number, significance)
+In the above syntax, parameters in bold are required.
+The following table describes FLOOR function parameters.
+Parameter Description
+number The number that you want to round down to the nearest integer. This parameter
+can be formatted as a Numeric-field reference, for example, [field name]), or as
+another formula that results in a numeric value, such as SUM([field 1], [field 2])
+where field | and field 2 are Numeric fields.
+significance The multiple to which you want to round.
+Examples:
+The following table provides example formulas of the FLOOR function.
+Formula Result
+FLOOR([Score], 1) 2
+where the value in the Score field is 2.5.
+https://help.archerirm.cloud/platform_2024_11/en-us/content/platform/calcfunctions/math_functions.htm 10/31
+
+
+===== PAGE 11 | METHOD: OCR =====
+
+
+3/2/26, 1:18 PM Math Functions
+Formula Result
+FLOOR(SUM({Risk], [Criticality]), 5) 15
+where the sum of the values in the Risk and Criticality fields is 17.10.
+INT Function
+The INT function rounds a number down to the nearest integer.
+Return Type: Numeric
+Syntax: INT(number)
+In the above syntax, parameters in bold are required.
+The following table describes the INT function parameter.
+Parameter Description
+number The real number you want to round down to an integer.
+Examples:
+The following table provides
+example formulas of the
+INT function.
+Formula Result
+INT(8.9) Rounds 8.9 down (8)
+INT(-8.9) | Rounds -8.9 down (-9)
+LN Function
+The LN function returns the natural logarithm of a number. Natural logarithms are based on the constant e
+(2.71828182845904).
+Return Type: Numeric
+Syntax: LN(number)
+In the above syntax, parameters in bold are required.
+The following table describes the LN function parameter.
+Parameter Description
+number The positive real number for which you want the natural logarithm. LN is the
+inverse of the EXP function.
+Examples:
+The following table provides example formulas of the
+LN function.
+Formula Result
+https://help.archerirm.cloud/platform_2024_11/en-us/content/platform/calcfunctions/math_functions.htm 11/31
+
+
+===== PAGE 12 | METHOD: OCR =====
+
+
+3/2/26, 1:18 PM Math Functions
+Formula Result
+LN(86) Natural logarithm of 86 (4.454347)
+LN(2.7182818) | Natural logarithm of the value of the constant e (1)
+LN(EXP(3)) Natural logarithm of e raised to the power of 3 (3)
+LOG Function
+The LOG function returns the logarithm of a number to the base that you specify.
+Return Type: Numeric
+Syntax: LOG(number,base)
+In the above syntax, parameters in bold are required.
+The following table describes LOG function parameters.
+Parameter Description
+number The positive real number for which you want the logarithm.
+base The base of the logarithm. If base is omitted, it is assumed to be 10.
+Examples:
+The following table provides example formulas of the
+LOG function.
+Formula Result
+LOG(10) Logarithm of 10 (1)
+LOG(8, 2) Logarithm of 8 with base 2 (3)
+LOG(86, 2.7182818) Logarithm of 86 with base e (4.454347)
+LOG10 Function
+The LOG1O0 function returns the base-10 logarithm of a number.
+Return Type: Numeric
+Syntax: LOG10(number)
+In the above syntax, parameters in bold are required.
+The following table describes the LOG10 function parameter.
+Parameter Description
+number The positive real number for which you want the base-10 logarithm.
+Examples:
+The following table provides example formulas of the
+LOG10 function.
+https://help.archerirm.cloud/platform_2024_11/en-us/content/platform/calcfunctions/math_functions.htm 12/31
+
+
+===== PAGE 13 | METHOD: OCR =====
+
+
+3/2/26, 1:18 PM Math Functions
+Formula Result
+LOG10(86) Base-10 logarithm of 86 (1.93449845 1)
+LOG10(10) Base-10 logarithm of 10 (1)
+LOGIO(IE5) | Base-10 logarithm of 1E5 (5)
+LOG10(10°5) — Base-10 logarithm of 10“5 (5)
+MOD Function
+The MOD function returns the remainder after number is divided by divisor. The result has the same sign as divisor.
+Return Type: Numeric
+Syntax: MOD(number,divisor)
+In the above syntax, parameters in bold are required.
+The following table describes MOD function parameters.
+Parameter Description
+number The number for which you want to find the remainder.
+divisor The number by which you want to divide the number.
+| Note: If divisor is 0, MOD returns an error.
+Examples:
+The following table provides example formulas of the MOD
+function.
+Formula Result
+MOD(3,2) Remainder of 3/2 (1)
+MOD(-3, 2) Remainder of -3/2. The sign is the same as divisor (1).
+MOD(3, -2) | Remainder of 3/-2. The sign is the same as divisor (-1).
+MOD(-3, -2) | Remainder of -3/-2. The sign is the same as divisor (-1).
+ODD Function
+The ODD function returns number rounded up to the nearest odd integer.
+Return Type: Numeric
+Syntax: ODD(number)
+In the above syntax, parameters in bold are required.
+The following table describes the ODD function parameter.
+Parameter Description
+https://help.archerirm.cloud/platform_2024_11/en-us/content/platform/calcfunctions/math_functions.htm 13/31
+
+
+===== PAGE 14 | METHOD: OCR =====
+
+
+3/2/26, 1:18 PM Math Functions
+Parameter Description
+number The value to round.
+Note: If number is non-numeric, ODD returns an error. Regardless of the sign of
+number, a value is rounded up when adjusted away from zero. If number is an
+odd integer, no rounding occurs.
+Examples:
+The following table provides example formulas of the
+ODD function.
+Formula Result
+ODD(1.5) | Rounds 1.5 up to the nearest odd integer (3)
+ODD(3) Rounds 3 up to the nearest odd integer (3)
+ODD(2) Rounds 2 up to the nearest odd integer (3)
+ODD -1) Rounds -1 up to the nearest odd integer (-1)
+ODD (-2) Rounds -2 up to the nearest odd integer (-3)
+PI Function
+The PI function returns the number 3.14159265358979, the mathematical constant pi, accurate to 15 digits.
+Return Type: Numeric
+Syntax: PI()
+This function does not have any parameters.
+Examples:
+The following table provides example formulas of the
+PI function.
+Formula Result
+PI() Pi (3.14159265358979)
+PI()/2 Pi/2 (1.570796327)
+PI()*(342) Area of a circle, with the radius given (28.27433388)
+POWER Function
+The POWER function returns the result of a number raised to a power.
+Note: The '" operator can be used instead of POWER to indicate to what power the base number is to be raised, such
+as in 542.
+Return Type: Numeric
+Syntax: POWER(number,power)
+https://help.archerirm.cloud/platform_2024_11/en-us/content/platform/calcfunctions/math_functions.htm 14/31
+
+
+===== PAGE 15 | METHOD: OCR =====
+
+
+3/2/26, 1:18 PM Math Functions
+In the above syntax, parameters in bold are required.
+The following table describes POWER function parameters.
+Parameter Description
+number The base number. It can be any real number.
+power The exponent to which the base number is raised.
+Examples:
+The following table provides example formulas of the
+POWER function.
+Formula Result
+POWER(5,2) 5 squared (25)
+POWER(98.6,3.2) 98.6 raised to the power of 3.2 (2401077)
+POWER(4,5/4) 4 raised to the power of 5/4 (5.656854)
+PRODUCT Function
+The PRODUCT function multiplies all the numbers given as arguments and returns the product. The PRODUCT
+function is useful when you need to multiply many fields together.
+Return Type: Numeric
+Syntax: PRODUCT(number1 ,number2....)
+In the above syntax, parameters in bold are required.
+The following table describes PRODUCT function parameters.
+Parameter Description
+number! The number or range that you want to multiply.
+Note: If an argument is a reference, only numbers in the reference are multiplied.
+Empty fields, logical values, and text in the reference are ignored.
+number2,..... Additional numbers or ranges that you want to multiply, up to a maximum of 255
+arguments.
+Examples:
+The following table provides example formulas of the PRODUCT function.
+Formula Result
+PRODUCT( REF( [Data Set], [Values])) 2250
+where Data Set is a cross-reference field and the values in the Values field are 5, 15,
+and 30.
+PRODUCT( REF( [Data Set], [Values]),2) 4500
+where Data Set is a cross-reference field and the values in the Values field are 5, 15,
+and 30.
+https://help.archerirm.cloud/platform_2024_11/en-us/content/platform/calcfunctions/math_functions.htm
+15/31
+
+
+===== PAGE 16 | METHOD: OCR =====
+
+
+3/2/26, 1:18 PM Math Functions
+QUOTIENT Function
+The QUOTIENT function returns the integer portion of a division by discarding the remainder.
+Return Type: Numeric
+Syntax: QUOTIENT(numerator, denominator)
+In the above syntax, parameters in bold are required.
+The following table describes QUOTIENT function parameters.
+Parameter Description
+numerator The number representing the dividend for a division operation.
+denominator The number representing the divisor for a division operation.
+Examples:
+The following table provides example formulas of the QUOTIENT function.
+Formula
+QUOTIENT (42, 5)
+where 42/5 = 8.4.
+QUOTIENT (11.5, 2.15)
+where 11.5 / 2.15 = 5.348837209.
+QUOTIENT (-33, 4.08)
+where -33 / 4.08 = -8.088235294.
+QUOTIENT ({Rating], [Rank])
+where the value of Rating is 92.68, the value of Rank is 6, and [Rating] / [Rank]
+15.44666667.
+RADIANS Function
+The RADIANS function converts degrees to radians.
+Return Type: Numeric
+Syntax: RADIANS(angle)
+In the above syntax, parameters in bold are required.
+The following table describes the RADIANS function
+parameter.
+Parameter Description
+angle An angle in degrees that you want to convert.
+Example:
+The following table provides an example formula of the
+RADIANS function.
+https://help.archerirm.cloud/platform_2024_11/en-us/content/platform/calcfunctions/math_functions.htm
+Result
+8
+-8
+15
+16/31
+
+
+===== PAGE 17 | METHOD: OCR =====
+
+
+3/2/26, 1:18 PM Math Functions
+Formula Result
+RADIANS(270) | 270 degrees as radians (4.712389 or 32/2 radians)
+RAND Function
+The RAND function returns an evenly distributed random real number greater than or equal to 0 and less than 1. Anew
+random real number is returned every time the worksheet is calculated.
+To generate a random real number between a and b, use:
+RAND()*(b-a)+a
+Return Type: Numeric
+Syntax: RAND(Q)
+This function does not have any parameters.
+Examples:
+The following table provides example formulas of the RAND function.
+Formula Result
+RAND(Q) A random number between 0 and | (varies).
+RAND()*100 | A random number greater than or equal to 0 but less than 100 (varies).
+ROUND Function
+The ROUND function rounds a number to a specified number of digits.
+Return Type: Numeric
+Syntax: ROUND(number, num_digits)
+In the above syntax, parameters in bold are required.
+The following table describes ROUND function parameters.
+Parameter Description
+number The number that you want to round. This parameter can be formatted as a
+Numeric-field reference, for example, [field name], or as another formula that
+results in a numeric value, such as SUM([field 1],[field 2]) where field | and field
+2 are Numeric fields.
+https://help.archerirm.cloud/platform_2024_11/en-us/content/platform/calcfunctions/math_functions.htm 17/31
+
+
+===== PAGE 18 | METHOD: OCR =====
+
+
+3/2/26, 1:18 PM Math Functions
+Parameter Description
+num_digits Specifies the number of digits to which you want to round the number. If the
+num_digits parameter is greater than 0 (zero), the number is rounded to the
+specified number of decimal places. If the num_digits parameter is equal to 0, the
+number is rounded to the nearest integer. If the num_digits parameter is less than
+0, the number is rounded to the left of the decimal point to the specified number of
+decimal places. For example, if the num_digits parameter is -1 and the number is
+101.5, the number would be rounded to 100.
+Note: In the case of a tie, the function rounds to the nearest even number. For
+example, if the num_digits parameter is 0, 1.5 and 2.5 would both round to 2. If
+the num_digits parameter is 2, 3.575 and 3.585 would both round to 3.58.
+Examples:
+The following table provides example formulas of the ROUND function.
+Formula Result
+ROUND([Score], 0) 23
+where the value in the Score field is 23.357.
+ROUND(SUM ([Risk], [Criticality]), 2) 17.08
+where the value in the Risk field is 12.725 and the value in the Criticality field is 4.351.
+ROUNDDOWN Function
+The ROUNDDOWN function rounds a number down, toward zero. ROUNDDOWN behaves like ROUND, except that
+it always rounds a number down.
+Return Type: Numeric
+Syntax: ROUNDDOWN(number,num_digits)
+In the above syntax, parameters in bold are required.
+The following table describes ROUNDDOWN function parameters.
+Parameter Description
+number Any real number that you want rounded down.
+num digits | The number of digits to which you want to round the number.
+Note: If num_digits is greater than 0 (zero), the number is rounded down to the
+specified number of decimal places. If num_digits is 0, the number is rounded
+down to the nearest integer. If num_digits is less than 0, the number is rounded
+down to the left of the decimal point.
+Examples:
+The following table provides example formulas of the ROUNDDOWN function.
+Formula Result
+ROUNDDOWN(3.2,0) Rounds 3.2 down to zero decimal places (3)
+https://help.archerirm.cloud/platform_2024_11/en-us/content/platform/calcfunctions/math_functions.htm 18/31
+
+
+===== PAGE 19 | METHOD: OCR =====
+
+
+3/2/26, 1:18 PM
+Formula
+ROUNDDOWN(76.9,0)
+ROUNDDOWN( 3.14159,3)
+ROUNDDOWN(-3.14159, 1)
+Math Functions
+Result
+Rounds 76.9 down to zero decimal places (76)
+Rounds 3.14159 down to 3 decimal places (3.141)
+Rounds -3.14159 down to 1 decimal place
+(-3.1)
+ROUNDDOWN(31415.92654,-2) | Rounds 31415.92654 down to 2 decimal places to the left of
+ROUNDUP Function
+The ROUNDUP function rounds a number up, away from 0 (zero). ROUNDUP behaves like ROUND, except that it
+always rounds a number up.
+Return Type: Numeric
+the decimal (31400)
+Syntax: ROUNDUP(number,num_digits)
+In the above syntax, parameters in bold are required.
+The following table describes ROUNDUP function parameters.
+Parameter Description
+number
+num_digits
+Examples:
+Any real number that you want rounded up.
+The number of digits to which you want to round the number.
+Note: If num_digits is greater than 0 (zero), the number is rounded up to the
+specified number of decimal places. If num_digits is 0, the number is rounded up
+to the nearest integer. If num_digits is less than 0, the number is rounded up to
+the left of the decimal point.
+The following table provides example formulas of the ROUNDUP function.
+Formula
+ROU
+ROUNDU
+INDU
+P(3.2,0)
+P(76.9,0)
+ROUNDUP(3.14159, 3)
+ROUNDU
+ROUNDU
+-2)
+P(-3.14159, 1)
+P(31415.92654,
+Result
+Rounds 3.2 up to zero decimal places (4)
+Rounds 76.9 up to zero decimal places (77)
+Rounds 3.14159 up to 3 decimal places (3.142)
+Rounds -3.14159 up to 1 decimal place (-3.2)
+Rounds 31415.92654 up to 2 decimal places to the left of the
+decimal (31500)
+https://help.archerirm.cloud/platform_2024_11/en-us/content/platform/calcfunctions/math_functions.htm
+19/31
+
+
+===== PAGE 20 | METHOD: OCR =====
+
+
+3/2/26, 1:18 PM Math Functions
+SIGN Function
+The SIGN function determines the sign of a number. If the number is positive, the function returns 1, zero (0) if the
+number is 0, and -1 if the number is negative.
+Return Type: Numeric
+Syntax: SIGN(number)
+In the above syntax, parameters in bold are required.
+The following table describes the
+SIGN function parameter.
+Parameter Description
+number Any real number.
+Examples:
+The following table provides example formulas
+of the SIGN function.
+Formula Result
+SIGN(10) Sign of a positive number (1)
+SIGN(4-4) Sign of zero (0)
+SIGN(-0.00001) | Sign of a negative number (-1)
+SIN Function
+The SIN function returns the sine of a given angle.
+Return Type: Numeric
+Syntax: SIN(number)
+In the above syntax, parameters in bold are required.
+The following table describes the SIN function parameter.
+Parameter Description
+number The angle in radians for which you want the sine.
+Note: If your argument is in degrees, multiply it by PI()/180 or use the
+RADIANS function to convert it to radians.
+Examples:
+The following table provides example formulas of the SIN
+function.
+Formula Result
+SIN(PI(Q) Sine of pi radians (0, approximately)
+SIN(PIQ/2) Sine of pi/2 radians (1)
+https://help.archerirm.cloud/platform_2024_11/en-us/content/platform/calcfunctions/math_functions.htm 20/31
+
+
+===== PAGE 21 | METHOD: OCR =====
+
+
+3/2/26, 1:18 PM
+Formula Result
+SIN(30*PI()/180) Sine of 30 degrees (0.5)
+SIN(RADIANS(30)) | Sine of 30 degrees (0.5)
+SINH Function
+The SINH function returns the hyperbolic sine of a number.
+Return Type: Numeric
+Syntax: SINH(number)
+In the above syntax, parameters in bold are required.
+The following table describes the
+SINH function parameter.
+Parameter Description
+number Any real number.
+Examples:
+The following table provides example formulas
+of the SINH function.
+Formula Result
+SINH(1) Hyperbolic sine of 1 (1.175201194)
+SINH(-1) | Hyperbolic sine of -1 (-1.175201194)
+You can use the hyperbolic sine function to approximate a cumulative probability distribution. When a laboratory test
+value varies between 0 and 10 seconds. An empirical analysis of the collected history of experiments shows that the
+probability of obtaining a result, x, of less than t seconds is approximated by the following equation:
+P(x<t) = 2.868 * SINH(0.0342 * t), where 0<t<10
+To calculate the probability of obtaining a result of less than 1.03 seconds, substitute 1.03 for t.
+The following table provides an example formula of the SINH function to calculate the
+probability of obtaining a result of less than 1.03 seconds.
+Formula Result
+2.868*SINH(0.0342*1.03) | Probability of obtaining a result of less than 1.03 seconds
+(0.101049063).
+You can expect this result to occur about 101 times for every 1000
+experiments.
+SQRT Function
+The SQRT function returns a positive square root.
+Return Type: Numeric
+Math Functions
+https://help.archerirm.cloud/platform_2024_11/en-us/content/platform/calcfunctions/math_functions.htm
+21/31
+
+
+===== PAGE 22 | METHOD: OCR =====
+
+
+3/2/26, 1:18 PM Math Functions
+Syntax: SQRT(number)
+In the above syntax, parameters in bold are required.
+The following table describes the SQRT function parameter.
+Parameter Description
+number The number for which you want the square root.
+| Note: If number is negative, SQRT returns an error.
+Example:
+The following table provides an
+example formula of the
+SQRT function.
+Formula — Result
+SQRT(16) | Square root of 16 (4)
+SUM Function
+The SUM function adds all of the numbers in the specified parameters. If the SUM function references a multi-selection
+values list, it can be used with the SELECTED function to return the sum of the numeric values for each of the currently
+selected items.
+Return Type: Numeric
+Syntax: SUM(number1, number?....)
+In the above syntax, parameters in bold are required.
+The following table describes SUM function parameters.
+Parameter Description
+number1, Parameters for which you want the total value. These parameters can be entered
+number2, as hard-coded values, for example, 2, or Numeric-field references, for example,
+[field name]. Referenced fields can reside within the application or within Sub-
+Form, Cross-Reference, or Related Records fields.
+Examples:
+The following table provides example formulas of the SUM function.
+Formula Result
+SUM(3, [Risk]) 15
+where the value in the Risk field is 12.
+SUM({Risk], [Criticality]) 19
+where the value in the Risk field is 12 and the value in the Criticality field is 7.
+SUM(REF([Orders],[Price])) 202.94
+where the value in the Price field within the Orders sub-form are 120.00, 50.19, and
+32.75.
+https://help.archerirm.cloud/platform_2024_11/en-us/content/platform/calcfunctions/math_functions.htm 22/31
+
+
+===== PAGE 23 | METHOD: OCR =====
+
+
+3/2/26, 1:18 PM Math Functions
+Formula Result
+SUM(SELECTEDVALUENUMBER([Key Factors])) 25
+where Key Factors is a multi-selection Values List field and the numeric values of the
+current selections are 3, 8, 4, and 10.
+SUMIF Function
+The SUMIF function sums the values of a specified Numeric field across all records in a Sub-Form, Cross-Reference,
+Related Records, or Scheduler field that contain a specific value in a given field. For example, you can return the sum of
+all Price field values across all cross-referenced records in which the Status field is set to “Shipped.”
+Return Type: Numeric
+Syntax: SUMIF(eval_field_ref, criterion, sum_field_ref)
+In the above syntax, parameters in bold are required.
+The following table describes SUMIF function parameters.
+Parameter Description
+eval _field_ref The reference to the field against which the criterion will be evaluated.
+Note: If sum_field_ref is not passed to SUMIF, eval_field_ref will also act as
+the field to sum.
+https://help.archerirm.cloud/platform_2024_11/en-us/content/platform/calcfunctions/math_functions.htm 23/31
+
+
+===== PAGE 24 | METHOD: OCR =====
+
+
+3/2/26, 1:18 PM
+Parameter
+criterion
+sum_field_ref
+Examples:
+Math Functions
+Description
+The test that will be performed against eval_field_ref to determine whether a
+given record will be qualified for the sum operation. The criterion can involve
+Values List, User/Groups List, and Record Permissions fields as well as fields
+containing numeric, text, and date type values.
+¢ Values Lists. If eval_field_ref is a Values List field, enclose the
+criterion value in VALUEOF or supply it as a quoted literal string, for
+example, "Dallas".
+¢ User/Groups List and Record Permissions Fields. If eval_field_ref is
+a User/Groups List or Record Permissions field, enclose the criterion
+value in USER or GROUP (as appropriate for the criterion).
+e Text, Numeric, or Date Fields. If eval_field_ref is a Text, Numeric, or
+Date field, the criterion must be enclosed in quotes, for example, ">56",
+and the criterion can involve any of the supported comparison operators
+<> Ss >=, <>).
+Note: The evaluation will always result in no matches if there is a space
+between the operator and the test value. For example, if the intent is to sum a
+given Numeric field across all sub-form records where a another given field
+contains a numeric value greater than 56, a space cannot appear in the formula
+between the ">" and the "56"
+If a function is used in the criterion, the function must be concatenated to the
+comparison operator. For example, the proper criterion syntax for specifying
+"greater than today" would be:
+">"&TODAY()
+The criterion parameter supports the use of literal dates or a date value derived
+from the TODAY function. Ifa literal date string is specified, it must be wrapped
+in a DATETIMEVALUE function.
+The reference to a Numeric field that will be summed across all qualified
+records.
+Note: If sum_field_ref is not passed to SUMIF, eval_field_ref will also act as
+the field to sum.
+The following table provides example formulas of the SUMIF function.
+Formula
+Result
+https://help.archerirm.cloud/platform_2024_11/en-us/content/platform/calcfunctions/math_functions.htm
+24/31
+
+
+===== PAGE 25 | METHOD: OCR =====
+
+
+3/2/26, 1:18 PM Math Functions
+Formula
+SUMIF(REF([Cases], [Status]), VALUEOF(REF([Cases], [Status]),
+"Open"),REF([Cases], [Time Spent]))
+where:
+e The name of the Cross-Reference field is Cases.
+¢ The Status Values List field contains the values to be evaluated.
+e The criterion for matching on the Status field is the selection “Open”.
+¢ Time Spent is a Numeric field containing the numeric values to be summed.
+e The sum of Time Spent across all “Open” cases is 832 minutes.
+SUMIF(REF([Items], [Line Item Cost]), ">5.99",REF([Items], [Line Total]))
+where:
+e The name of the Sub-Form field is Items.
+e The Line Item Cost Numeric field in the related sub-form contains the data to
+be evaluated.
+¢ The criterion for matching on Line Item Cost is values greater than 5.99.
+e Line Total is a Numeric field containing the numeric values to be summed.
+e The sum of Line Total across all sub-form records where Line Item Cost is
+greater than 5.99 is 2378.10.
+SUMIF(REF([Properties], [Sale Price]), ">=150000")
+where:
+e The name of the Cross-Reference field is Properties.
+¢ The Sale Price Numeric field in the related application contains the data to be
+evaluated.
+¢ The criterion for matching on Sale Price is values greater than or equal to
+150000.
+e The sum of Sale Price across all related records where Line Item Cost is
+greater than or equal to 150000 is 1654887.
+Note: In this example, the sum_field_ref is not passed to SUMIF. As a result, the
+system will use Sale Price for evaluation purposes and for summing.
+https://help.archerirm.cloud/platform_2024_11/en-us/content/platform/calcfunctions/math_functions.htm
+Result
+832
+2378.10
+2654887
+25/31
+
+
+===== PAGE 26 | METHOD: OCR =====
+
+
+3/2/26, 1:18 PM Math Functions
+Formula Result
+SUMIF(REF([Properties], [Sale Date]), 1299000
+">="&DATETIMEVALUE("7/1/2008"),REF([Properties], [Sale Price]))
+where:
+e The name of the Cross-Reference field is Properties.
+¢ The Sale Date field in the related application contains the data to be
+evaluated.
+¢ The criterion for matching on Sale Date is dates greater than or equal to
+7/1/2008.
+e Sale Price is a Numeric field containing the numeric values to be summed.
+¢ The sum of Sale Price across all related records where Sales Date is greater
+than or equal to 7/1/2008 is 1299000.
+SUMPRODUCT Function
+The SUMPRODUCT function multiplies corresponding components in the given sets of fields, and returns the sum of
+those products.
+Return Type: Numeric
+Syntax: SUMPRODUCT(values!,values2,values3, ...)
+In the above syntax, parameters in bold are required.
+The following table describes SUMPRODUCT function parameters.
+Parameter Description
+valuesl, values2, 2 to 255 sets of values whose components you want to multiply and then add.
+values3, ... . . .
+Note: The respective arguments must have the same dimensions. If they do
+not, SUMPRODUCT returns an error. SUMPRODUCT treats field entries
+that are not numeric as if they were zeros.
+Example:
+The following table provides an example formula of the SUMPRODUCT function.
+Formula Result
+SUMPRODUCT(REF([Data Set],[ Values 1]),REF([Data Multiplies all the components of the
+Set], [Values2])) 2 arrays and then adds the products
+where Data Set is a cross-reference field and the values — that is, 3*2 + 4*7 + 8*6 + 6*7 +
+in the Values! field are 3, 4, 8, 6, 1, and 9, and the values —-1*5 + 9*3. (156)
+in the Values2 field are 2, 7, 6, 7, 5, and 3.
+SUMSQ Function
+The SUMSQ function returns the sum of the squares of the arguments.
+https://help.archerirm.cloud/platform_2024_11/en-us/content/platform/calcfunctions/math_functions.htm
+26/31
+
+
+===== PAGE 27 | METHOD: OCR =====
+
+
+3/2/26, 1:18 PM Math Functions
+Return Type: Numeric
+Syntax: SUMSQ(numberl ,number2, ...)
+In the above syntax, parameters in bold are required.
+The following table describes SUMSQ function parameters.
+Parameter Description
+number, 1 to 255 arguments for which you want the sum of the squares. You can also use
+number2, ... a reference to an array instead of arguments separated by commas.
+Note: Arguments can be numbers, names, or references that contain numbers.
+Numbers, logical values, and text representations of numbers that you type
+directly into the list of arguments are counted. If an argument is a reference,
+only numbers in that reference are counted. Empty cells, logical values, text, or
+error values are ignored. Arguments that are error values or text that cannot be
+translated into numbers cause errors.
+Example:
+The following table provides an example formula
+of the SUMSQ function.
+Formula Result
+SUMSQ(3,4) | Sum of the squares of 3 and 4 (25)
+SUMX2MY2 Function
+The SUMX2MY2 function returns the sum of the difference of squares of corresponding values in 2 sets of fields.
+Return Type: Numeric
+Syntax: SUMX2MY2(values_x,values_y)
+In the above syntax, parameters in bold are required.
+The following table describes
+SUMX2MY2 function parameters.
+Parameter Description
+values_x The first range of values.
+values_y The second range of values.
+Note: The arguments should be either numbers, names, or references that contain numbers. If a reference argument
+contains text, logical values, or empty cells, those values are ignored; however, fields with the value zero are included.
+If values_x and values_y have a different number of values, SUMX2MY2 returns an error.
+Example:
+The following table provides an example formula of the SUMX2MY?2 function.
+Formula Result
+https://help.archerirm.cloud/platform_2024_11/en-us/content/platform/calcfunctions/math_functions.htm
+27/31
+
+
+===== PAGE 28 | METHOD: OCR =====
+
+
+3/2/26, 1:18 PM Math Functions
+Formula Result
+SUMX2MY2(REF([Data Set],[Values1]),REF([Data Set], Sum of the difference of
+[Values2])) squares of the 2 sets of
+where Data Set is a cross-reference field, the values in the Values1 values given (-55)
+field are 2, 3, 9, 1, 8, 7 and 5 and the values in the Values2 field
+are 6,5, 11, 7,5, 4 and 4.
+SUMX2PY2 Function
+The SUMX2PY?2 function returns the sum of the sum of squares of corresponding values in 2 sets of fields. The sum of
+the sum of squares is a common term in many statistical calculations.
+Return Type: Numeric
+Syntax: SUMX2PY2(values_x,values_y)
+In the above syntax, parameters in bold are required.
+The following table describes
+SUMX2PY2 function parameters.
+Parameter Description
+values_x The first set of fields.
+values_y The second set of fields.
+Note: The arguments should be numbers, names, or references that contain numbers. If a reference argument contains
+text, logical values, or empty cells, those values are ignored; however, fields with the value zero are included. If
+values_x and values_y have a different number of values, SUMX2PY?2 returns an error.
+Example:
+The following table provides an example formula of the SUMX2PY2 function.
+Formula Result
+SUMX2PY2(REF([Data Set],[Values1]), REF([Data Set],[Values2])) | Sum of the sum of
+where Data Set is a cross-reference field, the values in the Values 1 squares of the 2 sets of
+field are 2, 3, 9, 1, 8, 7 and 5 and the values in the Values2 field are fields given (521)
+6, 5, 11, 7, 5, 4, and 4.
+SUMXMY2 Function
+The SUMXMY?2 function returns the sum of squares of differences of corresponding values in 2 sets of fields.
+Return Type: Numeric
+Syntax: SUMXMY2(values_x,values_y)
+In the above syntax, parameters in bold are required.
+The following table describes
+SUMXMY?2 function parameters.
+Parameter Description
+https://help.archerirm.cloud/platform_2024_11/en-us/content/platform/calcfunctions/math_functions.htm 28/31
+
+
+===== PAGE 29 | METHOD: OCR =====
+
+
+3/2/26, 1:18 PM
+Parameter Description
+values_x The first set of fields.
+values_y The second set of fields.
+Math Functions
+Note: The arguments should be numbers, names, or references that contain numbers. If a reference argument contains
+text, logical values, or empty cells, those values are ignored; however, fields with the value zero are included. If
+values_x and values_y have a different number of values, SUMXMY?2 returns an error.
+Examples:
+The following table provides example formulas of the SUMXMY72 function.
+Formula
+SUMXMY2(REF([Data Set],[Values1]), REF([Data Set],
+[Values2]))
+where Data Set is a cross-reference field, the values in the Values1
+field are 2, 3, 9, 1, 8, 7, and 5, and the values in the Values2 field
+are 6,5, 11, 7,5, 4, and 4.
+SUMXMY2({2, 3, 9, 1, 8, 7, 53. (6, 5, 11,7, 5,4, 4})
+TAN Function
+The TAN function returns the tangent of the given angle.
+Return Type: Numeric
+Syntax: TAN(number)
+In the above syntax, parameters in bold are required.
+The following table describes the TAN function parameter.
+Result
+Sum of squares of
+differences of the 2 arrays
+given (79)
+Sum of squares of
+differences of the 2 arrays
+constants (79)
+Parameter Description
+number The angle in radians for which you want the tangent.
+Note: If your argument is in degrees, multiply it by PI(Q)/180 or use the
+RADIANS function to convert it to radians.
+Examples:
+The following table provides example formulas of the
+TAN function.
+Formula Result
+TAN(0.785) Tangent of 0.785 radians (0.99920)
+TAN(45*PI()/180) Tangent of 45 degrees (1)
+TAN(RADIANS(45)) | Tangent of 45 degrees (1)
+https://help.archerirm.cloud/platform_2024_11/en-us/content/platform/calcfunctions/math_functions.htm 29/31
+
+
+===== PAGE 30 | METHOD: OCR =====
+
+
+3/2/26, 1:18 PM Math Functions
+TANH Function
+The TANH function returns the hyperbolic tangent of a number.
+Return Type: Numeric
+Syntax: TANH(number)
+In the above syntax, parameters in bold are required.
+The following table describes the
+TANH function parameter.
+Parameter Description
+number Any real number.
+Examples:
+The following table provides example formulas of
+the TANH function.
+Formula Result
+TANH(-2) Hyperbolic tangent of -2 (-0.96403)
+TANH(0) Hyperbolic tangent of 0 (0)
+TANH(0.5) Hyperbolic tangent of 0.5 (0.462117)
+TRUNC Function
+The TRUNC function truncates a number to an integer by removing the fractional part of the number.
+Return Type: Numeric
+Syntax: TRUNC(number, num_digits)
+In the above syntax, parameters in bold are required.
+The following table describes TRUNC function parameters.
+Parameter Description
+number The number that you want to truncate. This parameter can be formatted as a
+Numeric-field reference, for example, [field name], or as another formula that
+results in a numeric value, such as SUM([field 1],[field 2]) where field 1 and field
+2 are Numeric fields.
+num_digits Specifies the precision of the truncation. This parameter is typically omitted;
+however, you can include this parameter to truncate a number at a specific decimal
+place.
+Examples:
+The following table provides example formulas of the TRUNC function.
+Formula Result
+https://help.archerirm.cloud/platform_2024_11/en-us/content/platform/calcfunctions/math_functions.htm
+30/31
+
+
+===== PAGE 31 | METHOD: OCR =====
+
+
+3/2/26, 1:18 PM Math Functions
+Formula Result
+TRUNC([Score]) 3
+where the value in the Score field is 3.427.
+TRUNC({Score], 1) 3.4
+where the value in the Score field is 3.427.
+IF(TRUNC([Ship Date-Time]) = TODAY(), “Shipped Today”, “Not Shipped Today”) | Shipped
+In this example, the Ship Date-Time field is a Date field set to capture date and time Today
+information. Date fields technically contain a serial number representing the literal
+date and time. Serial numbers are based on the number of days a date is past January
+1, 1900. For example, if the Ship Date-Time field has a value of 9/3/2010 3:17 PM,
+the value that will be returned for use by the enclosed TRUNC function will be the
+serial number 40424.6368055556.
+The TODAY function also returns a serial number, but includes only the date portion
+of the serial; the time portion (which falls to the right of the decimal in the serial
+number) will be omitted. In this example, TRUNC is being used to trim the time
+portion of the serial contained in the Ship Date-Time field. This allows the 2 dates to
+be compared without considering the time portion of the Ship Date-Time field.
+Archer
+ABOUT
+ADDRESS CUSTOMERS CONNECT WITH US
+ARCHER
+13200 Metcalf Ave Events Archer Academy in om |
+Suite 300 Resources Archer Exchange
+Overland Park, KS Services Support
+66213
+About Us Archer Community
+Archer is a leading provider of enterprise risk management solutions, which include third party risk management, IT risk
+management, operational risk management, and more. Contact us now to learn more about integrated risk management
+solutions from Archer.
+© 2024 Archer Technologies LLC. All rights
+Trademarks | Terms of | Privacy | Standard Form
+reserved.
+Use Policy Agreements
+https://help.archerirm.cloud/platform_2024_11/en-us/content/platform/calcfunctions/math_functions.htm 31/31

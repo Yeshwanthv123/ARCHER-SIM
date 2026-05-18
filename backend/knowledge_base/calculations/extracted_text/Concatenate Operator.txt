@@ -1,0 +1,44 @@
+
+
+===== PAGE 1 | METHOD: OCR =====
+
+
+3/2/26, 1:26 PM Concatenate Operator
+You are here: Set Up & Maintenance > Building Applications, Questionnaires, and Solutions > Fields > Concatenate Operator
+https://help.archerirm.cloud/platform_2024_11/en-us/content/platform/calcfunctions/text_concatenate_op.htm 1/3
+
+
+===== PAGE 2 | METHOD: OCR =====
+
+
+3/2/26, 1:26 PM Concatenate Operator
+Concatenate Operator
+The following table describes the Concatenate operator.
+Operator Description
+& Concatenate, or join, 2 or more text strings to produce a single piece of text, for
+example, "text" & "string".
+Archer
+ABOUT
+ADDRESS CUSTOMERS CONNECT WITH US
+ARCHER
+13200 Metcalf Ave Events Archer Academy inv’ @
+Suite 300 Resources Archer Exchange
+Overland Park, KS Services Support
+66213
+About Us Archer Community
+https://help.archerirm.cloud/platform_2024_11/en-us/content/platform/calcfunctions/text_concatenate_op.htm
+
+
+===== PAGE 3 | METHOD: OCR =====
+
+
+3/2/26, 1:26 PM Concatenate Operator
+Archer is a leading provider of enterprise risk management solutions, which include third party risk management, IT risk
+management, operational risk management, and more. Contact us now to learn more about integrated risk management
+solutions from Archer.
+© 2024 Archer Technologies LLC. All rights
+Trademarks | Terms of | Privacy | Standard Form
+reserved.
+Use Policy Agreements
+https://help.archerirm.cloud/platform_2024_11/en-us/content/platform/calcfunctions/text_concatenate_op.htm
+3/3
